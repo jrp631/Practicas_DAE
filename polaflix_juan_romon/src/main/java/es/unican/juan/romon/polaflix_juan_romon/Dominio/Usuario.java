@@ -21,8 +21,7 @@ public class Usuario {
 
     // Structures to organize Cargos
     // hashmaps of Cargos By Month_year
-    // list of cargos for the user in a given month
-
+    private HashMap<Integer, LinkedList<Cargo>> cargosByMonthYear;
 
 
     // constructor
@@ -34,6 +33,7 @@ public class Usuario {
         this.seriesTerminadas = new ArrayList<Serie>();
         this.seriesPendientesMap = new HashMap<Integer, Serie>();
         this.capitulosVistosSerie = new LinkedList<CapituloVistoSeries>();
+        this.cargosByMonthYear = new HashMap<Integer, LinkedList<Cargo>>();
     }
 
     // metodos
@@ -63,13 +63,14 @@ public class Usuario {
             cargo = capVistoSerie.addCapituloVisto(capitulo);
         }
         // TODO add cargo to the lists of cargos
+        addCargoToList(cargo);
 
 
     }
     
     
     // añadir serie para ver 
-    public void agregarSeriePendiente(Serie serie) { //FIXME refactorizar para utilizar contains
+    public void agregarSeriePendiente(Serie serie) { 
 
         //check if serie is not null
         if (serie == null) {
@@ -152,6 +153,25 @@ public class Usuario {
             }
         }
         return null;
+    }
+
+    private void addCargoToList(Cargo cargo) 
+    {
+        if (cargo == null) {
+            throw new IllegalArgumentException("Cargo no puede ser null");
+        }
+        // get the month_year of the cargo -> hashcode
+        Integer month_year = cargo.hashCode();
+        // get the list of cargos for the month_year
+        LinkedList<Cargo> cargos = cargosByMonthYear.get(month_year);
+        // if the list does not exist, create it
+        if (cargos == null) {
+            cargos = new LinkedList<Cargo>();
+            cargosByMonthYear.put(month_year, cargos);
+        }
+        // add the cargo to the list
+        cargos.add(cargo);
+
     }
     
 }

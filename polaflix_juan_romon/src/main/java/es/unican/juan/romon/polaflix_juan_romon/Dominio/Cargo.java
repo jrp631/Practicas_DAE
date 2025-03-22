@@ -69,7 +69,10 @@ public class Cargo {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((fecha == null) ? 0 : fecha.hashCode());
+        int month = (fecha == null) ? 0 : fecha.getMonthValue();
+        int year = (fecha == null) ? 0 : fecha.getYear();
+        result = prime * result + month;
+        result = prime * result + year;
         return result;
     }
 }
