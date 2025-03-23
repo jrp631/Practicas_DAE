@@ -137,5 +137,13 @@ public class Serie {
         return true;
     }
 
+    public Integer getKey() {
+        return key;
+    }
+
+    public LinkedList<Capitulo> getCapitulosSerieList() {
+        return capitulosSerieList;
+    }
+
 
 }   

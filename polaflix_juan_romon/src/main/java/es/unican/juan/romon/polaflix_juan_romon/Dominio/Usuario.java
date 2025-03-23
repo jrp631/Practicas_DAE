@@ -50,7 +50,8 @@ public class Usuario {
         // check if the serie of the capitulo is in the list of seriesPendientes
         Serie serie_de_cap = capitulo.getEsSerie();
         // is it the first time the user sees a capitulo of the serie?
-        if (seriesPendientesMap.get(serie_de_cap.hashCode()) == null) {
+        // if (seriesPendientesMap.get(serie_de_cap.hashCode()) == null) {
+        if (seriesPendientesMap.containsKey(serie_de_cap.hashCode())) {
             // first time watching
             capVistoSerie = new CapituloVistoSeries(null, serie_de_cap);
             cargo = capVistoSerie.addCapituloVisto(capitulo);
@@ -83,6 +84,10 @@ public class Usuario {
         }
         //if the serie is already in the list, do nothing
     }
+
+    public HashMap<Integer, Serie> getSeriesPendientes() {
+        return seriesPendientesMap;
+    } 
 
     public String getNombre() {
         return nombre;
@@ -138,6 +143,11 @@ public class Usuario {
 
     public void setCapitulosVistosSerie(LinkedList<CapituloVistoSeries> capitulosVistosSerie) {
         this.capitulosVistosSerie = capitulosVistosSerie;
+    }
+
+    
+    public HashMap<Integer, LinkedList<Cargo>> getCargosByMonthYear() {
+        return cargosByMonthYear;
     }
 
     private CapituloVistoSeries getCapituloVistoSeries(Capitulo capitulo) {
