@@ -1,29 +1,36 @@
 package es.unican.juan.romon.polaflix_juan_romon.Dominio;
 
 import es.unican.juan.romon.polaflix_juan_romon.Dominio.Capitulo;
+import jakarta.persistence.*;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
 
+@Entity
+@Table(name = "Serie")
 public class Serie {
     
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer idSerie;
     
-    private String nombreSerie;
-    private String sinopsis;
-    private Integer key;
+
+    @Enumerated(EnumType.STRING)
     private Categoria esCategoria;
-    // private Integer numCapitulos;
-    // private Integer numTemportadas;
+
+    @OneToMany
 
     private LinkedList<Capitulo> capitulosSerieList;
     
+    private String nombreSerie;
+    private String sinopsis;
+
     public Serie(String nombreSerie, String sinopsis, Categoria categoria) {
         this.nombreSerie = nombreSerie;
         this.sinopsis = sinopsis;
         this.esCategoria = categoria;
         this.capitulosSerieList = new LinkedList<Capitulo>();
         
-        this.key = hashCode();
     }
 
     public String getNombreSerie() {
@@ -38,11 +45,12 @@ public class Serie {
     public void setSinopsis(String sinopsis) {
         this.sinopsis = sinopsis;
     }
-    public Integer getHey() {
-        return key;
+    public Integer getIdSerie() {
+        return idSerie;
     }
-    public void setKey(Integer key) {
-        this.key = key;
+
+    public void setIdSerie(Integer idSerie) {
+        this.idSerie = idSerie;
     }
 
     public Categoria getEsCategoria() {

@@ -1,23 +1,34 @@
 package es.unican.juan.romon.polaflix_juan_romon.Dominio;
 
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "capitulo")
 public class Capitulo {
     private String titulo;
     private Integer temporada;
     private Integer numeroCapitulo;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idCapitulo;
+    
+    @ManyToOne
+    @JoinColumn(name = "id_serie", nullable = false)
     private Serie esSerie;
 
     static Integer id_para_capitulo = 0;
     
-    
+    //Constructor por defecto
+    public Capitulo(){}
+
+
     //Constructor 
-    public Capitulo(String titulo, Integer temporada, Integer idCapitulo, Serie esSerie) {
+    public Capitulo(String titulo, Integer temporada, Integer numeroCapitulo, Serie esSerie) {
         this.titulo = titulo;
         this.temporada = temporada;
-        this.idCapitulo = idCapitulo;
-        this.numeroCapitulo = id_para_capitulo;
+        this.numeroCapitulo = numeroCapitulo;
         this.esSerie = esSerie;
-        id_para_capitulo++;
     }
 
     public String getTitulo() {
@@ -61,51 +72,15 @@ public class Capitulo {
 
     @Override
     public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((titulo == null) ? 0 : titulo.hashCode());
-        result = prime * result + ((temporada == null) ? 0 : temporada.hashCode());
-        result = prime * result + ((numeroCapitulo == null) ? 0 : numeroCapitulo.hashCode());
-        result = prime * result + ((idCapitulo == null) ? 0 : idCapitulo.hashCode());
-        result = prime * result + ((esSerie == null) ? 0 : esSerie.hashCode());
-        return result;
+        return idCapitulo != null ? idCapitulo.hashCode() : 0;
     }
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        Capitulo other = (Capitulo) obj;
-        if (titulo == null) {
-            if (other.titulo != null)
-                return false;
-        } else if (!titulo.equals(other.titulo))
-            return false;
-        if (temporada == null) {
-            if (other.temporada != null)
-                return false;
-        } else if (!temporada.equals(other.temporada))
-            return false;
-        if (numeroCapitulo == null) {
-            if (other.numeroCapitulo != null)
-                return false;
-        } else if (!numeroCapitulo.equals(other.numeroCapitulo))
-            return false;
-        if (idCapitulo == null) {
-            if (other.idCapitulo != null)
-                return false;
-        } else if (!idCapitulo.equals(other.idCapitulo))
-            return false;
-        if (esSerie == null) {
-            if (other.esSerie != null)
-                return false;
-        } else if (!esSerie.equals(other.esSerie))
-            return false;
-        return true;
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        Capitulo capitulo = (Capitulo) obj;
+        return idCapitulo != null && idCapitulo.equals(capitulo.idCapitulo);
     }
     
 }

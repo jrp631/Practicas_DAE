@@ -5,26 +5,33 @@ import es.unican.juan.romon.polaflix_juan_romon.Dominio.Serie;
 
 import java.time.LocalDate;
 import java.util.*; //LinkedList
+import jakarta.persistence.*;
 
+@Entity
+@Table(name = "CapituloVistoSeries")
 public class CapituloVistoSeries {
 
-    static Integer idCapituloVistoSeries = 0;
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idCapituloVisto;
     private Usuario usuario;
+
+    @ManyToOne
     private Serie perteneceSerie;
 
+    @OneToMany
     private LinkedList<CapituloVisto> listaCapitulosVistos;
+    
+    @OneToMany
     private LinkedList<Cargo> cargosAsociados;
 
 
     public CapituloVistoSeries(Usuario usuario, Serie perteneceSerie) {
-        this.idCapituloVisto = idCapituloVistoSeries;
         this.usuario = usuario;
         this.perteneceSerie = perteneceSerie;
         this.listaCapitulosVistos = new LinkedList<CapituloVisto>();
         this.cargosAsociados = new LinkedList<Cargo>();
-        idCapituloVistoSeries++;
     }
 
     public Integer getIdCapituloVisto() {

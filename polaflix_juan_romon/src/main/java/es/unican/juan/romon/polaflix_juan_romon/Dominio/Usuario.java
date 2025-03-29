@@ -4,10 +4,15 @@ import es.unican.juan.romon.polaflix_juan_romon.Dominio.Serie;
 import es.unican.juan.romon.polaflix_juan_romon.Dominio.CapituloVistoSeries;
 
 import java.util.*; //List
+import jakarta.persistence.*;
 
-import org.hibernate.dialect.function.array.ArraySliceUnnestFunction;
-
+@Entity
+@Table(name = "Usuario")
 public class Usuario {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer idUsuario;
 
     private String nombre;
     private String password;
@@ -15,8 +20,11 @@ public class Usuario {
     private Boolean tarifaPlana;
 
     // Lists & Maps for series 
+    @ManyToMany
     private ArrayList<Serie> seriesTerminadas;  
     private HashMap<Integer, Serie> seriesPendientesMap; //HashMap para series pendientes
+    
+    @OneToMany
     private LinkedList<CapituloVistoSeries> capitulosVistosSerie;
 
     // Structures to organize Cargos

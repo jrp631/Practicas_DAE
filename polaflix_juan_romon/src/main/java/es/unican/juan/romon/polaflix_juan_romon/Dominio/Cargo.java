@@ -1,14 +1,24 @@
 package es.unican.juan.romon.polaflix_juan_romon.Dominio;
 
 import java.time.LocalDate;
+import jakarta.persistence.*;
 
+@Entity
+@Table(name = "Cargo")
 public class Cargo {
     
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer idCargo;
+
     //importe date datos_capitulo id_cargo 
     private float precio;
     private boolean pagado;
     private LocalDate fecha;
     private String nombreSerie;
+
+    //empty constructor
+    public Cargo() {}
 
     // constructor 
     public Cargo(Categoria categoria, boolean pagado, LocalDate fecha, String nombreSerie) {
@@ -57,22 +67,25 @@ public class Cargo {
         return nombreSerie;
     }
 
+    public Integer getIdCargo() {
+        return idCargo;
+    }
+
+    public void setIdCargo(Integer idCargo) {
+        this.idCargo = idCargo;
+    }
+
     public void setNombreSerie(String nombreSerie) {
         this.nombreSerie = nombreSerie;
     }
+
     void pagar() {
         this.pagado = true;
     }
 
 
     @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        int month = (fecha == null) ? 0 : fecha.getMonthValue();
-        int year = (fecha == null) ? 0 : fecha.getYear();
-        result = prime * result + month;
-        result = prime * result + year;
-        return result;
+    public int hashCode() { 
+        return idCargo != null ? idCargo.hashCode() : super.hashCode();
     }
 }

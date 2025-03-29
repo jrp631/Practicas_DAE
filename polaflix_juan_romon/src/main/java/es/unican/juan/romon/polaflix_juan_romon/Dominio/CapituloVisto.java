@@ -1,47 +1,17 @@
 package es.unican.juan.romon.polaflix_juan_romon.Dominio;
 
 import java.util.Date;
+import jakarta.persistence.*;
 
+@Entity
+@Table(name = "CapituloVisto")
 public class CapituloVisto {
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((Temporada == null) ? 0 : Temporada.hashCode());
-        result = prime * result + ((numeroCapitulo == null) ? 0 : numeroCapitulo.hashCode());
-        result = prime * result + ((titulo == null) ? 0 : titulo.hashCode());
-        return result;
-    }
 
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        CapituloVisto other = (CapituloVisto) obj;
-        if (Temporada == null) {
-            if (other.Temporada != null)
-                return false;
-        } else if (!Temporada.equals(other.Temporada))
-            return false;
-        if (numeroCapitulo == null) {
-            if (other.numeroCapitulo != null)
-                return false;
-        } else if (!numeroCapitulo.equals(other.numeroCapitulo))
-            return false;
-        if (titulo == null) {
-            if (other.titulo != null)
-                return false;
-        } else if (!titulo.equals(other.titulo))
-            return false;
-        return true;
-    }
 
     static Integer id_paraCapituloVisto = 0;
     
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idCapituloVisto;
     private Integer Temporada;
     private Integer numeroCapitulo;
@@ -50,12 +20,10 @@ public class CapituloVisto {
     private Date fechaVisto;
 
     public CapituloVisto (Integer Temporada, Integer numeroCapitulo, String titulo) {
-        this.idCapituloVisto = id_paraCapituloVisto;
         this.Temporada = Temporada;
         this.numeroCapitulo = numeroCapitulo;
         this.titulo = titulo;
         this.fechaVisto = new Date();
-        id_paraCapituloVisto++;
     }
 
     public static Integer getId_paraCapituloVisto() {
@@ -106,7 +74,42 @@ public class CapituloVisto {
         this.titulo = titulo;
     }
 
+    @Override
+    public int hashCode() { //TODO: cambiar a JPA
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((Temporada == null) ? 0 : Temporada.hashCode());
+        result = prime * result + ((numeroCapitulo == null) ? 0 : numeroCapitulo.hashCode());
+        result = prime * result + ((titulo == null) ? 0 : titulo.hashCode());
+        return result;
+    }
 
+    @Override 
+    public boolean equals(Object obj) { // TODO: cambiar a JPA
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        CapituloVisto other = (CapituloVisto) obj;
+        if (Temporada == null) {
+            if (other.Temporada != null)
+                return false;
+        } else if (!Temporada.equals(other.Temporada))
+            return false;
+        if (numeroCapitulo == null) {
+            if (other.numeroCapitulo != null)
+                return false;
+        } else if (!numeroCapitulo.equals(other.numeroCapitulo))
+            return false;
+        if (titulo == null) {
+            if (other.titulo != null)
+                return false;
+        } else if (!titulo.equals(other.titulo))
+            return false;
+        return true;
+    }
 
 
 }
