@@ -76,39 +76,19 @@ public class CapituloVisto {
 
     @Override
     public int hashCode() { //TODO: cambiar a JPA
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((Temporada == null) ? 0 : Temporada.hashCode());
-        result = prime * result + ((numeroCapitulo == null) ? 0 : numeroCapitulo.hashCode());
-        result = prime * result + ((titulo == null) ? 0 : titulo.hashCode());
-        return result;
+        return idCapituloVisto != null ? idCapituloVisto.hashCode() : super.hashCode();
     }
 
     @Override 
     public boolean equals(Object obj) { // TODO: cambiar a JPA
-        if (this == obj)
+        if (this == obj) {
             return true;
-        if (obj == null)
+        }
+        if (obj == null || getClass() != obj.getClass()) {
             return false;
-        if (getClass() != obj.getClass())
-            return false;
+        }
         CapituloVisto other = (CapituloVisto) obj;
-        if (Temporada == null) {
-            if (other.Temporada != null)
-                return false;
-        } else if (!Temporada.equals(other.Temporada))
-            return false;
-        if (numeroCapitulo == null) {
-            if (other.numeroCapitulo != null)
-                return false;
-        } else if (!numeroCapitulo.equals(other.numeroCapitulo))
-            return false;
-        if (titulo == null) {
-            if (other.titulo != null)
-                return false;
-        } else if (!titulo.equals(other.titulo))
-            return false;
-        return true;
+        return idCapituloVisto != null && idCapituloVisto.equals(other.idCapituloVisto);
     }
 
 

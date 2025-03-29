@@ -1,7 +1,5 @@
 package es.unican.juan.romon.polaflix_juan_romon.Dominio;
 
-import es.unican.juan.romon.polaflix_juan_romon.Dominio.Usuario;
-import es.unican.juan.romon.polaflix_juan_romon.Dominio.Serie;
 
 import java.time.LocalDate;
 import java.util.*; //LinkedList
@@ -81,6 +79,17 @@ public class CapituloVistoSeries {
         cargosAsociados.add(cargo);
         return cargo;
     }
+    @Override
+    public int hashCode() {
+        return idCapituloVisto != null ? idCapituloVisto.hashCode() : 0;
+    }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        CapituloVistoSeries capituloVistoSeries = (CapituloVistoSeries) obj;
+        return idCapituloVisto != null && idCapituloVisto.equals(capituloVistoSeries.idCapituloVisto);        
+    }
 
 }

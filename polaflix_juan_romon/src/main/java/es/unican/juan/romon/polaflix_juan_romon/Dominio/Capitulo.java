@@ -14,7 +14,6 @@ public class Capitulo {
     private Integer idCapitulo;
     
     @ManyToOne
-    @JoinColumn(name = "id_serie", nullable = false)
     private Serie esSerie;
 
     static Integer id_para_capitulo = 0;

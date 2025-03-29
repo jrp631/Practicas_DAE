@@ -1,9 +1,7 @@
 package es.unican.juan.romon.polaflix_juan_romon.Dominio;
 
-import es.unican.juan.romon.polaflix_juan_romon.Dominio.Capitulo;
 import jakarta.persistence.*;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 
 @Entity
@@ -61,6 +59,10 @@ public class Serie {
         this.esCategoria = esCategoria;
     }
 
+    public Integer getId() {
+        return idSerie;
+    }
+
     public void addCapitulo(Capitulo capitulo) throws IllegalArgumentException {
         //TODO
         // check the argument is not null
@@ -98,55 +100,20 @@ public class Serie {
 
     @Override
     public String toString() {
-        return "Serie{" + "nombreSerie=" + nombreSerie + ", sinopsis=" + sinopsis + ", key=" + key + ", esCategoria=" + esCategoria + '}';
+        return "Serie{" + "nombreSerie=" + nombreSerie + ", sinopsis=" + sinopsis + ", idSerie=" + idSerie + ", esCategoria=" + esCategoria + '}';
     }
 
     @Override
     public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((nombreSerie == null) ? 0 : nombreSerie.hashCode());
-        result = prime * result + ((sinopsis == null) ? 0 : sinopsis.hashCode());
-        result = prime * result + ((esCategoria == null) ? 0 : esCategoria.hashCode());
-        return result;
+        return idSerie != null ? idSerie.hashCode() : super.hashCode();
     }
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        Serie other = (Serie) obj;
-        if (nombreSerie == null) {
-            if (other.nombreSerie != null)
-                return false;
-        } else if (!nombreSerie.equals(other.nombreSerie))
-            return false;
-        if (sinopsis == null) {
-            if (other.sinopsis != null)
-                return false;
-        } else if (!sinopsis.equals(other.sinopsis))
-            return false;
-        if (key == null) {
-            if (other.key != null)
-                return false;
-        } else if (!key.equals(other.key))
-            return false;
-        if (esCategoria != other.esCategoria)
-            return false;
-        if (capitulosSerieList == null) {
-            if (other.capitulosSerieList != null)
-                return false;
-        } else if (!capitulosSerieList.equals(other.capitulosSerieList))
-            return false;
-        return true;
-    }
-
-    public Integer getKey() {
-        return key;
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        Serie serie = (Serie) obj;
+        return idSerie != null && idSerie.equals(serie.idSerie);
     }
 
     public LinkedList<Capitulo> getCapitulosSerieList() {

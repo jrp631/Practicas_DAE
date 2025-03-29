@@ -83,6 +83,13 @@ public class Cargo {
         this.pagado = true;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        Cargo cargo = (Cargo)obj;
+        return idCargo != null && idCargo.equals(cargo.idCargo);
+    }
 
     @Override
     public int hashCode() { 
