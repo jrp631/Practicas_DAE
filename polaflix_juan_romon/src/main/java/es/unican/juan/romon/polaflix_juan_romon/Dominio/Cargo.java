@@ -1,12 +1,16 @@
 package es.unican.juan.romon.polaflix_juan_romon.Dominio;
 
 import java.time.LocalDate;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import Repositorios.UsuarioRepositorio;
 import jakarta.persistence.*;
 
 @Entity
 @Table(name = "Cargo")
 public class Cargo {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idCargo;
@@ -16,6 +20,10 @@ public class Cargo {
     private boolean pagado;
     private LocalDate fecha;
     private String nombreSerie;
+
+    @OneToOne
+    // @JoinColumn(name = "idUsuario", nullable = false)
+    private Usuario usuario;
 
     //empty constructor
     public Cargo() {}
@@ -77,6 +85,14 @@ public class Cargo {
 
     public void setNombreSerie(String nombreSerie) {
         this.nombreSerie = nombreSerie;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 
     void pagar() {

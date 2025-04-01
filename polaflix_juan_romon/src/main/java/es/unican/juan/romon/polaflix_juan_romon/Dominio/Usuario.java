@@ -1,55 +1,59 @@
 package es.unican.juan.romon.polaflix_juan_romon.Dominio;
 
-
 import java.util.*; //List
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import Repositorios.UsuarioRepositorio;
 import jakarta.persistence.*;
 
 @Entity
 @Table(name = "Usuario")
 public class Usuario {
 
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idUsuario;
-
+    @Column(unique = true)
     private String nombre;
-    private String password;
+    private String paswd;
     private String IBAN;
     private Boolean tarifaPlana;
 
-    // Lists & Maps for series 
-    @ManyToMany
-    private ArrayList<Serie> seriesTerminadas;  
-    
-    @ManyToMany
-    private ArrayList<Serie> seriesPendientes; //ArrayList para series pendientes
-    // private HashMap<Integer, Serie> seriesPendientesMap; //HashMap para series pendientes
-    
+    // Lists & Maps for series
     @OneToMany
-    private LinkedList<CapituloVistoSeries> capitulosVistosSerie;
+    private List<Serie> seriesTerminadas;
 
-    // Structures to organize Cargos
-    // hashmaps of Cargos By Month_year
-    // private HashMap<Integer, LinkedList<Cargo>> cargosByMonthYear;
-    private LinkedList<Cargo> cargosUsuario;
+    @OneToMany
+    private List<Serie> seriesPendientes;
+
+    // @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
+    @ManyToMany
+    private List<CapituloVistoSeries> capitulosVistosSerie;
+
+    @OneToMany(cascade = CascadeType.PERSIST)
+    private List<Cargo> cargosUsuario;
+
+    public Usuario() {
+        // empty constructor
+    }
 
     // constructor
-    public Usuario(String nombre, String password, String IBAN, Boolean tarifaPlana) {
+    public Usuario(String nombre, String paswd, String IBAN, Boolean tarifaPlana) {
         this.nombre = nombre;
-        this.password = password;
+        this.paswd = paswd;
         this.IBAN = IBAN;
         this.tarifaPlana = tarifaPlana;
-        this.seriesTerminadas = new ArrayList<Serie>();
-        // this.seriesPendientesMap = new HashMap<Integer, Serie>();
-        this.seriesPendientes = new ArrayList<Serie>();
-        this.capitulosVistosSerie = new LinkedList<CapituloVistoSeries>();
-        // this.cargosByMonthYear = new HashMap<Integer, LinkedList<Cargo>>();
-        this.cargosUsuario = new LinkedList<Cargo>();
+        this.seriesTerminadas = new ArrayList<>();
+        this.seriesPendientes = new ArrayList<>();
+        this.capitulosVistosSerie = new ArrayList<>();
+        this.cargosUsuario = new ArrayList<>();
     }
 
     // metodos
 
-    //ver capitulo 
+    //ver capitulo
     public void verCapitulo(Capitulo capitulo) {
         //TODO
         // check the argument is not null
@@ -72,32 +76,11 @@ public class Usuario {
             cargo = capVistoSerie.addCapituloVisto(capitulo);
         }
         addCargoToList(cargo);
-
-        // old code 
-
-        // // is it the first time the user sees a capitulo of the serie?
-        // // if (seriesPendientesMap.get(serie_de_cap.hashCode()) == null) {
-        // if (seriesPendientesMap.containsKey(serie_de_cap.hashCode())) {
-        //     // first time watching
-        //     capVistoSerie = new CapituloVistoSeries(null, serie_de_cap);
-        //     cargo = capVistoSerie.addCapituloVisto(capitulo);
-        //     capitulosVistosSerie.add(capVistoSerie);
-
-        //     // quitamos de la lista de pendientes
-        //     seriesPendientesMap.remove(serie_de_cap.hashCode());
-        // } else {
-        //     capVistoSerie = getCapituloVistoSeries(capitulo);
-        //     cargo = capVistoSerie.addCapituloVisto(capitulo);
-        // }
-        // // TODO add cargo to the lists of cargos
-        // addCargoToList(cargo);
-
-
     }
-    
-    
-    // añadir serie para ver 
-    public void agregarSeriePendiente(Serie serie) { 
+
+
+    // añadir serie para ver
+    public void agregarSeriePendiente(Serie serie) {
 
         //check if serie is not null
         if (serie == null) {
@@ -107,17 +90,7 @@ public class Usuario {
         if (seriesPendientes.contains(serie) == false) {
             seriesPendientes.add(serie);
         }
-
-        //check if the serie is not already in the list
-        // if (seriesPendientesMap.get(serie.hashCode()) == null) {
-        //     seriesPendientesMap.put(serie.hashCode(), serie);
-        // }
-        //if the serie is already in the list, do nothing
     }
-
-    // public HashMap<Integer, Serie> getSeriesPendientes() {
-    //     return seriesPendientesMap;
-    // } 
 
     public String getNombre() {
         return nombre;
@@ -127,12 +100,12 @@ public class Usuario {
         this.nombre = nombre;
     }
 
-    public String getPassword() {
-        return password;
+    public String getPaswd() {
+        return paswd;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setPaswd(String paswd) {
+        this.paswd = paswd;
     }
 
     public String getIBAN() {
@@ -151,44 +124,31 @@ public class Usuario {
         this.tarifaPlana = tarifaPlana;
     }
 
-    public ArrayList<Serie> getSeriesTerminadas() {
+    public List<Serie> getSeriesTerminadas() {
         return seriesTerminadas;
     }
 
-    public void setSeriesTerminadas(ArrayList<Serie> seriesTerminadas) {
+    public void setSeriesTerminadas(List<Serie> seriesTerminadas) {
         this.seriesTerminadas = seriesTerminadas;
     }
 
-    // public HashMap<Integer, Serie> getSeriesPendientesMap() {
-    //     return seriesPendientesMap;
-    // }
-
-    // public void setSeriesPendientes(HashMap<Integer, Serie> seriesPendientes) {
-    //     this.seriesPendientesMap = seriesPendientes;
-    // }
-
-    public ArrayList<Serie> getSeriesPendientes() {
+    public List<Serie> getSeriesPendientes() {
         return seriesPendientes;
     }
 
-    public void setSeriesPendientes(ArrayList<Serie> seriesPendientes) {
+    public void setSeriesPendientes(List<Serie> seriesPendientes) {
         this.seriesPendientes = seriesPendientes;
     }
 
-    public LinkedList<CapituloVistoSeries> getCapitulosVistosSerie() {
+    public List<CapituloVistoSeries> getCapitulosVistosSerie() {
         return capitulosVistosSerie;
     }
 
-    public void setCapitulosVistosSerie(LinkedList<CapituloVistoSeries> capitulosVistosSerie) {
+    public void setCapitulosVistosSerie(List<CapituloVistoSeries> capitulosVistosSerie) {
         this.capitulosVistosSerie = capitulosVistosSerie;
     }
 
-    
-    // public HashMap<Integer, LinkedList<Cargo>> getCargosByMonthYear() {
-    //     return cargosByMonthYear;
-    // }
-
-    public LinkedList<Cargo> getCargosUsuario() {
+    public List<Cargo> getCargosUsuario() {
         return cargosUsuario;
     }
 
@@ -207,28 +167,14 @@ public class Usuario {
         return null;
     }
 
-    private void addCargoToList(Cargo cargo) 
+    private void addCargoToList(Cargo cargo)
     {
         if (cargo == null) {
             throw new IllegalArgumentException("Cargo no puede ser null");
         }
-       
+
         // add the cargo to the list of cargos
         cargosUsuario.add(cargo);
-       
-       // old code 
-        // // get the month_year of the cargo -> hashcode
-        // Integer month_year = cargo.hashCode();
-        // // get the list of cargos for the month_year
-        // LinkedList<Cargo> cargos = cargosByMonthYear.get(month_year);
-        // // if the list does not exist, create it
-        // if (cargos == null) {
-        //     cargos = new LinkedList<Cargo>();
-        //     cargosByMonthYear.put(month_year, cargos);
-        // }
-        // // add the cargo to the list
-        // cargos.add(cargo);
-
     }
-    
+
 }

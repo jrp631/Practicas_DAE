@@ -3,7 +3,7 @@ package es.unican.juan.romon.polaflix_juan_romon.Dominio;
 import java.util.Date;
 import jakarta.persistence.*;
 
-@Entity
+@Entity 
 @Table(name = "CapituloVisto")
 public class CapituloVisto {
 
@@ -19,6 +19,9 @@ public class CapituloVisto {
     
     private Date fechaVisto;
 
+    // empty constructor
+    public CapituloVisto() {
+    }
     public CapituloVisto (Integer Temporada, Integer numeroCapitulo, String titulo) {
         this.Temporada = Temporada;
         this.numeroCapitulo = numeroCapitulo;

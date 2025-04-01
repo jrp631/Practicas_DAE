@@ -16,12 +16,15 @@ public class Serie {
     @Enumerated(EnumType.STRING)
     private Categoria esCategoria;
 
-    @OneToMany
-
+    @OneToMany(cascade = CascadeType.PERSIST)
     private LinkedList<Capitulo> capitulosSerieList;
     
     private String nombreSerie;
     private String sinopsis;
+
+    // empty constructor
+    public Serie() {
+    }
 
     public Serie(String nombreSerie, String sinopsis, Categoria categoria) {
         this.nombreSerie = nombreSerie;

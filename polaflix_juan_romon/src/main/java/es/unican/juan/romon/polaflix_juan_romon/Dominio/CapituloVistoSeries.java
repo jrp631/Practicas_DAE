@@ -13,17 +13,21 @@ public class CapituloVistoSeries {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idCapituloVisto;
+    @ManyToOne
     private Usuario usuario;
 
-    @ManyToOne
+    @OneToOne
     private Serie perteneceSerie;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     private LinkedList<CapituloVisto> listaCapitulosVistos;
     
     @OneToMany
     private LinkedList<Cargo> cargosAsociados;
 
+    // empty constructor
+    public CapituloVistoSeries() {
+    }
 
     public CapituloVistoSeries(Usuario usuario, Serie perteneceSerie) {
         this.usuario = usuario;
