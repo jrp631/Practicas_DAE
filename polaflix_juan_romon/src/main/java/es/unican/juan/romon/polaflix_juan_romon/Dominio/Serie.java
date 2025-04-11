@@ -3,6 +3,7 @@ package es.unican.juan.romon.polaflix_juan_romon.Dominio;
 import jakarta.persistence.*;
 
 import java.util.LinkedList;
+import java.util.List;
 
 @Entity
 @Table(name = "Serie")
@@ -16,9 +17,11 @@ public class Serie {
     @Enumerated(EnumType.STRING)
     private Categoria esCategoria;
 
-    @OneToMany(cascade = CascadeType.PERSIST)
-    private LinkedList<Capitulo> capitulosSerieList;
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<Capitulo> capitulosSerieList;
     
+
+
     private String nombreSerie;
     private String sinopsis;
 
@@ -64,6 +67,10 @@ public class Serie {
 
     public Integer getId() {
         return idSerie;
+    }
+
+    public void setCapitulosSerieList(List<Capitulo> capitulosSerieList) {
+        this.capitulosSerieList = capitulosSerieList;
     }
 
     public void addCapitulo(Capitulo capitulo) throws IllegalArgumentException {
@@ -119,7 +126,7 @@ public class Serie {
         return idSerie != null && idSerie.equals(serie.idSerie);
     }
 
-    public LinkedList<Capitulo> getCapitulosSerieList() {
+    public List<Capitulo> getCapitulosSerieList() {
         return capitulosSerieList;
     }
 

@@ -4,7 +4,6 @@ import java.time.LocalDate;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import Repositorios.UsuarioRepositorio;
 import jakarta.persistence.*;
 
 @Entity
@@ -13,6 +12,7 @@ public class Cargo {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(unique = true)
     private Integer idCargo;
 
     //importe date datos_capitulo id_cargo 
@@ -22,7 +22,6 @@ public class Cargo {
     private String nombreSerie;
 
     @OneToOne
-    // @JoinColumn(name = "idUsuario", nullable = false)
     private Usuario usuario;
 
     //empty constructor

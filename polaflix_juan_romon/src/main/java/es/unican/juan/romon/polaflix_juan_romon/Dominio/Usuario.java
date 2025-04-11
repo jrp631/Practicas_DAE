@@ -4,7 +4,6 @@ import java.util.*; //List
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import Repositorios.UsuarioRepositorio;
 import jakarta.persistence.*;
 
 @Entity
@@ -25,11 +24,11 @@ public class Usuario {
     @OneToMany
     private List<Serie> seriesTerminadas;
 
-    @OneToMany
+    @OneToMany (fetch = FetchType.EAGER)
     private List<Serie> seriesPendientes;
 
     // @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.REMOVE)
     private List<CapituloVistoSeries> capitulosVistosSerie;
 
     @OneToMany(cascade = CascadeType.PERSIST)
