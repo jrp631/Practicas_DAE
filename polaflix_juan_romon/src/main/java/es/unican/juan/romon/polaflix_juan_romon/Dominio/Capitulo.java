@@ -10,7 +10,7 @@ public class Capitulo {
     private Integer numeroCapitulo;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer idCapitulo;
     
     @ManyToOne

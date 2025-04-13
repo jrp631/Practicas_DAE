@@ -11,7 +11,7 @@ import jakarta.persistence.*;
 public class Cargo {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(unique = true)
     private Integer idCargo;
 
@@ -21,7 +21,8 @@ public class Cargo {
     private LocalDate fecha;
     private String nombreSerie;
 
-    @OneToOne
+    // @OneToOne(fetch = FetchType.EAGER)
+    @ManyToOne //(cascade = CascadeType.MERGE,fetch = FetchType.EAGER)
     private Usuario usuario;
 
     //empty constructor

@@ -11,19 +11,19 @@ public class CapituloVistoSeries {
 
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer idCapituloVisto;
     @ManyToOne
     private Usuario usuario;
 
-    @OneToOne
+    @ManyToOne
     private Serie perteneceSerie;
 
     @OneToMany(cascade = CascadeType.ALL)
-    private LinkedList<CapituloVisto> listaCapitulosVistos;
+    private List<CapituloVisto> listaCapitulosVistos;
     
-    @OneToMany
-    private LinkedList<Cargo> cargosAsociados;
+    @OneToMany (cascade = CascadeType.ALL)
+    private List<Cargo> cargosAsociados;
 
     // empty constructor
     public CapituloVistoSeries() {
@@ -32,8 +32,8 @@ public class CapituloVistoSeries {
     public CapituloVistoSeries(Usuario usuario, Serie perteneceSerie) {
         this.usuario = usuario;
         this.perteneceSerie = perteneceSerie;
-        this.listaCapitulosVistos = new LinkedList<CapituloVisto>();
-        this.cargosAsociados = new LinkedList<Cargo>();
+        this.listaCapitulosVistos = new ArrayList<CapituloVisto>();
+        this.cargosAsociados = new ArrayList<Cargo>();
     }
 
     public Integer getIdCapituloVisto() {
@@ -60,7 +60,7 @@ public class CapituloVistoSeries {
         this.perteneceSerie = perteneceSerie;
     }
 
-    public LinkedList<CapituloVisto> getListaCapitulosVistos() {
+    public List<CapituloVisto> getListaCapitulosVistos() {
         return listaCapitulosVistos;
     }
 

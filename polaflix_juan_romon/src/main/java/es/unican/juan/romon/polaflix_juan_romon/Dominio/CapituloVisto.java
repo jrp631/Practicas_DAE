@@ -11,7 +11,7 @@ public class CapituloVisto {
     static Integer id_paraCapituloVisto = 0;
     
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer idCapituloVisto;
     private Integer Temporada;
     private Integer numeroCapitulo;

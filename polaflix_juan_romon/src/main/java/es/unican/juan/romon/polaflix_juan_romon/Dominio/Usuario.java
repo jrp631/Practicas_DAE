@@ -12,7 +12,7 @@ public class Usuario {
 
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer idUsuario;
     @Column(unique = true)
     private String nombre;
@@ -21,17 +21,17 @@ public class Usuario {
     private Boolean tarifaPlana;
 
     // Lists & Maps for series
-    @OneToMany
+    @ManyToMany//@OneToMany
     private List<Serie> seriesTerminadas;
 
-    @OneToMany (fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER)//@OneToMany (fetch = FetchType.EAGER)
     private List<Serie> seriesPendientes;
 
     // @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
-    @ManyToMany(cascade = CascadeType.REMOVE)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<CapituloVistoSeries> capitulosVistosSerie;
 
-    @OneToMany(cascade = CascadeType.PERSIST)
+    @OneToMany (cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)  // (fetch = FetchType.EAGER)
     private List<Cargo> cargosUsuario;
 
     public Usuario() {
@@ -74,6 +74,7 @@ public class Usuario {
             capVistoSerie = getCapituloVistoSeries(capitulo);
             cargo = capVistoSerie.addCapituloVisto(capitulo);
         }
+        cargo.setUsuario(this);
         addCargoToList(cargo);
     }
 

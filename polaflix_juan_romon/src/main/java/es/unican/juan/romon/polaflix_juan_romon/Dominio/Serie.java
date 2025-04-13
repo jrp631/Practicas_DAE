@@ -10,14 +10,13 @@ import java.util.List;
 public class Serie {
     
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer idSerie;
     
-
     @Enumerated(EnumType.STRING)
     private Categoria esCategoria;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Capitulo> capitulosSerieList;
     
 
