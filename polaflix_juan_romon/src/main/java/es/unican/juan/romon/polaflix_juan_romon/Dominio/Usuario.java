@@ -1,5 +1,6 @@
 package es.unican.juan.romon.polaflix_juan_romon.Dominio;
 
+import java.time.LocalDate;
 import java.util.*; //List
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +32,7 @@ public class Usuario {
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<CapituloVistoSeries> capitulosVistosSerie;
 
-    @OneToMany (cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)  // (fetch = FetchType.EAGER)
+    @OneToMany (cascade = CascadeType.ALL, fetch = FetchType.EAGER)  // (fetch = FetchType.EAGER)
     private List<Cargo> cargosUsuario;
 
     public Usuario() {
@@ -66,13 +67,18 @@ public class Usuario {
         if (seriesPendientes.contains(serie_de_cap)) {
             // first time watching
             capVistoSerie = new CapituloVistoSeries(this, serie_de_cap);
-            cargo = capVistoSerie.addCapituloVisto(capitulo);
+            // cargo = capVistoSerie.addCapituloVisto(capitulo);
+            capVistoSerie.addCapituloVisto(capitulo);
+            cargo = new Cargo(serie_de_cap.getEsCategoria(), false, LocalDate.now(), serie_de_cap.getNombreSerie());
+
             capitulosVistosSerie.add(capVistoSerie);
             // quitamos de la lista de pendientes
             seriesPendientes.remove(serie_de_cap);
         } else {
             capVistoSerie = getCapituloVistoSeries(capitulo);
-            cargo = capVistoSerie.addCapituloVisto(capitulo);
+            // cargo = capVistoSerie.addCapituloVisto(capitulo);
+            capVistoSerie.addCapituloVisto(capitulo);
+            cargo = new Cargo(serie_de_cap.getEsCategoria(), false, LocalDate.now(), serie_de_cap.getNombreSerie());
         }
         cargo.setUsuario(this);
         addCargoToList(cargo);

@@ -35,8 +35,8 @@ public class AppFeeder implements CommandLineRunner {
 	@Autowired
 	protected UsuarioRepositorio ur;
 
-	@Autowired
-	protected CargoRespositorio cr;
+	// @Autowired
+	// protected CargoRespositorio cr;
 	
 	@Override
 	public void run(String... args) throws Exception {
@@ -79,7 +79,7 @@ public class AppFeeder implements CommandLineRunner {
 			System.out.println("Cargo: " + c.getIdCargo() + " - " + c.getNombreSerie() + " - " + c.getPrecio());
 		}
 
-		cr.saveAll(cargos);
+		// cr.saveAll(cargos);
 
 
 		System.out.println("Application feeded");

@@ -22,7 +22,7 @@ public class Cargo {
     private String nombreSerie;
 
     // @OneToOne(fetch = FetchType.EAGER)
-    @ManyToOne //(cascade = CascadeType.MERGE,fetch = FetchType.EAGER)
+    @ManyToOne (cascade = CascadeType.MERGE,fetch = FetchType.EAGER)
     private Usuario usuario;
 
     //empty constructor

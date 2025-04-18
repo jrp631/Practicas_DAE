@@ -22,8 +22,8 @@ public class CapituloVistoSeries {
     @OneToMany(cascade = CascadeType.ALL)
     private List<CapituloVisto> listaCapitulosVistos;
     
-    @OneToMany (cascade = CascadeType.ALL)
-    private List<Cargo> cargosAsociados;
+    // @OneToMany (cascade = CascadeType.MERGE)
+    // private List<Cargo> cargosAsociados;
 
     // empty constructor
     public CapituloVistoSeries() {
@@ -33,7 +33,7 @@ public class CapituloVistoSeries {
         this.usuario = usuario;
         this.perteneceSerie = perteneceSerie;
         this.listaCapitulosVistos = new ArrayList<CapituloVisto>();
-        this.cargosAsociados = new ArrayList<Cargo>();
+        // this.cargosAsociados = new ArrayList<Cargo>();
     }
 
     public Integer getIdCapituloVisto() {
@@ -64,7 +64,7 @@ public class CapituloVistoSeries {
         return listaCapitulosVistos;
     }
 
-    public Cargo addCapituloVisto(Capitulo capitulo) {
+    public void addCapituloVisto(Capitulo capitulo) {
         // check the argument is not null
         if (capitulo == null) {
             throw new IllegalArgumentException("Capitulo no puede ser null");
@@ -76,12 +76,12 @@ public class CapituloVistoSeries {
             listaCapitulosVistos.add(capituloVisto);
         }
         // generamos un cargo
-        Serie serie = capitulo.getEsSerie();
-        LocalDate fecha = LocalDate.now();
-        Cargo cargo = new Cargo(serie.getEsCategoria(), false, fecha, serie.getNombreSerie());
+        // Serie serie = capitulo.getEsSerie();
+        // LocalDate fecha = LocalDate.now();
+        // Cargo cargo = new Cargo(serie.getEsCategoria(), false, fecha, serie.getNombreSerie());
         // añadimos el cargo a la lista de cargos asociados
-        cargosAsociados.add(cargo);
-        return cargo;
+        // cargosAsociados.add(cargo);
+        // return cargo;
     }
     @Override
     public int hashCode() {
