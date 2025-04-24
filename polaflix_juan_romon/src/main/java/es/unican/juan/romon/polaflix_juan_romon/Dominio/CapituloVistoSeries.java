@@ -21,6 +21,8 @@ public class CapituloVistoSeries {
 
     @OneToMany(cascade = CascadeType.ALL)
     private List<CapituloVisto> listaCapitulosVistos;
+
+    int capituloVistoCount = 0; // contador de capitulos diferentes vistos
     
     // @OneToMany (cascade = CascadeType.MERGE)
     // private List<Cargo> cargosAsociados;
@@ -64,6 +66,10 @@ public class CapituloVistoSeries {
         return listaCapitulosVistos;
     }
 
+    public int getCapituloVistoCount() {
+        return capituloVistoCount;
+    }
+
     public void addCapituloVisto(Capitulo capitulo) {
         // check the argument is not null
         if (capitulo == null) {
@@ -74,6 +80,7 @@ public class CapituloVistoSeries {
         // añadimos a la lista de capitulos vistos si no lo esta
         if (!listaCapitulosVistos.contains(capituloVisto)) {
             listaCapitulosVistos.add(capituloVisto);
+            capituloVistoCount++;
         }
         // generamos un cargo
         // Serie serie = capitulo.getEsSerie();

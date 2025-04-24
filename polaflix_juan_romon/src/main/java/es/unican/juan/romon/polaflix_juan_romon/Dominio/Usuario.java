@@ -22,7 +22,7 @@ public class Usuario {
     private Boolean tarifaPlana;
 
     // Lists & Maps for series
-    @ManyToMany//@OneToMany
+    @ManyToMany(fetch = FetchType.EAGER)//@OneToMany
     private List<Serie> seriesTerminadas;
 
     @ManyToMany(fetch = FetchType.EAGER)//@OneToMany (fetch = FetchType.EAGER)
@@ -82,6 +82,15 @@ public class Usuario {
         }
         cargo.setUsuario(this);
         addCargoToList(cargo);
+
+        //hay mas capitulos en la serie?? 
+        if (capVistoSerie.getCapituloVistoCount() == serie_de_cap.getCapitulosSerieList().size()) {
+            // si no hay mas capitulos, la serie se da por terminada
+            if(!seriesTerminadas.contains(serie_de_cap)){
+                seriesTerminadas.add(serie_de_cap);
+            } // y se quita de la lista de pendientes
+            seriesPendientes.remove(serie_de_cap);
+        }
     }
 
 
