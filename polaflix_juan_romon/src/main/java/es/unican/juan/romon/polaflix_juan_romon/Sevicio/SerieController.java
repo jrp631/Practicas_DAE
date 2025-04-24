@@ -3,7 +3,9 @@ package es.unican.juan.romon.polaflix_juan_romon.Sevicio;
 import java.util.List;
 import java.util.Optional;
 
+import org.apache.catalina.connector.Response;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus.Series;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,23 +23,68 @@ public class SerieController {
     @Autowired
     private SerieRepositorio serieRepositorio;
 
-    @GetMapping
-    public List<Serie> getAllSeries() {
-        return serieRepositorio.findAll();
+    @GetMapping (value = "/")
+    public ResponseEntity<List<Serie>> getAllSeries() {
+        // return serieRepositorio.findAll();
+        Optional<List<Serie>> series = Optional.of(serieRepositorio.findAll());
+        ResponseEntity<List<Serie>> result;
+
+        if (series.isPresent()) {
+            result = ResponseEntity.ok(series.get());
+        } else {
+            result = ResponseEntity.notFound().build();
+        }
+
+        return result;
     }
 
     @GetMapping("/{id}")
-    public Optional<Serie> getSerieById(@PathVariable Integer id) {
-        return serieRepositorio.findById(id);
+    public ResponseEntity<Serie> getSerieById(@PathVariable("id") String serieId) {
+        
+        Optional<Serie> serie = serieRepositorio.findById(Integer.parseInt(serieId));
+        ResponseEntity<Serie> result;
+
+        if (serie.isPresent()) {
+            result = ResponseEntity.ok(serie.get());
+        } else {
+            result = ResponseEntity.notFound().build();
+        }
+        return result;
     }
 
     @GetMapping("/{id}/capitulos")
-    public List<Capitulo> getCapitulosBySerie(@PathVariable Integer id) {
-        Optional<Serie> serie = serieRepositorio.findById(id);
+    public ResponseEntity<List<Capitulo>> getCapitulosBySerie(@PathVariable ("id") String serieId) {
+        Optional<Serie> serie = serieRepositorio.findById(Integer.parseInt(serieId));
+        ResponseEntity<List<Capitulo>> result;
         if (serie.isPresent()) {
-            return serie.get().getCapitulosSerieList();
+            // return serie.get().getCapitulosSerieList();
+            result = ResponseEntity.ok(serie.get().getCapitulosSerieList());
         } else {
-            return null; // or throw an exception
+            result = ResponseEntity.notFound().build();
         }
+        return result;
     }
+
+    @GetMapping("/{idSerie}/capitulos/{idCapitulo}")
+    public ResponseEntity<Capitulo> getCapituloFromSerie(@PathVariable("idSerie") String serieId, @PathVariable("idCapitulo") String capituloId) {
+        Integer idSerie = Integer.parseInt(serieId), idCapitulo = Integer.parseInt(capituloId);
+    
+        Optional<Serie> serie = serieRepositorio.findById(idSerie);
+    
+        ResponseEntity<Capitulo> result =  ResponseEntity.notFound().build(); 
+        if (serie.isPresent()) { // no existe la serie indicada 
+            result = ResponseEntity.notFound().build();
+            return result;
+        }
+
+        List<Capitulo> captitulo = serie.get().getCapitulosSerieList();
+        for (Capitulo capitulo : captitulo) {
+            System.out.println("Captulo" + capitulo.getIdCapitulo() + " idCapitulo: " + idCapitulo);
+            if (capitulo.getIdCapitulo() == idCapitulo) {
+                result = ResponseEntity.ok(capitulo);
+            }
+        }
+        
+        return result;
+     } 
 }

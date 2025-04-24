@@ -1,23 +1,35 @@
 package es.unican.juan.romon.polaflix_juan_romon.Dominio;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonView;
+
+import es.unican.juan.romon.polaflix_juan_romon.Vistas.Vistas;
 import jakarta.persistence.*;
 
 @Entity
 @Table(name = "capitulo")
 public class Capitulo {
-    private String titulo;
-    private Integer temporada;
-    private Integer numeroCapitulo;
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @JsonView({Vistas.CapituloSerie.class})
     private Integer idCapitulo;
     
     @ManyToOne
+    @JsonBackReference
+    @JsonView({Vistas.CapituloSerie.class})
+    
     private Serie esSerie;
 
-    static Integer id_para_capitulo = 0;
-    
+    @JsonView({Vistas.CapituloSerie.class})
+    private String titulo;
+    @JsonView({Vistas.CapituloSerie.class})
+    private Integer temporada;
+    @JsonView({Vistas.CapituloSerie.class})
+    private Integer numeroCapitulo;
+
+   
     //Constructor por defecto
     public Capitulo(){}
 

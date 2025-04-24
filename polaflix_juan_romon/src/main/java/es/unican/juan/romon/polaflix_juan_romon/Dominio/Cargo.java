@@ -4,6 +4,9 @@ import java.time.LocalDate;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.fasterxml.jackson.annotation.JsonView;
+
+import es.unican.juan.romon.polaflix_juan_romon.Vistas.Vistas;
 import jakarta.persistence.*;
 
 @Entity
@@ -13,12 +16,17 @@ public class Cargo {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(unique = true)
+    @JsonView(Vistas.CargosUsuario.class)
     private Integer idCargo;
 
     //importe date datos_capitulo id_cargo 
+    @JsonView(Vistas.CargosUsuario.class)
     private float precio;
+    @JsonView(Vistas.CargosUsuario.class)
     private boolean pagado;
+    @JsonView(Vistas.CargosUsuario.class)
     private LocalDate fecha;
+    @JsonView(Vistas.CargosUsuario.class)
     private String nombreSerie;
 
     // @OneToOne(fetch = FetchType.EAGER)

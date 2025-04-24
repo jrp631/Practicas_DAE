@@ -5,23 +5,41 @@ import jakarta.persistence.*;
 import java.util.LinkedList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonView;
+
+import es.unican.juan.romon.polaflix_juan_romon.Vistas.Vistas;
+
 @Entity
 @Table(name = "Serie")
 public class Serie {
     
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @JsonView({Vistas.SeriesEmpezadas.class,
+               Vistas.SeriesTerminadas.class,
+               Vistas.SeriesPendientes.class,
+               Vistas.DescripcionSerie.class,
+               Vistas.AllSeries.class}) //TODO CapituloSerie.class})
     private Integer idSerie;
     
     @Enumerated(EnumType.STRING)
+    @JsonView({Vistas.DescripcionSerie.class,
+               Vistas.AllSeries.class}) //TODO CapituloSerie.class})
     private Categoria esCategoria;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JsonIgnore
     private List<Capitulo> capitulosSerieList;
     
-
-
+    @JsonView({Vistas.SeriesEmpezadas.class,
+               Vistas.SeriesTerminadas.class,
+               Vistas.SeriesPendientes.class,
+               Vistas.DescripcionSerie.class,
+               Vistas.AllSeries.class}) //TODO CapituloSerie.class})
     private String nombreSerie;
+
+    @JsonView({Vistas.DescripcionSerie.class})
     private String sinopsis;
 
     // empty constructor
