@@ -13,9 +13,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.annotation.JsonView;
+
 import es.unican.juan.romon.polaflix_juan_romon.Dominio.Capitulo;
 import es.unican.juan.romon.polaflix_juan_romon.Dominio.Serie;
 import es.unican.juan.romon.polaflix_juan_romon.Repositorios.SerieRepositorio;
+import es.unican.juan.romon.polaflix_juan_romon.Vistas.Vistas;
 
 @RestController
 @RequestMapping("/series")
@@ -23,7 +26,8 @@ public class SerieController {
     @Autowired
     private SerieRepositorio serieRepositorio;
 
-    @GetMapping (value = "/")
+    @GetMapping ()
+    @JsonView(Vistas.AllSeries.class)
     public ResponseEntity<List<Serie>> getAllSeries() {
         // return serieRepositorio.findAll();
         Optional<List<Serie>> series = Optional.of(serieRepositorio.findAll());
@@ -39,6 +43,7 @@ public class SerieController {
     }
 
     @GetMapping("/{id}")
+    @JsonView(Vistas.DescripcionSerie.class)
     public ResponseEntity<Serie> getSerieById(@PathVariable("id") String serieId) {
         
         Optional<Serie> serie = serieRepositorio.findById(Integer.parseInt(serieId));
@@ -53,6 +58,7 @@ public class SerieController {
     }
 
     @GetMapping("/{id}/capitulos")
+    @JsonView(Vistas.CapituloSerie.class)
     public ResponseEntity<List<Capitulo>> getCapitulosBySerie(@PathVariable ("id") String serieId) {
         Optional<Serie> serie = serieRepositorio.findById(Integer.parseInt(serieId));
         ResponseEntity<List<Capitulo>> result;
@@ -66,6 +72,7 @@ public class SerieController {
     }
 
     @GetMapping("/{idSerie}/capitulos/{idCapitulo}")
+    @JsonView(Vistas.CapituloSerie.class)
     public ResponseEntity<Capitulo> getCapituloFromSerie(@PathVariable("idSerie") String serieId, @PathVariable("idCapitulo") String capituloId) {
         Integer idSerie = Integer.parseInt(serieId), idCapitulo = Integer.parseInt(capituloId);
     
@@ -74,17 +81,16 @@ public class SerieController {
         ResponseEntity<Capitulo> result =  ResponseEntity.notFound().build(); 
         if (serie.isPresent()) { // no existe la serie indicada 
             result = ResponseEntity.notFound().build();
-            return result;
+            // return result;
         }
-
-        List<Capitulo> captitulo = serie.get().getCapitulosSerieList();
-        for (Capitulo capitulo : captitulo) {
-            System.out.println("Captulo" + capitulo.getIdCapitulo() + " idCapitulo: " + idCapitulo);
-            if (capitulo.getIdCapitulo() == idCapitulo) {
-                result = ResponseEntity.ok(capitulo);
-            }
-        }
+        // return resultado;
         
+        List<Capitulo> captitulo = serie.get().getCapitulosSerieList();
+        for (Capitulo c : captitulo) {
+            if (c.getIdCapitulo() == idCapitulo) {
+                result = ResponseEntity.ok(c);
+            }
+        }        
         return result;
      } 
 }

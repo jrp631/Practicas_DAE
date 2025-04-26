@@ -6,6 +6,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonView;
 
 import es.unican.juan.romon.polaflix_juan_romon.Vistas.Vistas;
@@ -20,7 +21,9 @@ public class Serie {
                Vistas.SeriesTerminadas.class,
                Vistas.SeriesPendientes.class,
                Vistas.DescripcionSerie.class,
-               Vistas.AllSeries.class}) //TODO CapituloSerie.class})
+               Vistas.AllSeries.class,
+                Vistas.CapituloSerie.class
+            }) //TODO CapituloSerie.class})
     private Integer idSerie;
     
     @Enumerated(EnumType.STRING)
@@ -29,14 +32,17 @@ public class Serie {
     private Categoria esCategoria;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JsonIgnore
+    @JsonView({Vistas.DescripcionSerie.class,
+               Vistas.AllSeries.class}) //TODO CapituloSerie.class})
+    @JsonManagedReference
     private List<Capitulo> capitulosSerieList;
     
     @JsonView({Vistas.SeriesEmpezadas.class,
                Vistas.SeriesTerminadas.class,
                Vistas.SeriesPendientes.class,
                Vistas.DescripcionSerie.class,
-               Vistas.AllSeries.class}) //TODO CapituloSerie.class})
+               Vistas.AllSeries.class,
+               Vistas.CapituloSerie.class}) //TODO CapituloSerie.class})
     private String nombreSerie;
 
     @JsonView({Vistas.DescripcionSerie.class})
@@ -119,6 +125,21 @@ public class Serie {
         // TODO
         for (Capitulo cap : capitulosSerieList) {
             if (cap.equals(capitulo)) {
+                return cap;
+            }
+        }
+        return null;
+    }
+
+    public Capitulo getCapituloFromSerie(Integer idCapitulo) {
+        //TODO
+        // check the argument is not null
+        if (idCapitulo == null) {
+            throw new IllegalArgumentException("IdCapitulo no puede ser null");
+        }
+        // check if the capitulo is already in the series
+        for (Capitulo cap : capitulosSerieList) {
+            if (cap.getIdCapitulo() == idCapitulo) {
                 return cap;
             }
         }

@@ -1,5 +1,6 @@
 package es.unican.juan.romon.polaflix_juan_romon.Dominio;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonView;
 
@@ -13,20 +14,25 @@ public class Capitulo {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @JsonView({Vistas.CapituloSerie.class})
+    @JsonView({Vistas.CapituloSerie.class,Vistas.AllSeries.class,
+        Vistas.DescripcionSerie.class})
     private Integer idCapitulo;
     
     @ManyToOne
     @JsonBackReference
-    @JsonView({Vistas.CapituloSerie.class})
-    
+    @JsonView({Vistas.CapituloSerie.class, 
+              Vistas.AllSeries.class,
+              Vistas.DescripcionSerie.class})
     private Serie esSerie;
 
-    @JsonView({Vistas.CapituloSerie.class})
+    @JsonView({Vistas.CapituloSerie.class,Vistas.AllSeries.class,
+        Vistas.DescripcionSerie.class})
     private String titulo;
-    @JsonView({Vistas.CapituloSerie.class})
+    @JsonView({Vistas.CapituloSerie.class,Vistas.AllSeries.class,
+        Vistas.DescripcionSerie.class})
     private Integer temporada;
-    @JsonView({Vistas.CapituloSerie.class})
+    @JsonView({Vistas.CapituloSerie.class,Vistas.AllSeries.class,
+        Vistas.DescripcionSerie.class})
     private Integer numeroCapitulo;
 
    
