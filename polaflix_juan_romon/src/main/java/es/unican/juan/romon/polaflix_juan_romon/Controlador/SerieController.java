@@ -1,4 +1,4 @@
-package es.unican.juan.romon.polaflix_juan_romon.Sevicio;
+package es.unican.juan.romon.polaflix_juan_romon.Controlador;
 
 import java.util.List;
 import java.util.Optional;
@@ -18,6 +18,7 @@ import com.fasterxml.jackson.annotation.JsonView;
 import es.unican.juan.romon.polaflix_juan_romon.Dominio.Capitulo;
 import es.unican.juan.romon.polaflix_juan_romon.Dominio.Serie;
 import es.unican.juan.romon.polaflix_juan_romon.Repositorios.SerieRepositorio;
+import es.unican.juan.romon.polaflix_juan_romon.Servicio.SerieService;
 import es.unican.juan.romon.polaflix_juan_romon.Vistas.Vistas;
 
 @RestController
@@ -26,17 +27,26 @@ public class SerieController {
     @Autowired
     private SerieRepositorio serieRepositorio;
 
+    @Autowired
+    private SerieService serieService;
+
     @GetMapping ()
     @JsonView(Vistas.AllSeries.class)
     public ResponseEntity<List<Serie>> getAllSeries() {
         // return serieRepositorio.findAll();
-        Optional<List<Serie>> series = Optional.of(serieRepositorio.findAll());
+        // Optional<List<Serie>> series = Optional.of(serieRepositorio.findAll());
         ResponseEntity<List<Serie>> result;
 
-        if (series.isPresent()) {
-            result = ResponseEntity.ok(series.get());
-        } else {
+        // if (series.isPresent()) {
+        //     result = ResponseEntity.ok(series.get());
+        // } else {
+        //     result = ResponseEntity.notFound().build();
+        // }
+        List<Serie> series = serieService.getAllSeries();
+        if (series.isEmpty()) {
             result = ResponseEntity.notFound().build();
+        } else {
+            result = ResponseEntity.ok(series);
         }
 
         return result;
@@ -46,14 +56,29 @@ public class SerieController {
     @JsonView(Vistas.DescripcionSerie.class)
     public ResponseEntity<Serie> getSerieById(@PathVariable("id") String serieId) {
         
-        Optional<Serie> serie = serieRepositorio.findById(Integer.parseInt(serieId));
+        // Optional<Serie> serie = serieRepositorio.findById(Integer.parseInt(serieId));
         ResponseEntity<Serie> result;
 
-        if (serie.isPresent()) {
-            result = ResponseEntity.ok(serie.get());
+        // if (serie.isPresent()) {
+        //     result = ResponseEntity.ok(serie.get());
+        // } else {
+        //     result = ResponseEntity.notFound().build();
+        // }
+        
+        Serie serie = null;
+        
+        try {
+            serie = serieService.getSerieById(serieId);
+        } catch (SerieService.SerieNoEncontradaException e) {
+            result = ResponseEntity.notFound().build();
+        }
+        if (serie != null) {
+            result = ResponseEntity.ok(serie);
         } else {
             result = ResponseEntity.notFound().build();
         }
+
+
         return result;
     }
 

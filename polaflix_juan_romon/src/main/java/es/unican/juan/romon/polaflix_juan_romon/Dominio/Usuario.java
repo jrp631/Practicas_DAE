@@ -93,6 +93,17 @@ public class Usuario {
         }
     }
 
+    public List<Serie> getSeriesEmpezadas() {
+        List<Serie> seriesEmpezadas = new ArrayList<>();
+
+        for (CapituloVistoSeries c : capitulosVistosSerie) {
+            Serie serie = c.getPerteneceSerie();
+            if (!seriesEmpezadas.contains(serie)) {
+                seriesEmpezadas.add(serie);
+            }
+        }
+        return seriesEmpezadas;
+    }
 
     // añadir serie para ver
     public void agregarSeriePendiente(Serie serie) {
@@ -104,6 +115,17 @@ public class Usuario {
 
         if (seriesPendientes.contains(serie) == false) {
             seriesPendientes.add(serie);
+        }
+    }
+
+    public void eliminarSeriePendiente(Serie serie) {
+        //check if serie is not null
+        if (serie == null) {
+            throw new IllegalArgumentException("Serie no puede ser null");
+        }
+
+        if (seriesPendientes.contains(serie)) {
+            seriesPendientes.remove(serie);
         }
     }
 

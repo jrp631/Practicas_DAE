@@ -1,4 +1,4 @@
-package es.unican.juan.romon.polaflix_juan_romon.Sevicio;
+package es.unican.juan.romon.polaflix_juan_romon.Controlador;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -17,6 +17,8 @@ import es.unican.juan.romon.polaflix_juan_romon.Dominio.Serie;
 import es.unican.juan.romon.polaflix_juan_romon.Dominio.Usuario;
 import es.unican.juan.romon.polaflix_juan_romon.Repositorios.SerieRepositorio;
 import es.unican.juan.romon.polaflix_juan_romon.Repositorios.UsuarioRepositorio;
+import es.unican.juan.romon.polaflix_juan_romon.Servicio.SerieService;
+import es.unican.juan.romon.polaflix_juan_romon.Servicio.UsuarioService;
 import es.unican.juan.romon.polaflix_juan_romon.Vistas.Vistas;
 
 import org.springframework.web.bind.annotation.GetMapping;
@@ -38,14 +40,26 @@ public class UsuarioController {
     @Autowired
     private SerieRepositorio serieRepositorio;
 
+    @Autowired
+    private UsuarioService usuarioService;
+    @Autowired
+    private SerieService serieService;
+
     @GetMapping(value = "/{id}/series-empezadas")
     @JsonView(Vistas.SeriesEmpezadas.class)
     public ResponseEntity<List<Serie>> getSeriesEmpezadas(@PathVariable("id") String userId) {
-        Optional<Usuario> usuario = usuarioRepositorio.findById(Integer.parseInt(userId));
+        // Optional<Usuario> usuario = usuarioRepositorio.findById(Integer.parseInt(userId));
         ResponseEntity<List<Serie>> result;
 
-        if (usuario.isPresent()) {
-            result = ResponseEntity.ok(usuario.get().getSeriesTerminadas());
+        // if (usuario.isPresent()) {
+        //     result = ResponseEntity.ok(usuario.get().getSeriesTerminadas());
+        // } else {
+        //     result = ResponseEntity.notFound().build();
+        // }
+        List<Serie> seriesEmpezadas = usuarioService.getSeriesEmpezadas(userId);
+
+        if (seriesEmpezadas.size() > 0) {
+            result = ResponseEntity.ok(seriesEmpezadas);
         } else {
             result = ResponseEntity.notFound().build();
         }
@@ -56,11 +70,16 @@ public class UsuarioController {
     @GetMapping(value = "/{id}/series-terminadas")
     @JsonView(Vistas.SeriesTerminadas.class)
     public ResponseEntity<List<Serie>> getSeriesTerminadas(@PathVariable("id") String userId) {
-        Optional<Usuario> usuario = usuarioRepositorio.findById(Integer.parseInt(userId));
+        // Optional<Usuario> usuario = usuarioRepositorio.findById(Integer.parseInt(userId));
         ResponseEntity<List<Serie>> result;
-       
-        if (usuario.isPresent()) {
-            result = ResponseEntity.ok(usuario.get().getSeriesTerminadas());
+        List<Serie> seriesTerminadas = usuarioService.getSeriesTerminadas(userId);
+        // if (usuario.isPresent()) {
+        //     result = ResponseEntity.ok(usuario.get().getSeriesTerminadas());
+        // } else {
+        //     result = ResponseEntity.notFound().build();
+        // }
+        if (seriesTerminadas.size() > 0) {
+            result = ResponseEntity.ok(seriesTerminadas);
         } else {
             result = ResponseEntity.notFound().build();
         }
@@ -71,11 +90,17 @@ public class UsuarioController {
     @GetMapping(value = "/{id}/series-pendientes")
     @JsonView(Vistas.SeriesPendientes.class)
     public ResponseEntity<List<Serie>> getSeriesPendientes(@PathVariable("id") String userId) {
-        Optional<Usuario> usuario = usuarioRepositorio.findById(Integer.parseInt(userId));
+        // Optional<Usuario> usuario = usuarioRepositorio.findById(Integer.parseInt(userId));
         ResponseEntity<List<Serie>> result;
+        List<Serie> seriesPendientes = usuarioService.getSeriesPendientes(userId);
+        // if (usuario.isPresent()) {
+        //     result = ResponseEntity.ok(usuario.get().getSeriesPendientes());
+        // } else {
+        //     result = ResponseEntity.notFound().build();
+        // }
 
-        if (usuario.isPresent()) {
-            result = ResponseEntity.ok(usuario.get().getSeriesPendientes());
+        if (seriesPendientes.size() > 0) {
+            result = ResponseEntity.ok(seriesPendientes);
         } else {
             result = ResponseEntity.notFound().build();
         }
@@ -88,33 +113,40 @@ public class UsuarioController {
     @GetMapping(value = "/{id}/cargos")
     @JsonView(Vistas.CargosUsuario.class)
     public ResponseEntity<List<Cargo>> getAllCargos(@PathVariable ("id") String id, @RequestParam(required = false) LocalDate fecha_ini, @RequestParam(required = false) LocalDate fecha_fin) {
-        Optional<Usuario> usuario = usuarioRepositorio.findById(Integer.parseInt(id));
+        // Optional<Usuario> usuario = usuarioRepositorio.findById(Integer.parseInt(id));
         ResponseEntity<List<Cargo>> result;
+        List<Cargo> cargos = usuarioService.getCargos(usuarioRepositorio.findById(Integer.parseInt(id)).get(), fecha_ini, fecha_fin);
 
-        if (usuario.isPresent()) {
-            List<Cargo> cargos = usuario.get().getCargosUsuario();
+        // if (usuario.isPresent()) {
+        //     List<Cargo> cargos = usuario.get().getCargosUsuario();
 
-            if (fecha_ini == null &&  fecha_fin == null){
-                result = ResponseEntity.ok(cargos);
-            } else { // REFACTORIZAR
-                for (Cargo c : cargos) { //retornamos los cargos que se encuentran entre las fechas
-                    if (fecha_ini != null && fecha_fin == null) { //cargos despues de una fecha
-                        if(c.getFecha().isBefore(fecha_ini)) {
-                            cargos.remove(c);
-                        }
-                    } else if (fecha_ini == null && fecha_fin != null) { // cargos antes de una fecha
-                        if (c.getFecha().isAfter(fecha_fin)) {
-                            cargos.remove(c);
-                        }
-                    } else { //cargos entre dos fechas
-                        if (c.getFecha().isBefore(fecha_ini) || c.getFecha().isAfter(fecha_fin)) {
-                            cargos.remove(c);
-                        }
-                    } 
+        //     if (fecha_ini == null &&  fecha_fin == null){
+        //         result = ResponseEntity.ok(cargos);
+        //     } else { // REFACTORIZAR
+        //         for (Cargo c : cargos) { //retornamos los cargos que se encuentran entre las fechas
+        //             if (fecha_ini != null && fecha_fin == null) { //cargos despues de una fecha
+        //                 if(c.getFecha().isBefore(fecha_ini)) {
+        //                     cargos.remove(c);
+        //                 }
+        //             } else if (fecha_ini == null && fecha_fin != null) { // cargos antes de una fecha
+        //                 if (c.getFecha().isAfter(fecha_fin)) {
+        //                     cargos.remove(c);
+        //                 }
+        //             } else { //cargos entre dos fechas
+        //                 if (c.getFecha().isBefore(fecha_ini) || c.getFecha().isAfter(fecha_fin)) {
+        //                     cargos.remove(c);
+        //                 }
+        //             } 
                         
-                }
-                result = ResponseEntity.ok(cargos);
-            }
+        //         }
+        //         result = ResponseEntity.ok(cargos);
+        //     }
+        // } else {
+        //     result = ResponseEntity.notFound().build();
+        // }
+
+        if(cargos.size() > 0) {
+            result = ResponseEntity.ok(cargos);
         } else {
             result = ResponseEntity.notFound().build();
         }
@@ -124,7 +156,7 @@ public class UsuarioController {
                     //   .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
     }
     
-    @PutMapping(value = "{id}") // TODO: check implementation
+    @PutMapping(value = "/{id}/series-empezadas") // TODO: check implementation
     public ResponseEntity putVerCapitulo(@PathVariable("id") String userId,@RequestBody String serieId ,@RequestBody String capituloId) {
         Optional<Usuario> usuario = usuarioRepositorio.findById(Integer.parseInt(userId));
         Optional<Serie> serie = serieRepositorio.findById(Integer.parseInt(serieId));
@@ -142,7 +174,23 @@ public class UsuarioController {
         return result;
     }
 
-    //TODO: put : agregar serie a pendientes
+    @PutMapping(value = "{id}/series-pendientes")
+    public ResponseEntity putAgregarSeriePendiente(@PathVariable("id") String userId, @RequestBody String serieId) {
+        Optional<Usuario> usuario = usuarioRepositorio.findById(Integer.parseInt(userId));
+        Optional<Serie> serie = serieRepositorio.findById(Integer.parseInt(serieId));
+
+        ResponseEntity result;
+
+        if (usuario.isPresent() && serie.isPresent()) {
+            usuario.get().agregarSeriePendiente(serie.get());
+            usuarioRepositorio.save(usuario.get());
+            result = ResponseEntity.ok().build();
+        } else {
+            result = ResponseEntity.notFound().build();
+        }
+        return result;
+    }
+
 
     // TODO: delete : eliminar serie de pendientes
 
