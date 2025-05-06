@@ -52,6 +52,8 @@ public class SerieController {
         return result;
     }
 
+    // TODO getSeriesByNombre
+
     @GetMapping("/{id}")
     @JsonView(Vistas.DescripcionSerie.class)
     public ResponseEntity<Serie> getSerieById(@PathVariable("id") String serieId) {
@@ -81,6 +83,8 @@ public class SerieController {
 
         return result;
     }
+
+
 
     @GetMapping("/{id}/capitulos")
     @JsonView(Vistas.CapituloSerie.class)

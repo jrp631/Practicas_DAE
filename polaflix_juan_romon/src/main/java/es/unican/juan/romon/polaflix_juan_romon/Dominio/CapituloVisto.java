@@ -7,8 +7,6 @@ import jakarta.persistence.*;
 @Table(name = "CapituloVisto")
 public class CapituloVisto {
 
-
-    static Integer id_paraCapituloVisto = 0;
     
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -27,14 +25,6 @@ public class CapituloVisto {
         this.numeroCapitulo = numeroCapitulo;
         this.titulo = titulo;
         this.fechaVisto = new Date();
-    }
-
-    public static Integer getId_paraCapituloVisto() {
-        return id_paraCapituloVisto;
-    }
-
-    public static void setId_paraCapituloVisto(Integer id_paraCapituloVisto) {
-        CapituloVisto.id_paraCapituloVisto = id_paraCapituloVisto;
     }
 
     public Integer getIdCapituloVisto() {
