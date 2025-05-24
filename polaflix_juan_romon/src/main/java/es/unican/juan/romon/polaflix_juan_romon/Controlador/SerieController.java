@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus.Series;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,6 +23,7 @@ import es.unican.juan.romon.polaflix_juan_romon.Servicio.SerieService;
 import es.unican.juan.romon.polaflix_juan_romon.Vistas.Vistas;
 
 @RestController
+@CrossOrigin
 @RequestMapping("/series")
 public class SerieController {
     @Autowired

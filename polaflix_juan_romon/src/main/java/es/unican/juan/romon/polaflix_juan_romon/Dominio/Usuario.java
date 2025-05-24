@@ -28,6 +28,10 @@ public class Usuario {
     @ManyToMany(fetch = FetchType.EAGER)//@OneToMany (fetch = FetchType.EAGER)
     private List<Serie> seriesPendientes;
 
+    @ManyToMany(fetch = FetchType.EAGER)//@OneToMany (fetch = FetchType.EAGER)
+    private List<Serie> seriesEmpezadas;
+
+
     // @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<CapituloVistoSeries> capitulosVistosSerie;
@@ -64,44 +68,39 @@ public class Usuario {
         CapituloVistoSeries capVistoSerie;
         // check if the serie of the capitulo is in the list of seriesPendientes
         Serie serie_de_cap = capitulo.getEsSerie();
-        if (seriesPendientes.contains(serie_de_cap)) {
-            // first time watching
+        if (seriesPendientes.contains(serie_de_cap)) {   // first time watching
             capVistoSerie = new CapituloVistoSeries(this, serie_de_cap);
-            // cargo = capVistoSerie.addCapituloVisto(capitulo);
-            capVistoSerie.addCapituloVisto(capitulo);
-            cargo = new Cargo(serie_de_cap.getEsCategoria(), false, LocalDate.now(), serie_de_cap.getNombreSerie());
-
+            
             capitulosVistosSerie.add(capVistoSerie);
             // quitamos de la lista de pendientes
             seriesPendientes.remove(serie_de_cap);
+            seriesEmpezadas.add(serie_de_cap);
         } else {
             capVistoSerie = getCapituloVistoSeries(capitulo);
-            // cargo = capVistoSerie.addCapituloVisto(capitulo);
-            capVistoSerie.addCapituloVisto(capitulo);
-            cargo = new Cargo(serie_de_cap.getEsCategoria(), false, LocalDate.now(), serie_de_cap.getNombreSerie());
         }
+        capVistoSerie.addCapituloVisto(capitulo);
+        cargo = new Cargo(serie_de_cap.getEsCategoria(), false, LocalDate.now(), serie_de_cap.getNombreSerie());
         cargo.setUsuario(this);
         addCargoToList(cargo);
 
-        //hay mas capitulos en la serie?? 
-        if (capVistoSerie.getCapituloVistoCount() == serie_de_cap.getCapitulosSerieList().size()) {
-            // si no hay mas capitulos, la serie se da por terminada
-            if(!seriesTerminadas.contains(serie_de_cap)){
-                seriesTerminadas.add(serie_de_cap);
-            } // y se quita de la lista de pendientes
-            seriesPendientes.remove(serie_de_cap);
+        //hay mas capitulos en la serie?? // FIXME -> la serie se debe dar por terminada si se ve el ultimo capitulo
+        if (serie_de_cap.getUltimoCapitulo().equals(capitulo)) {
+            seriesEmpezadas.remove(serie_de_cap);
+            seriesTerminadas.add(serie_de_cap);
         }
+
+
+        // if (capVistoSerie.getCapituloVistoCount() == serie_de_cap.getCapitulosSerieList().size()) {
+        //     // si no hay mas capitulos, la serie se da por terminada
+        //     if(!seriesTerminadas.contains(serie_de_cap)){
+        //         seriesTerminadas.add(serie_de_cap);
+        //         seriesEmpezadas.remove(serie_de_cap);
+        //     } // y se quita de la lista de pendientes
+        //     // seriesPendientes.remove(serie_de_cap);
+        // }
     }
 
     public List<Serie> getSeriesEmpezadas() {
-        List<Serie> seriesEmpezadas = new ArrayList<>();
-
-        for (CapituloVistoSeries c : capitulosVistosSerie) {
-            Serie serie = c.getPerteneceSerie();
-            if (!seriesEmpezadas.contains(serie)) {
-                seriesEmpezadas.add(serie);
-            }
-        }
         return seriesEmpezadas;
     }
 
@@ -113,7 +112,7 @@ public class Usuario {
             throw new IllegalArgumentException("Serie no puede ser null");
         }
 
-        if (seriesPendientes.contains(serie) == false) {
+        if (seriesPendientes.contains(serie) == false && seriesEmpezadas.contains(serie) == false) {
             seriesPendientes.add(serie);
         }
     }
@@ -126,6 +125,17 @@ public class Usuario {
 
         if (seriesPendientes.contains(serie)) {
             seriesPendientes.remove(serie);
+        }
+    }
+
+    public void agregarSerieTerminada(Serie serie) {
+        //check if serie is not null
+        if (serie == null) {
+            throw new IllegalArgumentException("Serie no puede ser null");
+        }
+
+        if (!seriesTerminadas.contains(serie) && !seriesEmpezadas.contains(serie) ) {
+            seriesTerminadas.add(serie);
         }
     }
 

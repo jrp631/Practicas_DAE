@@ -1,0 +1,12 @@
+img {
+    padding: 10px;
+    width: 150px;
+    /* Set a fixed width */
+    height: auto;
+    /* Maintain aspect ratio */
+    transition: transform 0.2s;
+}
+
+img:hover {
+    transform: scale(1.08);
+}

@@ -131,6 +131,14 @@ public class Serie {
         return null;
     }
 
+    public Capitulo getUltimoCapitulo() {
+        // check if the series has any chapters
+        if (capitulosSerieList.isEmpty()) {
+            return null;
+        }
+        return capitulosSerieList.get(capitulosSerieList.size() - 1);
+    }
+
     public Capitulo getCapituloFromSerie(Integer idCapitulo) {
         //TODO
         // check the argument is not null

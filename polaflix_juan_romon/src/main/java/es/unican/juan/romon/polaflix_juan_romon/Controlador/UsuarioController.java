@@ -24,6 +24,7 @@ import es.unican.juan.romon.polaflix_juan_romon.Servicio.UsuarioService.SerieNoE
 import es.unican.juan.romon.polaflix_juan_romon.Servicio.UsuarioService.UsuarioNoEncontradoException;
 import es.unican.juan.romon.polaflix_juan_romon.Vistas.Vistas;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -36,6 +37,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 
 
 @RestController
+@CrossOrigin
 @RequestMapping("/usuarios")
 public class UsuarioController {
 

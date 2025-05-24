@@ -1,0 +1,14 @@
+main {
+  padding: 20px;
+}
+
+.banner {
+  background-color: white;
+  color: black;
+  text-align: center;
+  padding: 15px;
+  font-size: 18px;
+  font-weight: bold;
+  border-radius: 8px;
+  /* transform: rotate(-2deg); */
+}

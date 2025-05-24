@@ -35,6 +35,7 @@ public class Capitulo {
         Vistas.DescripcionSerie.class})
     private Integer numeroCapitulo;
 
+
    
     //Constructor por defecto
     public Capitulo(){}
