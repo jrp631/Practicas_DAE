@@ -102,6 +102,30 @@ public class SerieController {
         return result;
     }
 
+    @GetMapping("/{idSerie}/capitulos/temporada/{idTemporada}")
+    @JsonView(Vistas.CapituloSerie.class)
+    public ResponseEntity<List<Capitulo>> getCapitulosFromTemporada(@PathVariable("idSerie") String serieId, @PathVariable("idTemporada") String temporadaId) {
+        Integer idSerie = Integer.parseInt(serieId), idTemporada = Integer.parseInt(temporadaId);
+    
+        Optional<Serie> serie = serieRepositorio.findById(idSerie);
+    
+        ResponseEntity<List<Capitulo>> result =  ResponseEntity.notFound().build(); 
+        if (serie.isPresent()) { // no existe la serie indicada 
+            result = ResponseEntity.notFound().build();
+            // return result;
+        }
+        // return resultado;
+        
+        List<Capitulo> capitulos = serie.get().getCapitulosFromTemporada(idTemporada);
+        if (capitulos.isEmpty()) {
+            result = ResponseEntity.notFound().build();
+        } else {
+            result = ResponseEntity.ok(capitulos);
+        }
+        
+        return result;
+    }
+
     @GetMapping("/{idSerie}/capitulos/{idCapitulo}")
     @JsonView(Vistas.CapituloSerie.class)
     public ResponseEntity<Capitulo> getCapituloFromSerie(@PathVariable("idSerie") String serieId, @PathVariable("idCapitulo") String capituloId) {

@@ -68,7 +68,7 @@ public class AppFeeder implements CommandLineRunner {
 		Serie s17 = sr.findById(17).get();
 		Serie s18 = sr.findById(18).get();
 		
-		// u1.agregarSeriePendiente(s1);
+		u1.agregarSeriePendiente(s1); //comment 
 		u1.agregarSeriePendiente(s2);
 		u1.agregarSeriePendiente(s3);
 		u1.agregarSeriePendiente(s10);
@@ -171,9 +171,16 @@ public class AppFeeder implements CommandLineRunner {
 
 		Capitulo c1 = new Capitulo("Pilot", 1, 1, s1);
 		Capitulo c2 = new Capitulo("Cat's in the Bag", 1, 2, s1);
+		//capitulos de la segunda temporada de Breaking Bad
+		Capitulo c7 = new Capitulo("Seven Thirty-Seven", 2, 1, s1);
+		Capitulo c8 = new Capitulo("Grilled", 2, 2, s1);
+		Capitulo c9 = new Capitulo("Over", 2, 3, s1);
 		
 		s1.addCapitulo(c1);
 		s1.addCapitulo(c2);
+		s1.addCapitulo(c7);
+		s1.addCapitulo(c8);
+		s1.addCapitulo(c9);
 		
 		Capitulo c3 = new Capitulo("Winter is Coming", 1, 1, s2);
 		Capitulo c4 = new Capitulo("The Kingsroad", 1, 2, s2);

@@ -14,6 +14,8 @@ import es.unican.juan.romon.polaflix_juan_romon.Vistas.Vistas;
 @Entity
 @Table(name = "Serie")
 public class Serie {
+
+    // TODO: añadir temporadas como atributo -> para la segunda entrega de las practicas
     
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -152,6 +154,38 @@ public class Serie {
             }
         }
         return null;
+    }
+
+    public int getNumeroTemporadas() { // FIXME: refactorizar este método para que sea más eficiente -> acceder al atributo directamente cuando este implementado las temporadas como clase
+        // loop through the chapters and count the number of seasons
+        int maxTemporada = 1;
+
+        for (Capitulo capitulo : capitulosSerieList) {
+            if (capitulo.getTemporada() > maxTemporada) {
+                maxTemporada = capitulo.getTemporada();
+            }
+        }
+
+        return maxTemporada;
+    }
+
+    public List<Capitulo> getCapitulosFromTemporada(Integer temporada) {
+        // check the argument is not null
+        if (temporada == null) {
+            throw new IllegalArgumentException("Temporada no puede ser null");
+        }
+        // check if the temporada is valid
+        if (temporada < 1 || temporada > getNumeroTemporadas()) {
+            throw new IllegalArgumentException("Temporada no existe en la serie");
+        }
+        // add the chapters 
+        List<Capitulo> capitulos = new LinkedList<>();
+        for (Capitulo capitulo : capitulosSerieList) {
+            if (capitulo.getTemporada().equals(temporada)) {
+                capitulos.add(capitulo);
+            }
+        }
+        return capitulos;
     }
 
     @Override
