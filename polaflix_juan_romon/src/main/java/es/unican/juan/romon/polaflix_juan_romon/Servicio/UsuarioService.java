@@ -142,6 +142,8 @@ public class UsuarioService {
 
     @Transactional
     public void putVerCapitulo(String userId, String serieId, String capituloId) throws UsuarioNoEncontradoException, SerieNoEncontradaException, CapituloNoEncontradoException {
+        System.out.println("(Service)putVerCapitulo: " + userId + " " + serieId + " " + capituloId);
+
         Optional <Usuario> usuario = usuarioRepositorio.findById(Integer.parseInt(userId));
         Optional <Serie> serie = serieRepositorio.findById(Integer.parseInt(serieId));
 
@@ -154,13 +156,36 @@ public class UsuarioService {
 
         Usuario user = usuario.get();
         Serie serieDeCap= serie.get();
-        Capitulo capitulo = serieDeCap.getCapituloFromSerie(Integer.parseInt(serieId));
+        Capitulo capitulo = serieDeCap.getCapituloFromSerie(Integer.parseInt(capituloId));
 
         if (capitulo == null) {
             throw new CapituloNoEncontradoException("Capitulo no encontrado");
         }
         user.verCapitulo(capitulo);
         usuarioRepositorio.save(user);
+
+    }
+
+    @Transactional 
+    public Boolean getCapituloVisto(String userId, String serieId, String capituloId) throws UsuarioNoEncontradoException, SerieNoEncontradaException, CapituloNoEncontradoException  {
+        Optional <Usuario> usuario = usuarioRepositorio.findById(Integer.parseInt(userId));
+        Optional <Serie> serie = serieRepositorio.findById(Integer.parseInt(serieId));
+
+        if(!usuario.isPresent()) {
+            throw new UsuarioNoEncontradoException("Usuario no encontrado");
+        } 
+        if(!serie.isPresent()) {
+            throw new SerieNoEncontradaException("Serie no encontrada");
+        }
+
+        Usuario user = usuario.get();
+        Serie serieDeCap= serie.get();
+
+        Capitulo capitulo = serieDeCap.getCapituloFromSerie(Integer.parseInt(capituloId));
+        if (capitulo == null) {
+            throw new CapituloNoEncontradoException("Capitulo no encontrado");
+        }
+        return user.capituloVisto(capitulo);
 
     }
 

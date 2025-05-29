@@ -37,7 +37,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 
 
 @RestController
-@CrossOrigin
+@CrossOrigin("*")
 @RequestMapping("/usuarios")
 public class UsuarioController {
 
@@ -116,7 +116,7 @@ public class UsuarioController {
     @PutMapping(value = "/{id}/series-empezadas/{serieId}/{capituloId}") // TODO: check implementation
     public ResponseEntity<String> putVerCapitulo(@PathVariable("id") String userId,@PathVariable("serieId") String idSerie ,@PathVariable ("capituloId") String idCapitulo) {
         ResponseEntity<String> result;
-
+        System.out.println("putVerCapitulo: " + userId + " " + idSerie + " " + idCapitulo);
         try {
             usuarioService.putVerCapitulo(userId, idSerie, idCapitulo);
             result = ResponseEntity.ok("Capitulo visto");
@@ -162,6 +162,34 @@ public class UsuarioController {
         }
 
         return result;
+    }
+
+    @GetMapping(value = "/{id}/series-empezadas/{serieId}/{capituloId}")
+    public ResponseEntity <Boolean> getCapituloVisto(@PathVariable("id") String userId, @PathVariable("serieId") String serieId, @PathVariable("capituloId") String capituloId) {
+        ResponseEntity<Boolean> result;
+        boolean capituloVisto = false; 
+        
+        try {
+            capituloVisto = usuarioService.getCapituloVisto(userId, serieId, capituloId);
+        } catch (UsuarioNoEncontradoException e) {
+            result = ResponseEntity.notFound().build(); // 404 user not found
+            return result;
+        } catch (SerieNoEncontradaException e) {
+            result = ResponseEntity.notFound().build(); // 404 serie not found
+            return result;
+        } catch (CapituloNoEncontradoException e) {
+            result = ResponseEntity.notFound().build(); // 404 capitulo not found
+            return result;
+        }
+
+        if (capituloVisto) {
+            result = ResponseEntity.ok(true);
+        } else {
+            result = ResponseEntity.ok(false);
+        }
+
+        return result;
+
     }
 
 }

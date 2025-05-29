@@ -19,11 +19,9 @@ div.scroll-container {
   /* Enable horizontal scrolling */
   white-space: nowrap;
   padding: 10px;
-
-
   /* Align images horizontally */
- display: flex;
-    gap: 10px;
+  display: flex;
+  gap: 10px;
 }
 
 /* div.scroll-container>app-serie {

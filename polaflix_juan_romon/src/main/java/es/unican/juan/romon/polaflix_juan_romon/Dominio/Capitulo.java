@@ -11,42 +11,45 @@ import jakarta.persistence.*;
 @Table(name = "capitulo")
 public class Capitulo {
 
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @JsonView({Vistas.CapituloSerie.class,Vistas.AllSeries.class,
-        Vistas.DescripcionSerie.class})
+    @JsonView({ Vistas.CapituloSerie.class, Vistas.AllSeries.class,
+            Vistas.DescripcionSerie.class })
     private Integer idCapitulo;
-    
+
     @ManyToOne
     @JsonBackReference
-    @JsonView({Vistas.CapituloSerie.class, 
-              Vistas.AllSeries.class,
-              Vistas.DescripcionSerie.class})
+    @JsonView({ Vistas.CapituloSerie.class,
+            Vistas.AllSeries.class,
+            Vistas.DescripcionSerie.class })
     private Serie esSerie;
 
-    @JsonView({Vistas.CapituloSerie.class,Vistas.AllSeries.class,
-        Vistas.DescripcionSerie.class})
+    @JsonView({ Vistas.CapituloSerie.class, Vistas.AllSeries.class,
+            Vistas.DescripcionSerie.class })
     private String titulo;
-    @JsonView({Vistas.CapituloSerie.class,Vistas.AllSeries.class,
-        Vistas.DescripcionSerie.class})
+
+    @JsonView({ Vistas.CapituloSerie.class, Vistas.AllSeries.class,
+            Vistas.DescripcionSerie.class })
+    private String descripcion;
+
+    @JsonView({ Vistas.CapituloSerie.class, Vistas.AllSeries.class,
+            Vistas.DescripcionSerie.class })
     private Integer temporada;
-    @JsonView({Vistas.CapituloSerie.class,Vistas.AllSeries.class,
-        Vistas.DescripcionSerie.class})
+    @JsonView({ Vistas.CapituloSerie.class, Vistas.AllSeries.class,
+            Vistas.DescripcionSerie.class })
     private Integer numeroCapitulo;
 
+    // Constructor por defecto
+    public Capitulo() {
+    }
 
-   
-    //Constructor por defecto
-    public Capitulo(){}
-
-
-    //Constructor 
-    public Capitulo(String titulo, Integer temporada, Integer numeroCapitulo, Serie esSerie) {
+    // Constructor
+    public Capitulo(String titulo, Integer temporada, Integer numeroCapitulo, Serie esSerie, String descripcion) {
         this.titulo = titulo;
         this.temporada = temporada;
         this.numeroCapitulo = numeroCapitulo;
         this.esSerie = esSerie;
+        this.descripcion = descripcion;
     }
 
     public String getTitulo() {
@@ -64,6 +67,7 @@ public class Capitulo {
     public void setTemporada(Integer temporada) {
         this.temporada = temporada;
     }
+
     public Integer getNumeroCapitulo() {
         return numeroCapitulo;
     }
@@ -88,6 +92,14 @@ public class Capitulo {
         this.esSerie = esSerie;
     }
 
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
     @Override
     public int hashCode() {
         return idCapitulo != null ? idCapitulo.hashCode() : 0;
@@ -95,10 +107,26 @@ public class Capitulo {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (obj == null || getClass() != obj.getClass()) return false;
+        if (this == obj)
+            return true;
+        if (obj == null || getClass() != obj.getClass())
+            return false;
         Capitulo capitulo = (Capitulo) obj;
-        return idCapitulo != null && idCapitulo.equals(capitulo.idCapitulo);
+        return idCapitulo != null && titulo.equals(capitulo.getTitulo())
+                && temporada.equals(capitulo.getTemporada())
+                && numeroCapitulo.equals(capitulo.getNumeroCapitulo());
     }
-    
+
+
+    @Override
+    public String toString() {
+        return "Capitulo{" +
+                "idCapitulo=" + idCapitulo +
+                ", titulo='" + titulo + '\'' +
+                ", descripcion='" + descripcion + '\'' +
+                ", temporada=" + temporada +
+                ", numeroCapitulo=" + numeroCapitulo +
+                '}';
+    }
+
 }

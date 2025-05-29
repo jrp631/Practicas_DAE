@@ -90,6 +90,18 @@ public class CapituloVistoSeries {
         // cargosAsociados.add(cargo);
         // return cargo;
     }
+
+    public Boolean capituloVisto(Capitulo capitulo) {
+        // check the argument is not null
+        if (capitulo == null) {
+            throw new IllegalArgumentException("Capitulo no puede ser null");
+        }
+        // creamos capitulo Visto
+        CapituloVisto capituloVisto = new CapituloVisto(capitulo.getTemporada(), capitulo.getNumeroCapitulo(), capitulo.getTitulo());
+        // comprobamos si ya esta en la lista de capitulos vistos
+        return listaCapitulosVistos.contains(capituloVisto);
+    }
+
     @Override
     public int hashCode() {
         return idCapituloVisto != null ? idCapituloVisto.hashCode() : 0;

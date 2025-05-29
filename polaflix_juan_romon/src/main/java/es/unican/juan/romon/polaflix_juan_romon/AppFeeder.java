@@ -83,6 +83,8 @@ public class AppFeeder implements CommandLineRunner {
 		u1.agregarSerieTerminada(s17);	
 		u1.agregarSerieTerminada(s18);
 
+		System.out.println(s1.getUltimoCapitulo().getTitulo()); // para que se cargue el ultimo capitulo de la serie
+
 
 		// usuario 2 ve capitulos 
 		Capitulo c1 = s2.getCapitulosSerieList().get(0);
@@ -137,7 +139,7 @@ public class AppFeeder implements CommandLineRunner {
 		Serie s3 = new Serie("House of Cards", "Un político corrupto busca venganza", Categoria.GOLD);
 		Serie s4 = new Serie("Modern Family", "Una familia disfuncional", Categoria.SILVER);
 		Serie s5 = new Serie("The IT Crowd", "Un grupo de informáticos en una empresa", Categoria.GOLD);
-		Serie s6 = new Serie("El Secreto de Puente Viejo", "Una serie de amor y misterio", Categoria.SILVER);
+		Serie s6 = new Serie("El Secreto de Puente Viejo", "Una serie de amor y misterio", Categoria.STANDARD);
 		Serie s7 = new Serie("Cars", "Un coche de carreras se pierde en un pueblo", Categoria.GOLD);
 		Serie s8 = new Serie("Cars 2", "Un coche de carreras se convierte en espía", Categoria.SILVER);
 		Serie s9 = new Serie("Cars 3", "Un coche de carreras se enfrenta a un nuevo rival", Categoria.GOLD);
@@ -169,12 +171,12 @@ public class AppFeeder implements CommandLineRunner {
 		Serie s1 = new Serie("Breaking Bad", "Un profesor de quimica se convierte en fabricante de metanfetamina", Categoria.GOLD);
 		Serie s2 = new Serie("Game of Thrones", "Luchas por el trono de hierro", Categoria.SILVER);
 
-		Capitulo c1 = new Capitulo("Pilot", 1, 1, s1);
-		Capitulo c2 = new Capitulo("Cat's in the Bag", 1, 2, s1);
+		Capitulo c1 = new Capitulo("Pilot", 1, 1, s1, "Un profesor de química se convierte en fabricante de metanfetamina para asegurar el futuro financiero de su familia tras ser diagnosticado con cáncer de pulmón.");
+		Capitulo c2 = new Capitulo("Cat's in the Bag", 1, 2, s1, "Walter White y Jesse Pinkman intentan deshacerse de los cuerpos de dos hombres a los que mataron en su primer intento de cocinar metanfetamina.");
 		//capitulos de la segunda temporada de Breaking Bad
-		Capitulo c7 = new Capitulo("Seven Thirty-Seven", 2, 1, s1);
-		Capitulo c8 = new Capitulo("Grilled", 2, 2, s1);
-		Capitulo c9 = new Capitulo("Over", 2, 3, s1);
+		Capitulo c7 = new Capitulo("Seven Thirty-Seven", 2, 1, s1, "Walter White y Jesse Pinkman enfrentan las consecuencias de sus acciones mientras intentan mantener su negocio de metanfetamina en marcha.");
+		Capitulo c8 = new Capitulo("Grilled", 2, 2, s1, "Walter y Jesse se enfrentan a un peligroso narcotraficante mientras intentan proteger su negocio de metanfetamina.");
+		Capitulo c9 = new Capitulo("Over", 2, 3, s1, "Walter White lucha por mantener su doble vida mientras su familia comienza a sospechar de sus actividades secretas.");
 		
 		s1.addCapitulo(c1);
 		s1.addCapitulo(c2);
@@ -182,14 +184,14 @@ public class AppFeeder implements CommandLineRunner {
 		s1.addCapitulo(c8);
 		s1.addCapitulo(c9);
 		
-		Capitulo c3 = new Capitulo("Winter is Coming", 1, 1, s2);
-		Capitulo c4 = new Capitulo("The Kingsroad", 1, 2, s2);
+		Capitulo c3 = new Capitulo("Winter is Coming", 1, 1, s2, "En el primer episodio de la serie, se presenta a los Stark, una familia noble del norte de Poniente, y se establece el tono oscuro y violento del mundo en el que viven.");
+		Capitulo c4 = new Capitulo("The Kingsroad", 1, 2, s2, "Los Stark viajan al sur para asistir a la coronación del rey Robert Baratheon, mientras que Daenerys Targaryen comienza su viaje hacia el poder.");
 
 		s2.addCapitulo(c3);
 		s2.addCapitulo(c4);
 
-		Capitulo c5 = new Capitulo("The Kingsroad", 1, 1, s3);
-		Capitulo c6 = new Capitulo("The House of Cards", 1, 2, s3);
+		Capitulo c5 = new Capitulo("The Kingsroad", 1, 1, s3, "En el primer episodio de la serie, se presenta a los personajes principales y se establece el tono oscuro y violento del mundo en el que viven.");
+		Capitulo c6 = new Capitulo("The House of Cards", 1, 2, s3, "Frank Underwood, un político ambicioso, trama su venganza contra aquellos que lo traicionaron.");
 		s3.addCapitulo(c5);
 		s3.addCapitulo(c6);
 

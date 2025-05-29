@@ -7,13 +7,15 @@ import { SeriesService} from "./series.service";
 
 @Component({
   selector: 'app-root',
+  standalone: true,
   imports: [HomeComponent, RouterModule, SeriesUsuarioComponent, InicioComponent],
   template: `
     <header>
       <div class="barra-superior">
-
         <div class="logo">
+          <a [routerLink]="['/']">
           <img src="assets/images/polaflix.png" alt="Logo">
+          </a>
         </div>
         <div class="usuario">
           <span>Bienvenido Jon Nieve</span>
@@ -21,13 +23,14 @@ import { SeriesService} from "./series.service";
         </div>
       </div>
       <nav class="menu">
-        <a href="main.html">Inicio</a>
-        <a href="agregar_serie.html">Agregar Serie</a>
+        <a [routerLink]="['/']">Inicio</a>
+        <a [routerLink]="['/']">Agregar Serie</a>
         <a href="#">Ver Carros</a>
       </nav>
     </header>
+    <router-outlet></router-outlet>
     <!-- <app-serie-usuario></app-serie-usuario> -->
-    <app-inicio></app-inicio>
+    <!-- <app-inicio></app-inicio> -->
   `,
   styleUrls: ['./app.component.css'],
 })

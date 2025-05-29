@@ -17,8 +17,9 @@ import { SeriesService } from '../series.service';
         <img src="assets/images/series/cars2.jpg" alt="Cars 2">
         <img src="assets/images/series/cars3.jpg" alt="Cars 3">
         <img src="assets/images/series/rey_leon.jpg" alt="El Rey León"> -->
-
+        <a [routerLink]="['/ver-serie', serie.idSerie]">
         <img [src]="'assets/images/series/' + lowerCaseName(serie) + '.jpg'" >
+        </a>
     `,
     styleUrls: ['./serie.component.css'],
 })

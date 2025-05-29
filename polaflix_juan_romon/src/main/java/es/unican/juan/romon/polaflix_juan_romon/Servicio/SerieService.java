@@ -74,7 +74,7 @@ public class SerieService {
         return serie.get().getCapitulosFromTemporada(Integer.parseInt(idTemporada));
     }
 
-
+    
 }
 
 

@@ -83,8 +83,10 @@ public class Usuario {
         cargo.setUsuario(this);
         addCargoToList(cargo);
 
+        System.out.println(capitulo.toString());
         //hay mas capitulos en la serie?? // FIXME -> la serie se debe dar por terminada si se ve el ultimo capitulo
         if (serie_de_cap.getUltimoCapitulo().equals(capitulo)) {
+            System.out.println("Ultimo capitulo visto de la serie " + serie_de_cap.getNombreSerie());
             seriesEmpezadas.remove(serie_de_cap);
             seriesTerminadas.add(serie_de_cap);
         }
@@ -222,6 +224,20 @@ public class Usuario {
 
         // add the cargo to the list of cargos
         cargosUsuario.add(cargo);
+    }
+
+    public Boolean capituloVisto(Capitulo capitulo) {
+        // check the argument is not null
+        if (capitulo == null) {
+            throw new IllegalArgumentException("Capitulo no puede ser null");
+        }
+        // Serie serie_de_cap = capitulo.getEsSerie();
+        CapituloVistoSeries capVistoSerie = getCapituloVistoSeries(capitulo);
+        if (capVistoSerie != null) {
+            return capVistoSerie.capituloVisto(capitulo);
+        } else {
+            return false;
+        }
     }
 
 }

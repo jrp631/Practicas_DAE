@@ -1,5 +1,7 @@
 export interface Serie {
-    idSerie: number;
+    idSerie: string;
     nombreSerie: string;
+    numeroTemporadas: string;
+    esCategoria: string;
     // sinopsis: string;
 }

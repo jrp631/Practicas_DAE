@@ -81,7 +81,9 @@ public class CapituloVisto {
             return false;
         }
         CapituloVisto other = (CapituloVisto) obj;
-        return idCapituloVisto != null && idCapituloVisto.equals(other.idCapituloVisto);
+        return idCapituloVisto != null && Temporada.equals(other.getTemporada()) 
+                && numeroCapitulo.equals(other.getNumeroCapitulo()) 
+                && titulo.equals(other.getTitulo());
     }
 
 

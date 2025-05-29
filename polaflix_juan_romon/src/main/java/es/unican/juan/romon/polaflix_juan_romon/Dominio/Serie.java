@@ -50,6 +50,14 @@ public class Serie {
     @JsonView({Vistas.DescripcionSerie.class})
     private String sinopsis;
 
+    @JsonView({Vistas.SeriesEmpezadas.class,
+               Vistas.SeriesTerminadas.class,
+               Vistas.SeriesPendientes.class,
+               Vistas.DescripcionSerie.class,
+               Vistas.AllSeries.class,
+               Vistas.CapituloSerie.class}) //TODO CapituloSerie.class})
+    private Integer numeroTemporadas; // FIXME: atributo inicialiado cuando se hace una llamada de la API -> corerccion
+
     // empty constructor
     public Serie() {
     }
@@ -110,6 +118,12 @@ public class Serie {
         }
         // TODO
         capitulosSerieList.add(capitulo);
+        //update the numeroTemporadas attribute
+        if (numeroTemporadas == null) {
+            numeroTemporadas = capitulo.getTemporada();
+        }else if (capitulo.getTemporada() > numeroTemporadas) {
+            numeroTemporadas = capitulo.getTemporada();
+        }
     }
 
     public Capitulo getCapituloFromSerie(Capitulo capitulo)
@@ -158,15 +172,16 @@ public class Serie {
 
     public int getNumeroTemporadas() { // FIXME: refactorizar este método para que sea más eficiente -> acceder al atributo directamente cuando este implementado las temporadas como clase
         // loop through the chapters and count the number of seasons
-        int maxTemporada = 1;
+        // int maxTemporada = 1;
 
-        for (Capitulo capitulo : capitulosSerieList) {
-            if (capitulo.getTemporada() > maxTemporada) {
-                maxTemporada = capitulo.getTemporada();
-            }
-        }
+        // for (Capitulo capitulo : capitulosSerieList) {
+        //     if (capitulo.getTemporada() > maxTemporada) {
+        //         maxTemporada = capitulo.getTemporada();
+        //     }
+        // }
 
-        return maxTemporada;
+        // return maxTemporada;
+        return this.numeroTemporadas != null ? this.numeroTemporadas : 1; // return 1 if the attribute is not initialized
     }
 
     public List<Capitulo> getCapitulosFromTemporada(Integer temporada) {

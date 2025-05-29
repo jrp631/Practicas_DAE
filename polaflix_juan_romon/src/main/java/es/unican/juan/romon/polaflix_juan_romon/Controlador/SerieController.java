@@ -23,7 +23,7 @@ import es.unican.juan.romon.polaflix_juan_romon.Servicio.SerieService;
 import es.unican.juan.romon.polaflix_juan_romon.Vistas.Vistas;
 
 @RestController
-@CrossOrigin
+@CrossOrigin("*")
 @RequestMapping("/series")
 public class SerieController {
     @Autowired

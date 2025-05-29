@@ -4,7 +4,6 @@ import { SerieComponent } from '../serie/serie.component';
 import { SeriesService } from '../series.service';
 import { Serie } from '../serie';
 import { CommonModule } from '@angular/common';
-import { c } from '@angular/core/event_dispatcher.d-pVP0-wST';
 
 @Component({
     selector: 'app-serie-usuario',
@@ -15,7 +14,7 @@ import { c } from '@angular/core/event_dispatcher.d-pVP0-wST';
             <div class="scroll-container">
                 <!-- // llamar a serie -->
                 <app-serie 
-                    *ngFor="let serie of seriesPendientes"
+                    *ngFor="let serie of seriesEmpezadas"
                     [serie]="serie"
                 ></app-serie>
             </div>
@@ -51,6 +50,7 @@ import { c } from '@angular/core/event_dispatcher.d-pVP0-wST';
 export class SeriesUsuarioComponent {
     seriesPendientes: Serie[] = []; // Array de series pendientes inicializado por el constructor
     seriesTerminadas: Serie[] = []; // Array de series terminadas inicializado por el constructor
+    seriesEmpezadas: Serie[] = []; // Array de series empezadas inicializado por el constructor
     seriesService : SeriesService = inject(SeriesService);
 
     seriesPendientesFiltered: Serie[] = []; // Array de series pendientes filtradas inicializado por el constructor
@@ -66,6 +66,10 @@ export class SeriesUsuarioComponent {
 
         this.seriesService.getUserSeriesTerminadas().then((seriesTerminadas: Serie[]) => {
             this.seriesTerminadas = seriesTerminadas;
+        });
+
+        this.seriesService.getUserSeriesEmpezadas().then((seriesEmpezadas: Serie[]) => {
+            this.seriesEmpezadas = seriesEmpezadas;
         });
         
     }

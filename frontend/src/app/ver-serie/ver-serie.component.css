@@ -1,0 +1,51 @@
+/* h1 {
+    text-align: center;
+} */
+
+.titulo-serie{
+    justify-content: center;
+    display: flex;
+    align-items: center;
+}
+
+
+.gold-badge {
+    display: inline-block;
+    padding: 0.2em 0.7em;
+    border-radius: 12px;
+    background-color: #ffd700;
+    color: #333;
+    font-weight: bold;
+    border: 1px solid #e6c200;
+    margin-left: 16px;
+
+}
+
+.silver-badge {
+    display: inline-block;
+    padding: 0.3em 0.8em;
+    border-radius: 12px;
+    background-color: #c0c0c0;
+    color: #333;
+    font-weight: bold;
+    border: 1px solid #a9a9a9;
+    margin-left: 16px;
+
+}
+
+.estandar-badge {
+    display: inline-block;
+    padding: 0.3em 0.8em;
+    border-radius: 12px;
+    background-color: #b87333;
+    color: #fff;
+    font-weight: bold;
+    border: 1px solid #8c5a23;  
+    margin-left: 16px;
+}
+
+.episodios {
+    max-width: 800px;
+    margin: auto;
+    padding: 0 20px;
+}
