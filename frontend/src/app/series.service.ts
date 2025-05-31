@@ -39,6 +39,11 @@ export class SeriesService
         return (await data.json()) ?? [];
     }
 
-    // get capitulos from season
+    async getCapitulosByTemporada(serieId: number, temporada: number): Promise<Capitulo[]> {
+        // /{idSerie}/capitulos/temporada/{idTemporada}
+        const data = await fetch(`${this.url}/series/${serieId}/capitulos/temporada/${temporada}`);
+        return (await data.json()) ?? [];
+
+    }
 
 }

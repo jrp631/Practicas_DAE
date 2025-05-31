@@ -184,8 +184,10 @@ public class UsuarioController {
 
         if (capituloVisto) {
             result = ResponseEntity.ok(true);
+            System.out.println("Capitulo visto: " + capituloVisto);
         } else {
             result = ResponseEntity.ok(false);
+            System.out.println("Capitulo no visto: " + capituloVisto);
         }
 
         return result;

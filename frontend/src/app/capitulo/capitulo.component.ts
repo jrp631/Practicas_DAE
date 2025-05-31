@@ -14,7 +14,7 @@ import { CapituloService } from '../capitulo.service';
             <a class="verCapitulo" (click)="verCapitulo()"> 
                 Ver
             </a>
-            <p>Pendiente | visto</p>
+            <p>{{ capituloVisto ? 'Visto' : 'Pendiente' }}</p>
         </div>
     `,
     styleUrls: ['./capitulo.component.css'],
@@ -22,11 +22,27 @@ import { CapituloService } from '../capitulo.service';
 export class CapituloComponent {
     @Input() capitulo!: Capitulo;
     @Input() serieId!: String;
+    @Input() categoria!: string; // ✅
     capituloService = inject(CapituloService);
+    capituloVisto : Boolean = false; // Variable to track if the chapter has been seen
+    
+    ngOnChanges() {
+        if (this.serieId && this.capitulo) {
+            this.checkCapituloVisto();
+        }
+    }
 
     verCapitulo() {
         this.capituloService.putVerCapitulo("1",this.serieId, this.capitulo.idCapitulo);
+        this.checkCapituloVisto();
     }
 
-    // method to che
+    // method to check if the chapter has been seen
+    async checkCapituloVisto() {
+        try {
+            this.capituloVisto = await this.capituloService.getVerCapitulo("1", this.serieId, this.capitulo.idCapitulo);
+        } catch (error) {
+            console.error('Error checking chapter status:', error);
+        }
+    }
 }

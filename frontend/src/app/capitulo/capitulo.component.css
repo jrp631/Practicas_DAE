@@ -18,4 +18,6 @@
   display: inline-block;
   border: none;
   cursor: pointer;
+  margin-left: auto;
+  margin-right: 30px;
 }

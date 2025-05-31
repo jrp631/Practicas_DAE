@@ -99,6 +99,7 @@ public class CapituloVistoSeries {
         // creamos capitulo Visto
         CapituloVisto capituloVisto = new CapituloVisto(capitulo.getTemporada(), capitulo.getNumeroCapitulo(), capitulo.getTitulo());
         // comprobamos si ya esta en la lista de capitulos vistos
+        System.out.println(listaCapitulosVistos.toString());
         return listaCapitulosVistos.contains(capituloVisto);
     }
 

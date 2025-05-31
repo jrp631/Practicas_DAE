@@ -26,13 +26,15 @@ export class CapituloService {
     }
 
     // metodo para ver si el capitulo ha sido visto o no
-    // async getVerCapitulo(userId: String, serieId: String, capituloId: String): Promise<Boolean> {
-    //     const data = await fetch(`${this.url}/usuarios/${userId}/series-empezadas/${serieId}/${capituloId}`);
-    //     if (!data.ok) {
-    //         throw new Error('Error al obtener el estado del capítulo');
-    //     }
-    //     const response = await data.json();
-    // }   
+    async getVerCapitulo(userId: String, serieId: String, capituloId: String): Promise<Boolean> {
+        const data = await fetch(`${this.url}/usuarios/${userId}/series-empezadas/${serieId}/${capituloId}`);
+        if (!data.ok) {
+            throw new Error('Error al obtener el estado del capítulo');
+        }
+        const response = await data.json();
+        // Suponiendo que la respuesta tiene una propiedad 'visto' que es booleana
+        return !!response.visto;
+    }   
 
 
 }

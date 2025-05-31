@@ -81,9 +81,26 @@ public class CapituloVisto {
             return false;
         }
         CapituloVisto other = (CapituloVisto) obj;
-        return idCapituloVisto != null && Temporada.equals(other.getTemporada()) 
-                && numeroCapitulo.equals(other.getNumeroCapitulo()) 
-                && titulo.equals(other.getTitulo());
+        boolean temporadaMatch = (Temporada != null && Temporada.equals(other.getTemporada()));
+        boolean numeroCapituloMatch = (numeroCapitulo != null && numeroCapitulo.equals(other.getNumeroCapitulo()));
+        boolean tituloMatch = (titulo != null && titulo.equals(other.getTitulo()));
+
+        System.out.println("(" + other.getTemporada() + " | "+ Temporada +  ") Temporada match: " + temporadaMatch);
+        System.out.println("(" + other.getNumeroCapitulo() + " | "+ numeroCapitulo +  ") numeroCapitulo match: " + numeroCapituloMatch);
+        System.out.println("(" + other.getTitulo() + " | "+ titulo +  ") titulo match: " + tituloMatch);
+
+        return temporadaMatch && numeroCapituloMatch && tituloMatch;
+    }
+
+    @Override
+    public String toString() {
+        return "CapituloVisto{" +
+                "idCapituloVisto=" + idCapituloVisto +
+                ", Temporada=" + Temporada +
+                ", numeroCapitulo=" + numeroCapitulo +
+                ", titulo='" + titulo + '\'' +
+                ", fechaVisto=" + fechaVisto +
+                '}';
     }
 
 

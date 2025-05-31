@@ -83,6 +83,12 @@ public class Usuario {
         cargo.setUsuario(this);
         addCargoToList(cargo);
 
+        //si la serie habia sido terminada, se quita de la lista de terminadas 
+        if (seriesTerminadas.contains(serie_de_cap)) {
+            seriesTerminadas.remove(serie_de_cap);
+            seriesEmpezadas.add(serie_de_cap);
+        }
+
         System.out.println(capitulo.toString());
         //hay mas capitulos en la serie?? // FIXME -> la serie se debe dar por terminada si se ve el ultimo capitulo
         if (serie_de_cap.getUltimoCapitulo().equals(capitulo)) {
@@ -236,6 +242,7 @@ public class Usuario {
         if (capVistoSerie != null) {
             return capVistoSerie.capituloVisto(capitulo);
         } else {
+            System.out.println("NO CSV: " + capitulo.getTitulo());
             return false;
         }
     }
