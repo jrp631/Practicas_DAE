@@ -13,7 +13,10 @@ import org.springframework.stereotype.Component;
 import es.unican.juan.romon.polaflix_juan_romon.Dominio.Capitulo;
 import es.unican.juan.romon.polaflix_juan_romon.Dominio.Cargo;
 import es.unican.juan.romon.polaflix_juan_romon.Dominio.Categoria;
+import es.unican.juan.romon.polaflix_juan_romon.Dominio.Reparto;
+import es.unican.juan.romon.polaflix_juan_romon.Dominio.Rol;
 import es.unican.juan.romon.polaflix_juan_romon.Dominio.Serie;
+import es.unican.juan.romon.polaflix_juan_romon.Dominio.Temporada;
 import es.unican.juan.romon.polaflix_juan_romon.Dominio.Usuario;
 import es.unican.juan.romon.polaflix_juan_romon.Repositorios.CargoRespositorio;
 import es.unican.juan.romon.polaflix_juan_romon.Repositorios.SerieRepositorio;
@@ -87,8 +90,8 @@ public class AppFeeder implements CommandLineRunner {
 
 
 		// usuario 2 ve capitulos 
-		Capitulo c1 = s2.getCapitulosSerieList().get(0);
-		Capitulo c2 = s2.getCapitulosSerieList().get(1);
+		// Capitulo c1 = s2.getCapitulosSerieList().get(0);
+		// Capitulo c2 = s2.getCapitulosSerieList().get(1);
 		
 		// u2.verCapitulo(c1); // se genera un cargo al verlo?
 		// u2.verCapitulo(c2); // se genera un cargo al verlo?
@@ -112,10 +115,6 @@ public class AppFeeder implements CommandLineRunner {
 	}
 
 	private void feedUsuarios() {
-		// Usuario u1 = new Usuario("Paco","paco@carSharing.es");
-		// Usuario u2 = new Usuario("Lola","lola@carSharing.es");
-		// ur.save(u1);
-		// ur.save(u2);
 
 		Usuario u1 = new Usuario("Paco", "pacopasswd", "ES1234567890123456789012", true);
 		// Usuario u2 = new Usuario("Lola", "lolapasswd", "ES1234567890123456789013", false);
@@ -136,6 +135,15 @@ public class AppFeeder implements CommandLineRunner {
 		// cars2
 		// cars3
 		// rey_leon
+		// doctor_who
+		// el_chiringuito_de_pepe
+		// the_walking_dead
+		// the_sopranos
+		// true_detective
+		// anclados
+		// forbrydelsen
+		// pluton_verbenero
+		// the_wire
 		Serie s3 = new Serie("House of Cards", "Un político corrupto busca venganza", Categoria.GOLD);
 		Serie s4 = new Serie("Modern Family", "Una familia disfuncional", Categoria.SILVER);
 		Serie s5 = new Serie("The IT Crowd", "Un grupo de informáticos en una empresa", Categoria.GOLD);
@@ -144,24 +152,10 @@ public class AppFeeder implements CommandLineRunner {
 		Serie s8 = new Serie("Cars 2", "Un coche de carreras se convierte en espía", Categoria.SILVER);
 		Serie s9 = new Serie("Cars 3", "Un coche de carreras se enfrenta a un nuevo rival", Categoria.GOLD);
 		Serie s10 = new Serie("El Rey Leon", "Un león joven se convierte en rey", Categoria.SILVER);
-		
-	
-		// doctor_who
-		// el_chiringuito_de_pepe
-		// the_walking_dead
-		// the_sopranos
-
 		Serie s11 = new Serie("Doctor Who", "Un extraterrestre viaja en el tiempo", Categoria.GOLD);
 		Serie s12 = new Serie("El Chiringuito de Pepe", "Un chiringuito en la playa", Categoria.SILVER);
 		Serie s13 = new Serie("The Walking Dead", "Un grupo de supervivientes en un mundo postapocalíptico", Categoria.GOLD);
 		Serie s14 = new Serie("The Sopranos", "Un mafioso italoamericano y su familia", Categoria.SILVER);
-
-		// true_detective
-		// anclados
-		// forbrydelsen
-		// pluton_verbenero
-		// the_wire
-
 		Serie s15 = new Serie("True Detective", "Dos detectives investigan un asesinato", Categoria.GOLD);
 		Serie s16 = new Serie("Anclados", "Un grupo de personas en un barco", Categoria.SILVER);
 		Serie s17 = new Serie("Forbrydelsen", "Una detective investiga un asesinato", Categoria.GOLD);
@@ -173,29 +167,75 @@ public class AppFeeder implements CommandLineRunner {
 
 		Capitulo c1 = new Capitulo("Pilot", 1, 1, s1, "Un profesor de química se convierte en fabricante de metanfetamina para asegurar el futuro financiero de su familia tras ser diagnosticado con cáncer de pulmón.");
 		Capitulo c2 = new Capitulo("Cat's in the Bag", 1, 2, s1, "Walter White y Jesse Pinkman intentan deshacerse de los cuerpos de dos hombres a los que mataron en su primer intento de cocinar metanfetamina.");
+
+		Temporada t1_s1 = new Temporada(1);
+		t1_s1.addCapitulo(c1);
+		t1_s1.addCapitulo(c2);
+		s1.addTemporada(t1_s1); 
+
 		//capitulos de la segunda temporada de Breaking Bad
 		Capitulo c7 = new Capitulo("Seven Thirty-Seven", 2, 1, s1, "Walter White y Jesse Pinkman enfrentan las consecuencias de sus acciones mientras intentan mantener su negocio de metanfetamina en marcha.");
 		Capitulo c8 = new Capitulo("Grilled", 2, 2, s1, "Walter y Jesse se enfrentan a un peligroso narcotraficante mientras intentan proteger su negocio de metanfetamina.");
 		Capitulo c9 = new Capitulo("Over", 2, 3, s1, "Walter White lucha por mantener su doble vida mientras su familia comienza a sospechar de sus actividades secretas.");
 		
-		s1.addCapitulo(c1);
-		s1.addCapitulo(c2);
-		s1.addCapitulo(c7);
-		s1.addCapitulo(c8);
-		s1.addCapitulo(c9);
+		Temporada t2_s1 = new Temporada(2);
+		t2_s1.addCapitulo(c7);
+		t2_s1.addCapitulo(c8);
+		t2_s1.addCapitulo(c9);
+		s1.addTemporada(t2_s1); // añadimos la temporada a la serie
+
+		// s1.addCapitulo(c1);
+		// s1.addCapitulo(c2);
+		// s1.addCapitulo(c7);
+		// s1.addCapitulo(c8);
+		// s1.addCapitulo(c9);
 		
+		Temporada t1_s2 = new Temporada(1);
 		Capitulo c3 = new Capitulo("Winter is Coming", 1, 1, s2, "En el primer episodio de la serie, se presenta a los Stark, una familia noble del norte de Poniente, y se establece el tono oscuro y violento del mundo en el que viven.");
 		Capitulo c4 = new Capitulo("The Kingsroad", 1, 2, s2, "Los Stark viajan al sur para asistir a la coronación del rey Robert Baratheon, mientras que Daenerys Targaryen comienza su viaje hacia el poder.");
+		t1_s2.addCapitulo(c3);
+		t1_s2.addCapitulo(c4);
+		s2.addTemporada(t1_s2); // añadimos la temporada a la serie
 
-		s2.addCapitulo(c3);
-		s2.addCapitulo(c4);
+		// s2.addCapitulo(c3);
+		// s2.addCapitulo(c4);
 
 		Capitulo c5 = new Capitulo("The Kingsroad", 1, 1, s3, "En el primer episodio de la serie, se presenta a los personajes principales y se establece el tono oscuro y violento del mundo en el que viven.");
 		Capitulo c6 = new Capitulo("The House of Cards", 1, 2, s3, "Frank Underwood, un político ambicioso, trama su venganza contra aquellos que lo traicionaron.");
-		s3.addCapitulo(c5);
-		s3.addCapitulo(c6);
+		s3.addCapitulo(null,c5);
+		s3.addCapitulo(null,c6);
 
+		Capitulo dummyCap;
+		Temporada dummySeason;
 
+		// For s4 to s19
+		Serie[] series = {s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, s14, s15, s16, s17, s18, s19};
+		for (Serie serie : series) {
+			// Add a dummy chapter to season 1
+			dummyCap = new Capitulo("Dummy Capitulo", 1, 1, serie, "Capitulo de prueba para " + serie.getNombreSerie());
+			dummySeason = new Temporada(1);
+			dummySeason.addCapitulo(dummyCap);
+			serie.addTemporada(dummySeason);
+
+			// If it's a series (not a film), add additional dummy seasons
+			// Let's assume films are s7, s8, s9, s10 (Cars, Cars 2, Cars 3, El Rey Leon)
+			if (!(serie == s7 || serie == s8 || serie == s9 || serie == s10)) {
+				for (int seasonNum = 2; seasonNum <= 3; seasonNum++) {
+					dummySeason = new Temporada(seasonNum);
+					dummyCap = new Capitulo("Dummy Capitulo", seasonNum, 1, serie, "Capitulo de prueba para " + serie.getNombreSerie() + " temporada " + seasonNum);
+					dummySeason.addCapitulo(dummyCap);
+					serie.addTemporada(dummySeason);
+				}
+			}
+		}
+
+		Reparto repartoDummy1 = new Reparto("Dummy Actor", Rol.ACTOR);
+		Reparto repartoDummyDirector = new Reparto("Dummy Director", Rol.DIRECTOR);
+		Reparto repartoDummyExtra = new Reparto("Dummy Extra", Rol.EXTRA);
+		List<Reparto> repartoDummy = List.of(repartoDummy1, repartoDummyDirector, repartoDummyExtra);
+		for (Serie serie : new Serie[]{s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, s14, s15, s16, s17, s18, s19}) {
+			serie.setRepartoSerie(repartoDummy);
+		}
 
 		sr.save(s1);
 		sr.save(s2);

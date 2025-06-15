@@ -1,8 +1,23 @@
 package es.unican.juan.romon.polaflix_juan_romon.Dominio;
 
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "Reparto")
 public class Reparto { // TODO JPA
+    
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    //TODO vistas 
+    private int idReparto;
+
     private String nombre;
+    @Enumerated(EnumType.STRING)
     private Rol rol;
+
+    public Reparto() {
+        // Constructor vacío
+    }
 
     public Reparto(String nombre, Rol rol) {
         this.nombre = nombre;

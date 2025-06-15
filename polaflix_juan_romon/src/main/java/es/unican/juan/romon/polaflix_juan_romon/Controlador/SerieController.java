@@ -95,7 +95,7 @@ public class SerieController {
         ResponseEntity<List<Capitulo>> result;
         if (serie.isPresent()) {
             // return serie.get().getCapitulosSerieList();
-            result = ResponseEntity.ok(serie.get().getCapitulosSerieList());
+            result = ResponseEntity.ok(serie.get().getCapitulosSerie());
         } else {
             result = ResponseEntity.notFound().build();
         }
@@ -140,7 +140,7 @@ public class SerieController {
         }
         // return resultado;
         
-        List<Capitulo> captitulo = serie.get().getCapitulosSerieList();
+        List<Capitulo> captitulo = serie.get().getCapitulosSerie();
         for (Capitulo c : captitulo) {
             if (c.getIdCapitulo() == idCapitulo) {
                 result = ResponseEntity.ok(c);

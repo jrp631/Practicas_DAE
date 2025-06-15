@@ -1,12 +1,27 @@
 package es.unican.juan.romon.polaflix_juan_romon.Dominio;
 
 import java.util.List;
+import jakarta.persistence.*;
 
-public class Temporada { // TODO JPA
+@Entity
+@Table(name = "Temporada")
+public class Temporada { // TODO JPA y vistas
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int idTemporada;
+
+
+    //TODO vistas etc
     private int numeroTemporada;
 
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Capitulo> capitulosTemporada;
+
+    //Empty constructor
+    public Temporada() {
+
+    }
 
     public Temporada(int numeroTemporada) {
         this.numeroTemporada = numeroTemporada;
@@ -44,6 +59,18 @@ public class Temporada { // TODO JPA
         } else {
             throw new IllegalStateException("La lista de capítulos no está inicializada.");
         }
+    }
+
+    public int getNumeroCapitulos() {
+        if (capitulosTemporada != null) {
+            return capitulosTemporada.size();
+        } else {
+            throw new IllegalStateException("La lista de capítulos no está inicializada.");
+        }
+    }
+
+    public Capitulo getUltimoCapitulo() {
+        return capitulosTemporada.get(getNumeroCapitulos() - 1);
     }
 
 }

@@ -59,7 +59,6 @@ public class Usuario {
 
     //ver capitulo
     public void verCapitulo(Capitulo capitulo) {
-        //TODO
         // check the argument is not null
         if (capitulo == null) {
             throw new IllegalArgumentException("Capitulo no puede ser null");
@@ -75,7 +74,7 @@ public class Usuario {
             // quitamos de la lista de pendientes
             seriesPendientes.remove(serie_de_cap);
             seriesEmpezadas.add(serie_de_cap);
-        } else {
+        } else { // already watching
             capVistoSerie = getCapituloVistoSeries(capitulo);
         }
         capVistoSerie.addCapituloVisto(capitulo);
@@ -90,22 +89,13 @@ public class Usuario {
         }
 
         System.out.println(capitulo.toString());
-        //hay mas capitulos en la serie?? // FIXME -> la serie se debe dar por terminada si se ve el ultimo capitulo
+        //hay mas capitulos en la serie??
         if (serie_de_cap.getUltimoCapitulo().equals(capitulo)) {
             System.out.println("Ultimo capitulo visto de la serie " + serie_de_cap.getNombreSerie());
             seriesEmpezadas.remove(serie_de_cap);
             seriesTerminadas.add(serie_de_cap);
         }
 
-
-        // if (capVistoSerie.getCapituloVistoCount() == serie_de_cap.getCapitulosSerieList().size()) {
-        //     // si no hay mas capitulos, la serie se da por terminada
-        //     if(!seriesTerminadas.contains(serie_de_cap)){
-        //         seriesTerminadas.add(serie_de_cap);
-        //         seriesEmpezadas.remove(serie_de_cap);
-        //     } // y se quita de la lista de pendientes
-        //     // seriesPendientes.remove(serie_de_cap);
-        // }
     }
 
     public List<Serie> getSeriesEmpezadas() {
@@ -135,7 +125,6 @@ public class Usuario {
             seriesPendientes.remove(serie);
         }
     }
-
     public void agregarSerieTerminada(Serie serie) {
         //check if serie is not null
         if (serie == null) {
@@ -150,63 +139,49 @@ public class Usuario {
     public String getNombre() {
         return nombre;
     }
-
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
-
     public String getPaswd() {
         return paswd;
     }
-
     public void setPaswd(String paswd) {
         this.paswd = paswd;
     }
-
     public String getIBAN() {
         return IBAN;
     }
-
     public void setIBAN(String iBAN) {
         IBAN = iBAN;
     }
-
     public Boolean getTarifaPlana() {
         return tarifaPlana;
     }
-
     public void setTarifaPlana(Boolean tarifaPlana) {
         this.tarifaPlana = tarifaPlana;
     }
-
     public List<Serie> getSeriesTerminadas() {
         return seriesTerminadas;
     }
-
     public void setSeriesTerminadas(List<Serie> seriesTerminadas) {
         this.seriesTerminadas = seriesTerminadas;
     }
-
     public List<Serie> getSeriesPendientes() {
         return seriesPendientes;
     }
-
     public void setSeriesPendientes(List<Serie> seriesPendientes) {
         this.seriesPendientes = seriesPendientes;
     }
-
     public List<CapituloVistoSeries> getCapitulosVistosSerie() {
         return capitulosVistosSerie;
     }
-
     public void setCapitulosVistosSerie(List<CapituloVistoSeries> capitulosVistosSerie) {
         this.capitulosVistosSerie = capitulosVistosSerie;
     }
-
     public List<Cargo> getCargosUsuario() {
         return cargosUsuario;
     }
-
+   
     private CapituloVistoSeries getCapituloVistoSeries(Capitulo capitulo) {
         // check the argument is not null
         if (capitulo == null) {
@@ -227,7 +202,6 @@ public class Usuario {
         if (cargo == null) {
             throw new IllegalArgumentException("Cargo no puede ser null");
         }
-
         // add the cargo to the list of cargos
         cargosUsuario.add(cargo);
     }

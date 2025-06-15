@@ -49,7 +49,7 @@ public class SerieService {
         if (serie.isEmpty()) {
             throw new SerieNoEncontradaException("Serie no encontrada con id: " + idSerie);
         }
-        return serie.get().getCapitulosSerieList();
+        return serie.get().getCapitulosSerie();
     }
 
     @Transactional
