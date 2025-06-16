@@ -7,7 +7,7 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "Reparto")
-public class Reparto { // TODO JPA
+public class Reparto { 
     
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -18,8 +18,6 @@ public class Reparto { // TODO JPA
     @Enumerated(EnumType.STRING)
     private Rol rol;
 
-    // @ManyToMany(cascade = CascadeType.MERGE)
-    // private List<Serie> series; 
     @ManyToOne(cascade = CascadeType.ALL)
     private Serie serie;
 
@@ -31,7 +29,6 @@ public class Reparto { // TODO JPA
     public Reparto(String nombre, Rol rol,Serie serie) {
         this.nombre = nombre;
         this.rol = rol;
-        // this.series = new ArrayList<Serie>();
         this.serie = serie;
     }
     public String getNombre() {
@@ -54,21 +51,6 @@ public class Reparto { // TODO JPA
     public void setSerie(Serie serie) {
         this.serie = serie;
     }
-
-    // public List<Serie> getSeries() {
-    //     return series;
-    // }
-
-    // public void setSeries(List<Serie> series) {
-    //     this.series = series;
-    // }
-
-    // public void addSerie(Serie serie) {
-    //     if (!this.series.contains(serie)) {
-    //         this.series.add(serie);
-    //         // serie.addReparto(this); // Aseguramos la relación bidireccional
-    //     }
-    // }
 
     @Override
     public String toString() {

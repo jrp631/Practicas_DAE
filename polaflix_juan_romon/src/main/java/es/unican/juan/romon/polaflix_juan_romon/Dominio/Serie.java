@@ -13,7 +13,7 @@ import es.unican.juan.romon.polaflix_juan_romon.Vistas.Vistas;
 
 @Entity
 @Table(name = "Serie")
-public class Serie {
+public class Serie { // TODO: vistas
    
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -31,7 +31,6 @@ public class Serie {
                Vistas.AllSeries.class}) 
     private Categoria esCategoria;
 
-    // @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     // @JsonView({Vistas.DescripcionSerie.class,
     //            Vistas.AllSeries.class}) 
     // @JsonManagedReference
@@ -54,15 +53,20 @@ public class Serie {
                Vistas.DescripcionSerie.class,
                Vistas.AllSeries.class,
                Vistas.CapituloSerie.class})
-    private Integer numeroTemporadas; // FIXME: atributo inicialiado cuando se hace una llamada de la API -> corerccion
+    private Integer numeroTemporadas;
 
-
-    // FIXME: nuevos atributos -> requiere refactorización de la clase
+    /**
+     * EAGER: cada vez que se carga una serie, se cargan las temporadas
+     */
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Temporada> temporadasSerie; 
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "serie")
-    private List<Reparto> repartoSerie; // TODO JPA
+    /**
+     * LAZY: cada vez que se carga una serie, no es necesario cargar el reparto
+     * de la serie, ya que no se usa en todas las vistas
+     */
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "serie")
+    private List<Reparto> repartoSerie; 
 
     // empty constructor
     public Serie() {
@@ -77,7 +81,6 @@ public class Serie {
         this.nombreSerie = nombreSerie;
         this.sinopsis = sinopsis;
         this.esCategoria = categoria;
-        // this.capitulosSerieList = new LinkedList<Capitulo>(); 
         this.temporadasSerie = new LinkedList<Temporada>();
         this.repartoSerie = new LinkedList<Reparto>();
     }
@@ -109,11 +112,6 @@ public class Serie {
     public Integer getId() {
         return idSerie;
     }
-
-    // public void setCapitulosSerieList(List<Capitulo> capitulosSerieList) { 
-    //     this.capitulosSerieList = capitulosSerieList;
-    // }
-
     
     public List<Temporada> getTemporadasSerie() {
         return temporadasSerie;
@@ -135,7 +133,6 @@ public class Serie {
     public void addReparto(Reparto reparto) {
         if (reparto != null &&  !repartoSerie.contains(reparto)) {
             repartoSerie.add(reparto);
-            // reparto.addSerie(this); // ensure the bidirectional relationship
         }
     }
     
@@ -187,12 +184,6 @@ public class Serie {
             }
         }
 
-        // // check if the capitulo is already in the series
-        // for (Capitulo cap : capitulosSerieList) {
-        //     if (cap.getIdCapitulo() == idCapitulo) {
-        //         return cap;
-        //     }
-        // }
         return null;
     }
 
@@ -211,7 +202,6 @@ public class Serie {
     }
 
     public int getNumeroTemporadas() { 
-        // return this.numeroTemporadas != null ? this.numeroTemporadas : 1; // return 1 if the attribute is not initialized
         return temporadasSerie.size(); // return the number of seasons
     }
 
@@ -224,14 +214,7 @@ public class Serie {
         if (temporada < 1 || temporada > getNumeroTemporadas()) {
             throw new IllegalArgumentException("Temporada no existe en la serie");
         }
-        // add the chapters 
-        // List<Capitulo> capitulos = new LinkedList<Capitulo>();
-        // for (Capitulo capitulo : capitulosSerieList) {
-        //     if (capitulo.getTemporada().equals(temporada)) {
-        //         capitulos.add(capitulo);
-        //     }
-        // }
-        // return capitulos;
+        // return the chapters of the specified season
         return temporadasSerie.get(temporada - 1).getCapitulosTemporada(); // return the chapters of the season
     }
 
@@ -252,10 +235,6 @@ public class Serie {
         Serie serie = (Serie) obj;
         return idSerie != null && idSerie.equals(serie.idSerie);
     }
-
-    // public List<Capitulo> getCapitulosSerieList() {
-    //     return capitulosSerieList;
-    // }
 
     public List<Capitulo> getCapitulosSerie() {
         List<Capitulo> capitulos = new LinkedList<Capitulo>();

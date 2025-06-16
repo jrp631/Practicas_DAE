@@ -21,23 +21,29 @@ public class Usuario {
     private String IBAN;
     private Boolean tarifaPlana;
 
-    // Lists & Maps for series
-    @ManyToMany(fetch = FetchType.EAGER)//@OneToMany
+    /**
+     * EAGER: solo es un usuario por lo que no hay problema en cargarlo siempre
+     */
+    @ManyToMany(fetch = FetchType.EAGER)
     private List<Serie> seriesTerminadas;
 
-    @ManyToMany(fetch = FetchType.EAGER)//@OneToMany (fetch = FetchType.EAGER)
+    /**
+     * EAGER: solo es un usuario por lo que no hay problema en cargarlo siempre
+     */
+    @ManyToMany(fetch = FetchType.EAGER)
     private List<Serie> seriesPendientes;
 
-    @ManyToMany(fetch = FetchType.EAGER)//@OneToMany (fetch = FetchType.EAGER)
+    /**
+     * EAGER: solo es un usuario por lo que no hay problema en cargarlo siempre
+     */
+    @ManyToMany(fetch = FetchType.EAGER)
     private List<Serie> seriesEmpezadas;
 
 
-    // @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
-    // @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER,mappedBy = "usuario")  
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "usuario")
     private List<CapituloVistoSeries> capitulosVistosSerie;
 
-    @OneToMany (cascade = CascadeType.ALL, fetch = FetchType.EAGER,mappedBy = "usuario")  // (fetch = FetchType.EAGER)
+    @OneToMany (cascade = CascadeType.ALL, fetch = FetchType.EAGER,mappedBy = "usuario") 
     private List<Cargo> cargosUsuario;
 
     public Usuario() {

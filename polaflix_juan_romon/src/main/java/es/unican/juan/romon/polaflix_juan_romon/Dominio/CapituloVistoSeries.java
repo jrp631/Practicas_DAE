@@ -24,9 +24,6 @@ public class CapituloVistoSeries {
 
     int capituloVistoCount = 0; // contador de capitulos diferentes vistos
     
-    // @OneToMany (cascade = CascadeType.MERGE)
-    // private List<Cargo> cargosAsociados;
-
     // empty constructor
     public CapituloVistoSeries() {
     }
@@ -82,13 +79,6 @@ public class CapituloVistoSeries {
             listaCapitulosVistos.add(capituloVisto);
             capituloVistoCount++;
         }
-        // generamos un cargo
-        // Serie serie = capitulo.getEsSerie();
-        // LocalDate fecha = LocalDate.now();
-        // Cargo cargo = new Cargo(serie.getEsCategoria(), false, fecha, serie.getNombreSerie());
-        // añadimos el cargo a la lista de cargos asociados
-        // cargosAsociados.add(cargo);
-        // return cargo;
     }
 
     public Boolean capituloVisto(Capitulo capitulo) {

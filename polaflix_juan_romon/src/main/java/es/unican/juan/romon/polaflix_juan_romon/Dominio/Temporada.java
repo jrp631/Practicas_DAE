@@ -6,16 +6,17 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "Temporada")
-public class Temporada { // TODO JPA y vistas
+public class Temporada { // TODO vistas
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int idTemporada;
 
-
-    //TODO vistas etc
     private int numeroTemporada;
 
+    /**
+     * EAGER: cada vez que se carga una temporada, se cargan todos los capítulos
+     */
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Capitulo> capitulosTemporada;
 

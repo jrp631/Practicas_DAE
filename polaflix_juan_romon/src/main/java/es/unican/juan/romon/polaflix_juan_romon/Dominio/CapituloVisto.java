@@ -68,12 +68,12 @@ public class CapituloVisto {
     }
 
     @Override
-    public int hashCode() { //TODO: cambiar a JPA
+    public int hashCode() { 
         return idCapituloVisto != null ? idCapituloVisto.hashCode() : super.hashCode();
     }
 
     @Override 
-    public boolean equals(Object obj) { // TODO: cambiar a JPA
+    public boolean equals(Object obj) {
         if (this == obj) {
             return true;
         }

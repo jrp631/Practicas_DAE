@@ -29,8 +29,12 @@ public class Cargo {
     @JsonView(Vistas.CargosUsuario.class)
     private String nombreSerie;
 
-    // @OneToOne(fetch = FetchType.EAGER)
-    @ManyToOne (cascade = CascadeType.MERGE,fetch = FetchType.EAGER)
+
+    /**
+     * EAGER: solo es un usuario por lo que no hay problema en cargarlo siempre
+     * MERGE: si se actualiza el usuario, se actualiza el cargo
+     */
+    @ManyToOne (cascade = CascadeType.MERGE,fetch = FetchType.EAGER) 
     private Usuario usuario;
 
     //empty constructor
