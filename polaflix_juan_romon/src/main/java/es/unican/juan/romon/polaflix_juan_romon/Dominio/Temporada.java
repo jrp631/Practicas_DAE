@@ -1,5 +1,6 @@
 package es.unican.juan.romon.polaflix_juan_romon.Dominio;
 
+import java.util.LinkedList;
 import java.util.List;
 import jakarta.persistence.*;
 
@@ -25,7 +26,7 @@ public class Temporada { // TODO JPA y vistas
 
     public Temporada(int numeroTemporada) {
         this.numeroTemporada = numeroTemporada;
-        capitulosTemporada = null;
+        capitulosTemporada = new LinkedList<Capitulo>();
     }
 
     public int getNumeroTemporada() {

@@ -33,10 +33,11 @@ public class Usuario {
 
 
     // @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    // @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER,mappedBy = "usuario")  
     private List<CapituloVistoSeries> capitulosVistosSerie;
 
-    @OneToMany (cascade = CascadeType.ALL, fetch = FetchType.EAGER)  // (fetch = FetchType.EAGER)
+    @OneToMany (cascade = CascadeType.ALL, fetch = FetchType.EAGER,mappedBy = "usuario")  // (fetch = FetchType.EAGER)
     private List<Cargo> cargosUsuario;
 
     public Usuario() {

@@ -60,7 +60,8 @@ public class Serie {
     // FIXME: nuevos atributos -> requiere refactorización de la clase
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Temporada> temporadasSerie; 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "serie")
     private List<Reparto> repartoSerie; // TODO JPA
 
     // empty constructor
@@ -134,6 +135,7 @@ public class Serie {
     public void addReparto(Reparto reparto) {
         if (reparto != null &&  !repartoSerie.contains(reparto)) {
             repartoSerie.add(reparto);
+            // reparto.addSerie(this); // ensure the bidirectional relationship
         }
     }
     
@@ -144,6 +146,13 @@ public class Serie {
         }
         if (temporada == null) {
             // add the chapter to the last season
+            Integer numeroTemporadas = getNumeroTemporadas(); // get the number of seasons
+            if (numeroTemporadas == 0) {
+                // if there are no seasons, create a new one
+                Temporada nuevaTemporada = new Temporada(1); // create a new season with number 1
+                temporadasSerie.add(nuevaTemporada); // add the new season to the series
+            }
+
             Temporada lastTemporada = temporadasSerie.get(getNumeroTemporadas() - 1); // get the last season
             lastTemporada.addCapitulo(capitulo); // add the chapter to the last season
         } else {
@@ -257,4 +266,4 @@ public class Serie {
     }
 
 
-}   
+}

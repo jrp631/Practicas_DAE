@@ -98,6 +98,10 @@ public class AppFeeder implements CommandLineRunner {
 
 		// List<Cargo> cargos = u2.getCargosUsuario();
 
+		// usuario 1 ve un capitulo de una serie
+		Capitulo c1 = s1.getCapituloFromSerie(1); // primer capitulo de la serie 1
+		u1.verCapitulo(c1); // se genera un cargo al verlo
+
 	
 		ur.save(u1);
 		// ur.save(u2);
@@ -229,11 +233,11 @@ public class AppFeeder implements CommandLineRunner {
 			}
 		}
 
-		Reparto repartoDummy1 = new Reparto("Dummy Actor", Rol.ACTOR);
-		Reparto repartoDummyDirector = new Reparto("Dummy Director", Rol.DIRECTOR);
-		Reparto repartoDummyExtra = new Reparto("Dummy Extra", Rol.EXTRA);
-		List<Reparto> repartoDummy = List.of(repartoDummy1, repartoDummyDirector, repartoDummyExtra);
 		for (Serie serie : new Serie[]{s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, s14, s15, s16, s17, s18, s19}) {
+			Reparto repartoDummy1 = new Reparto("Dummy Actor", Rol.ACTOR, serie);
+			Reparto repartoDummyDirector = new Reparto("Dummy Director", Rol.DIRECTOR, serie);
+			Reparto repartoDummyExtra = new Reparto("Dummy Extra", Rol.EXTRA, serie);
+			List<Reparto> repartoDummy = List.of(repartoDummy1, repartoDummyDirector, repartoDummyExtra);
 			serie.setRepartoSerie(repartoDummy);
 		}
 
