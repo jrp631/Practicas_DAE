@@ -2,6 +2,10 @@ package es.unican.juan.romon.polaflix_juan_romon.Dominio;
 
 import java.util.LinkedList;
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonView;
+
+import es.unican.juan.romon.polaflix_juan_romon.Vistas.Vistas;
 import jakarta.persistence.*;
 
 @Entity
@@ -10,14 +14,20 @@ public class Temporada { // TODO vistas
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @JsonView({Vistas.DescripcionSerie.class,
+                Vistas.AllSeries.class})
     private int idTemporada;
 
+    @JsonView({Vistas.DescripcionSerie.class,
+                Vistas.AllSeries.class})
     private int numeroTemporada;
 
     /**
      * EAGER: cada vez que se carga una temporada, se cargan todos los capítulos
      */
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JsonView({Vistas.DescripcionSerie.class,
+                Vistas.AllSeries.class})
     private List<Capitulo> capitulosTemporada;
 
     //Empty constructor

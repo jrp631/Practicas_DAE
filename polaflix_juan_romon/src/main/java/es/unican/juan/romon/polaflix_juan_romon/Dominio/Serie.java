@@ -30,11 +30,6 @@ public class Serie { // TODO: vistas
     @JsonView({Vistas.DescripcionSerie.class,
                Vistas.AllSeries.class}) 
     private Categoria esCategoria;
-
-    // @JsonView({Vistas.DescripcionSerie.class,
-    //            Vistas.AllSeries.class}) 
-    // @JsonManagedReference
-    // private List<Capitulo> capitulosSerieList;
     
     @JsonView({Vistas.SeriesEmpezadas.class,
                Vistas.SeriesTerminadas.class,
@@ -59,13 +54,16 @@ public class Serie { // TODO: vistas
      * EAGER: cada vez que se carga una serie, se cargan las temporadas
      */
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private List<Temporada> temporadasSerie; 
+    @JsonView({Vistas.DescripcionSerie.class,
+                Vistas.AllSeries.class})
+    private List<Temporada> temporadasSerie;
 
     /**
      * LAZY: cada vez que se carga una serie, no es necesario cargar el reparto
      * de la serie, ya que no se usa en todas las vistas
      */
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "serie")
+    //No tiene vistas asociadas, ya que la descripción del sistema no lo especifica
     private List<Reparto> repartoSerie; 
 
     // empty constructor
@@ -216,6 +214,19 @@ public class Serie { // TODO: vistas
         }
         // return the chapters of the specified season
         return temporadasSerie.get(temporada - 1).getCapitulosTemporada(); // return the chapters of the season
+    }
+
+    public Capitulo getCapituloFromTemporada(Integer temporada, Integer numeroCapitulo) {
+        // check the arguments are not null
+        if (temporada == null || numeroCapitulo == null) {
+            throw new IllegalArgumentException("Temporada o numeroCapitulo no pueden ser null");
+        }
+        // check if the temporada is valid
+        if (temporada < 1 || temporada > getNumeroTemporadas()) {
+            throw new IllegalArgumentException("Temporada no existe en la serie");
+        }
+        // return the chapter from the specified season
+        return temporadasSerie.get(temporada - 1).getCapitulo(numeroCapitulo); // return the chapter from the season
     }
 
     @Override

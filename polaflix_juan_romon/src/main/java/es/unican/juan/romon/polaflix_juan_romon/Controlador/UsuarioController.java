@@ -42,14 +42,20 @@ import org.springframework.web.bind.annotation.PutMapping;
 public class UsuarioController {
 
     @Autowired
-    private UsuarioRepositorio usuarioRepositorio;
-    @Autowired
-    private SerieRepositorio serieRepositorio;
-
-    @Autowired
     private UsuarioService usuarioService;
-    @Autowired
-    private SerieService serieService;
+
+    @GetMapping(value = "/{id}")
+    @JsonView(Vistas.DatosUsuario.class)
+    public ResponseEntity<Usuario> getUsuario(@PathVariable("id") String userId) {
+        ResponseEntity<Usuario> result;
+        try {
+            Usuario usuario = usuarioService.getUsuario(userId);
+            result = ResponseEntity.ok(usuario);
+        } catch (UsuarioNoEncontradoException e) {
+            result = ResponseEntity.notFound().build();
+        }
+        return result;
+    }
 
     @GetMapping(value = "/{id}/series-empezadas")
     @JsonView(Vistas.SeriesEmpezadas.class)
@@ -99,14 +105,14 @@ public class UsuarioController {
     @GetMapping(value = "/{id}/cargos")//FIXME: no llamar a usuarioRepositorio y pasar directamente el id
     @JsonView(Vistas.CargosUsuario.class)
     public ResponseEntity<List<Cargo>> getAllCargos(@PathVariable ("id") String id, @RequestParam(required = false) LocalDate fecha_ini, @RequestParam(required = false) LocalDate fecha_fin) {
-        // Optional<Usuario> usuario = usuarioRepositorio.findById(Integer.parseInt(id));
         ResponseEntity<List<Cargo>> result;
-        List<Cargo> cargos = usuarioService.getCargos(usuarioRepositorio.findById(Integer.parseInt(id)).get(), fecha_ini, fecha_fin);
 
-        if(cargos.size() >= 0) {
+        try {
+            Usuario usuario = usuarioService.getUsuario(id);
+            List<Cargo> cargos = usuarioService.getCargos(usuario, fecha_ini, fecha_fin);
             result = ResponseEntity.ok(cargos);
-        } else {
-            result = ResponseEntity.notFound().build();
+        } catch (UsuarioNoEncontradoException e) {
+            result = ResponseEntity.notFound().build(); // 404 user not found
         }
 
         return result;
@@ -164,7 +170,7 @@ public class UsuarioController {
         return result;
     }
 
-    @GetMapping(value = "/{id}/series-empezadas/{serieId}/{capituloId}")
+    @GetMapping(value = "/{id}/series-empezadas/{serieId}/capitulos/{capituloId}")
     public ResponseEntity <Boolean> getCapituloVisto(@PathVariable("id") String userId, @PathVariable("serieId") String serieId, @PathVariable("capituloId") String capituloId) {
         ResponseEntity<Boolean> result;
         boolean capituloVisto = false; 
@@ -182,7 +188,7 @@ public class UsuarioController {
             return result;
         }
 
-        if (capituloVisto) {
+        if (capituloVisto) { // if statement for debugging purposes
             result = ResponseEntity.ok(true);
             System.out.println("Capitulo visto: " + capituloVisto);
         } else {

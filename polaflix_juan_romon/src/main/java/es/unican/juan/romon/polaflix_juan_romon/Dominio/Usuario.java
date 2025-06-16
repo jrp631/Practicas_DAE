@@ -5,6 +5,9 @@ import java.util.*; //List
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.fasterxml.jackson.annotation.JsonView;
+
+import es.unican.juan.romon.polaflix_juan_romon.Vistas.Vistas;
 import jakarta.persistence.*;
 
 @Entity
@@ -14,11 +17,15 @@ public class Usuario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @JsonView({Vistas.DatosUsuario.class})
     private Integer idUsuario;
     @Column(unique = true)
+    @JsonView({Vistas.DatosUsuario.class})
     private String nombre;
     private String paswd;
+    @JsonView({Vistas.DatosUsuario.class})
     private String IBAN;
+    @JsonView({Vistas.DatosUsuario.class})
     private Boolean tarifaPlana;
 
     /**

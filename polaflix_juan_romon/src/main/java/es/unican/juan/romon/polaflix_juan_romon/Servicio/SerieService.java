@@ -66,12 +66,25 @@ public class SerieService {
     }
 
     @Transactional
-    public List<Capitulo> getCapitilosFromTemporada(String idSerie, String idTemporada) throws SerieNoEncontradaException {
+    public List<Capitulo> getCapitulosFromTemporada(String idSerie, String idTemporada) throws SerieNoEncontradaException {
         Optional<Serie> serie = serieRepositorio.findById(Integer.parseInt(idSerie));
         if (serie.isEmpty()) {
             throw new SerieNoEncontradaException("Serie no encontrada con id: " + idSerie);
         }
         return serie.get().getCapitulosFromTemporada(Integer.parseInt(idTemporada));
+    }
+
+    @Transactional
+    public Capitulo getCapituloFromTemporada(String idSerie, String idTemporada, String idCapitulo) throws SerieNoEncontradaException, CapituloNoEncontradoException {
+        Optional<Serie> serie = serieRepositorio.findById(Integer.parseInt(idSerie));
+        if (serie.isEmpty()) {
+            throw new SerieNoEncontradaException("Serie no encontrada con id: " + idSerie);
+        }
+        Capitulo cap = serie.get().getCapituloFromTemporada(Integer.parseInt(idTemporada), Integer.parseInt(idCapitulo));
+        if (cap == null) {
+            throw new CapituloNoEncontradoException("Capitulo no encontrado con id: " + idCapitulo);
+        }
+        return cap;
     }
 
     

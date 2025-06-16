@@ -41,6 +41,16 @@ public class UsuarioService {
     private SerieRepositorio serieRepositorio;
 
     @Transactional
+    public Usuario getUsuario(String userId) throws UsuarioNoEncontradoException {
+        Optional<Usuario> usuario = usuarioRepositorio.findById(Integer.parseInt(userId));
+        if (usuario.isPresent()) {
+            return usuario.get();
+        } else {
+            throw new UsuarioNoEncontradoException("Usuario no encontrado");
+        }
+    }
+
+    @Transactional
     public List<Serie> getSeriesEmpezadas(String userId) {
         Optional<Usuario> usuario = usuarioRepositorio.findById(Integer.parseInt(userId));
         List<Serie> seriesEmpezadas = null;

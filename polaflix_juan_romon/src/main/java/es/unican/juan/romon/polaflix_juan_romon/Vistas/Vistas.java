@@ -11,4 +11,6 @@ public class Vistas {
     public static class DescripcionSerie{};	
     public static class CapituloSerie{};
 
+    public static class DatosUsuario{};
+
 }

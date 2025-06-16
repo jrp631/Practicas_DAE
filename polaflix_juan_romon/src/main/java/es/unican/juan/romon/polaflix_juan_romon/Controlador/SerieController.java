@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.apache.catalina.connector.Response;
+import org.apache.catalina.filters.AddDefaultCharsetFilter.ResponseWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus.Series;
@@ -26,8 +27,6 @@ import es.unican.juan.romon.polaflix_juan_romon.Vistas.Vistas;
 @CrossOrigin("*")
 @RequestMapping("/series")
 public class SerieController {
-    @Autowired
-    private SerieRepositorio serieRepositorio;
 
     @Autowired
     private SerieService serieService;
@@ -35,15 +34,7 @@ public class SerieController {
     @GetMapping ()
     @JsonView(Vistas.AllSeries.class)
     public ResponseEntity<List<Serie>> getAllSeries() {
-        // return serieRepositorio.findAll();
-        // Optional<List<Serie>> series = Optional.of(serieRepositorio.findAll());
         ResponseEntity<List<Serie>> result;
-
-        // if (series.isPresent()) {
-        //     result = ResponseEntity.ok(series.get());
-        // } else {
-        //     result = ResponseEntity.notFound().build();
-        // }
         List<Serie> series = serieService.getAllSeries();
         if (series.isEmpty()) {
             result = ResponseEntity.notFound().build();
@@ -60,30 +51,16 @@ public class SerieController {
     @JsonView(Vistas.DescripcionSerie.class)
     public ResponseEntity<Serie> getSerieById(@PathVariable("id") String serieId) {
         
-        // Optional<Serie> serie = serieRepositorio.findById(Integer.parseInt(serieId));
         ResponseEntity<Serie> result;
-
-        // if (serie.isPresent()) {
-        //     result = ResponseEntity.ok(serie.get());
-        // } else {
-        //     result = ResponseEntity.notFound().build();
-        // }
-        
-        Serie serie = null;
-        
+               
         try {
-            serie = serieService.getSerieById(serieId);
+            Serie serie = serieService.getSerieById(serieId);
+            result = ResponseEntity.ok(serie);
         } catch (SerieService.SerieNoEncontradaException e) {
             result = ResponseEntity.notFound().build();
         }
-        if (serie != null) {
-            result = ResponseEntity.ok(serie);
-        } else {
-            result = ResponseEntity.notFound().build();
-        }
-
-
         return result;
+        
     }
 
 
@@ -91,61 +68,57 @@ public class SerieController {
     @GetMapping("/{id}/capitulos")
     @JsonView(Vistas.CapituloSerie.class)
     public ResponseEntity<List<Capitulo>> getCapitulosBySerie(@PathVariable ("id") String serieId) {
-        Optional<Serie> serie = serieRepositorio.findById(Integer.parseInt(serieId));
         ResponseEntity<List<Capitulo>> result;
-        if (serie.isPresent()) {
-            // return serie.get().getCapitulosSerieList();
-            result = ResponseEntity.ok(serie.get().getCapitulosSerie());
-        } else {
+        try {
+            List<Capitulo> capitulos = serieService.getCapitulosFromSerie(serieId);
+            result = ResponseEntity.ok(capitulos);
+        } catch (SerieService.SerieNoEncontradaException e) {
             result = ResponseEntity.notFound().build();
+        } 
+
+        return result;
+    }
+
+    @GetMapping("/{idSerie}/temporada/{idTemporada}")
+    @JsonView(Vistas.CapituloSerie.class)
+    public ResponseEntity<List<Capitulo>> getCapitulosFromTemporada(@PathVariable("idSerie") String serieId, @PathVariable("idTemporada") String temporadaId) {
+        ResponseEntity<List<Capitulo>> result;
+        try {
+            List<Capitulo> capitulos = serieService.getCapitulosFromTemporada(serieId, temporadaId);
+            result = ResponseEntity.ok(capitulos);
+        } catch (SerieService.SerieNoEncontradaException e) {
+            result = ResponseEntity.notFound().build(); // 404 serie not found
         }
         return result;
     }
 
-    @GetMapping("/{idSerie}/capitulos/temporada/{idTemporada}")
-    @JsonView(Vistas.CapituloSerie.class)
-    public ResponseEntity<List<Capitulo>> getCapitulosFromTemporada(@PathVariable("idSerie") String serieId, @PathVariable("idTemporada") String temporadaId) {
-        Integer idSerie = Integer.parseInt(serieId), idTemporada = Integer.parseInt(temporadaId);
-    
-        Optional<Serie> serie = serieRepositorio.findById(idSerie);
-    
-        ResponseEntity<List<Capitulo>> result =  ResponseEntity.notFound().build(); 
-        if (serie.isPresent()) { // no existe la serie indicada 
-            result = ResponseEntity.notFound().build();
-            // return result;
-        }
-        // return resultado;
-        
-        List<Capitulo> capitulos = serie.get().getCapitulosFromTemporada(idTemporada);
-        if (capitulos.isEmpty()) {
-            result = ResponseEntity.notFound().build();
-        } else {
-            result = ResponseEntity.ok(capitulos);
-        }
-        
+    @GetMapping("/{idSerie}/temporada/{idTemporada}/capitulos/{idCapitulo}")
+    public ResponseEntity<Capitulo> getCapituloFromTemporada(@PathVariable("idSerie") String serieId, @PathVariable("idTemporada") String temporadaId, @PathVariable("idCapitulo") String capituloId) {
+        ResponseEntity<Capitulo> result;
+
+        try {
+            Capitulo capitulo = serieService.getCapituloFromTemporada(serieId, temporadaId, capituloId);
+            result = ResponseEntity.ok(capitulo);
+        } catch (SerieService.SerieNoEncontradaException e) {
+            result = ResponseEntity.notFound().build(); // 404 serie not found
+        } catch (SerieService.CapituloNoEncontradoException e) {
+            result = ResponseEntity.notFound().build(); // 404 capitulo not found
+        } 
         return result;
     }
 
     @GetMapping("/{idSerie}/capitulos/{idCapitulo}")
     @JsonView(Vistas.CapituloSerie.class)
     public ResponseEntity<Capitulo> getCapituloFromSerie(@PathVariable("idSerie") String serieId, @PathVariable("idCapitulo") String capituloId) {
-        Integer idSerie = Integer.parseInt(serieId), idCapitulo = Integer.parseInt(capituloId);
-    
-        Optional<Serie> serie = serieRepositorio.findById(idSerie);
-    
-        ResponseEntity<Capitulo> result =  ResponseEntity.notFound().build(); 
-        if (serie.isPresent()) { // no existe la serie indicada 
-            result = ResponseEntity.notFound().build();
-            // return result;
+        ResponseEntity<Capitulo> result;
+        try {
+            Capitulo capitulo = serieService.getCapituloFromSerie(serieId, capituloId);
+            result = ResponseEntity.ok(capitulo);
+        } catch (SerieService.SerieNoEncontradaException e) {
+            result = ResponseEntity.notFound().build(); // 404 serie not found
+        } catch (SerieService.CapituloNoEncontradoException e) {
+            result = ResponseEntity.notFound().build(); // 404 capitulo not found   
         }
-        // return resultado;
-        
-        List<Capitulo> captitulo = serie.get().getCapitulosSerie();
-        for (Capitulo c : captitulo) {
-            if (c.getIdCapitulo() == idCapitulo) {
-                result = ResponseEntity.ok(c);
-            }
-        }        
         return result;
      } 
 }
