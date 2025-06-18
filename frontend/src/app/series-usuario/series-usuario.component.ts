@@ -59,9 +59,7 @@ export class SeriesUsuarioComponent {
         // async call to the service to get the list of seriesPendientes
         this.seriesService.getUserSeriesPendientes().then((seriesPendientes: Serie[]) => {
             this.seriesPendientes = seriesPendientes;
-            // this.convertName(this.seriesPendientes);
-            // console.log("hola");
-            // console.log(this.seriesPendientes);
+
         });
 
         this.seriesService.getUserSeriesTerminadas().then((seriesTerminadas: Serie[]) => {
@@ -73,16 +71,5 @@ export class SeriesUsuarioComponent {
         });
         
     }
-
-    // convertName(s: Serie[]) {
-    //     // Convertir el nombre de la serie a minusculas
-    //     s.forEach((serie) => {
-    //         serie.nombreSerie = serie.nombreSerie.toLowerCase();
-    //         // change spaces to underscores
-    //         serie.nombreSerie = serie.nombreSerie.replace(/ /g, '_');
-    //     });
-
-    // }
-
 
 }

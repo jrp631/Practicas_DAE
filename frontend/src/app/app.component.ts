@@ -45,8 +45,8 @@ export class AppComponent {
       this.user = user;
       console.log(this.user);
     });
-    this.seriesService.getUserSeriesPendientes().then(console.log);
-    this.seriesService.getUserSeriesEmpezadas().then(console.log);
-    this.seriesService.getUserSeriesTerminadas().then(console.log);
+    //this.seriesService.getUserSeriesPendientes().then(console.log);
+    //this.seriesService.getUserSeriesEmpezadas().then(console.log);
+    //this.seriesService.getUserSeriesTerminadas().then(console.log);
   }
 }

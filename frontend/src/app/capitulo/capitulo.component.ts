@@ -4,13 +4,16 @@ import { Serie } from '../serie';
 import { Capitulo } from '../capitulo';
 import { CapituloService } from '../capitulo.service';
 import { c } from '@angular/core/event_dispatcher.d-pVP0-wST';
+import { Usuario } from '../usuario';
+import { DescripcionCapituloComponent } from '../descripcion-capitulo/descripcion-capitulo.component';
+import { CommonModule } from '@angular/common';
 
 @Component({
     selector: 'app-capitulo',
-    imports: [RouterModule],
+    imports: [RouterModule, DescripcionCapituloComponent, CommonModule],
     template: `
-        <div class="episodio">
-            <strong>{{ capitulo.titulo }}</strong>
+        <div class="episodio" (click)="toggleDescripcion()">
+            <strong>Ep.{{capitulo.numeroCapitulo}} {{ capitulo.titulo }}</strong>
             <!-- <p>{{ capitulo.descripcion }}</p> -->
             <a class="verCapitulo" (click)="verCapitulo()"> 
                 Ver
@@ -19,21 +22,23 @@ import { c } from '@angular/core/event_dispatcher.d-pVP0-wST';
                 {{ capituloVisto ? 'Visto' : 'Pendiente' }}
             </p>
             <br />
-            
         </div>
-        <div class="capitulo-descripcion">
-        <!-- <div> -->
-            <p>{{ capitulo.descripcion }}</p>
-        </div>
+        <app-descripcion-capitulo 
+            *ngIf="mostrarDescripcion" 
+            [descripcion]="capitulo.descripcion">
+        </app-descripcion-capitulo>
     `,
     styleUrls: ['./capitulo.component.css'],
 })
 export class CapituloComponent {
     @Input() capitulo!: Capitulo;
     @Input() serieId!: String;
-    @Input() categoria!: string; // ✅
+    @Input() categoria!: string;
+    @Input() usuario!: Usuario;
     capituloService = inject(CapituloService);
-    capituloVisto : Boolean = false; // Variable to track if the chapter has been seen
+    capituloVisto : Boolean = false;
+    mostrarDescripcion = false;
+    mostrarDescripcionPrevState = false;
 
     ngOnChanges() {
         if (this.serieId && this.capitulo) {
@@ -42,35 +47,16 @@ export class CapituloComponent {
     }
 
     verCapitulo() {
-
-        // const videoPath = 'assets/videos/videoplayback.mp4';
-        // const videoElement = document.createElement('video');
-        // videoElement.src = videoPath;
-        // videoElement.controls = true;
-        // videoElement.autoplay = true;
-        // videoElement.className = 'capitulo-video';
-
-        // // Create a close button
-        // const closeButton = document.createElement('button');
-        // closeButton.textContent = 'Cerrar';
-        // closeButton.className = 'capitulo-video-close';
-
-        // // Container for video and button
-        // const container = document.createElement('div');
-        // container.className = 'capitulo-video-container';
-
-        // closeButton.onclick = () => {
-        //     container.remove();
-        // };
-
-        // container.appendChild(videoElement);
-        // container.appendChild(closeButton);
-        // document.body.appendChild(container);
+        // event.stopPropagation();
         this.capituloService.putVerCapitulo("1",this.serieId, this.capitulo.idCapitulo);
         this.checkCapituloVisto();
     }
 
-    // method to check if the chapter has been seen
+    toggleDescripcion() {
+        this.mostrarDescripcion = !this.mostrarDescripcion;
+        console.log("Ver descripcion")
+    }
+
     async checkCapituloVisto() {
         try {
             this.capituloVisto = await this.capituloService.getVerCapitulo("1", this.serieId, this.capitulo.idCapitulo);
