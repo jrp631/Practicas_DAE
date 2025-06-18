@@ -36,11 +36,7 @@ public class SerieController {
     public ResponseEntity<List<Serie>> getAllSeries() {
         ResponseEntity<List<Serie>> result;
         List<Serie> series = serieService.getAllSeries();
-        if (series.isEmpty()) {
-            result = ResponseEntity.notFound().build();
-        } else {
-            result = ResponseEntity.ok(series);
-        }
+        result = ResponseEntity.ok(series);
 
         return result;
     }
@@ -80,7 +76,7 @@ public class SerieController {
     }
 
     @GetMapping("/{idSerie}/temporada/{idTemporada}")
-    @JsonView(Vistas.CapituloSerie.class)
+    @JsonView(Vistas.TemporadaSerie.class)
     public ResponseEntity<List<Capitulo>> getCapitulosFromTemporada(@PathVariable("idSerie") String serieId, @PathVariable("idTemporada") String temporadaId) {
         ResponseEntity<List<Capitulo>> result;
         try {
@@ -93,6 +89,7 @@ public class SerieController {
     }
 
     @GetMapping("/{idSerie}/temporada/{idTemporada}/capitulos/{idCapitulo}")
+    @JsonView(Vistas.CapituloSerie.class)
     public ResponseEntity<Capitulo> getCapituloFromTemporada(@PathVariable("idSerie") String serieId, @PathVariable("idTemporada") String temporadaId, @PathVariable("idCapitulo") String capituloId) {
         ResponseEntity<Capitulo> result;
 
@@ -107,7 +104,7 @@ public class SerieController {
         return result;
     }
 
-    @GetMapping("/{idSerie}/capitulos/{idCapitulo}")
+    @GetMapping("/{idSerie}/capitulos/{idCapitulo}") // FIXME -> borrar??? es necesario tenerlo??
     @JsonView(Vistas.CapituloSerie.class)
     public ResponseEntity<Capitulo> getCapituloFromSerie(@PathVariable("idSerie") String serieId, @PathVariable("idCapitulo") String capituloId) {
         ResponseEntity<Capitulo> result;

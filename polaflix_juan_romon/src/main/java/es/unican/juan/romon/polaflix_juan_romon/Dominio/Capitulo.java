@@ -13,30 +13,35 @@ public class Capitulo {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @JsonView({ Vistas.CapituloSerie.class, Vistas.AllSeries.class,
-            Vistas.DescripcionSerie.class })
+    @JsonView({ Vistas.CapituloSerie.class,
+            Vistas.DescripcionSerie.class,
+            Vistas.TemporadaSerie.class })
     private Integer idCapitulo;
 
     @ManyToOne
     @JsonBackReference
     @JsonView({ Vistas.CapituloSerie.class,
-            Vistas.AllSeries.class,
-            Vistas.DescripcionSerie.class })
+            Vistas.DescripcionSerie.class,
+            Vistas.TemporadaSerie.class })
     private Serie esSerie;
 
-    @JsonView({ Vistas.CapituloSerie.class, Vistas.AllSeries.class,
-            Vistas.DescripcionSerie.class })
+    @JsonView({ Vistas.CapituloSerie.class,
+            Vistas.DescripcionSerie.class,
+            Vistas.TemporadaSerie.class })
     private String titulo;
 
-    @JsonView({ Vistas.CapituloSerie.class, Vistas.AllSeries.class,
-            Vistas.DescripcionSerie.class })
+    @JsonView({ Vistas.CapituloSerie.class,
+            Vistas.DescripcionSerie.class,
+            Vistas.TemporadaSerie.class })
     private String descripcion;
 
-    @JsonView({ Vistas.CapituloSerie.class, Vistas.AllSeries.class,
-            Vistas.DescripcionSerie.class })
+    @JsonView({ Vistas.CapituloSerie.class,
+            Vistas.DescripcionSerie.class,
+            Vistas.TemporadaSerie.class })
     private Integer temporada;
-    @JsonView({ Vistas.CapituloSerie.class, Vistas.AllSeries.class,
-            Vistas.DescripcionSerie.class })
+    @JsonView({ Vistas.CapituloSerie.class,
+            Vistas.DescripcionSerie.class,
+            Vistas.TemporadaSerie.class })
     private Integer numeroCapitulo;
 
     // Constructor por defecto

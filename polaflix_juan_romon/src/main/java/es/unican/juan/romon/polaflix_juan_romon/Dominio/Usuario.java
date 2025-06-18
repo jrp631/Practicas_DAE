@@ -230,7 +230,7 @@ public class Usuario {
         if (capVistoSerie != null) {
             return capVistoSerie.capituloVisto(capitulo);
         } else {
-            System.out.println("NO CSV: " + capitulo.getTitulo());
+            // System.out.println("NO CSV: " + capitulo.getTitulo());
             return false;
         }
     }

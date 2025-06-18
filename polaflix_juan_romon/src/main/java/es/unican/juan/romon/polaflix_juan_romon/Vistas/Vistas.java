@@ -10,6 +10,7 @@ public class Vistas {
     public static class AllSeries{};
     public static class DescripcionSerie{};	
     public static class CapituloSerie{};
+    public static class TemporadaSerie{};
 
     public static class DatosUsuario{};
 

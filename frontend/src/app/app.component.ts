@@ -4,6 +4,8 @@ import { RouterModule } from '@angular/router';
 import { SeriesUsuarioComponent } from "./series-usuario/series-usuario.component";
 import { InicioComponent } from "./inicio/inicio.component";
 import { SeriesService} from "./series.service";
+import { UsuarioService } from './usuario.service';
+import { Usuario } from './usuario';
 
 @Component({
   selector: 'app-root',
@@ -18,7 +20,7 @@ import { SeriesService} from "./series.service";
           </a>
         </div>
         <div class="usuario">
-          <span>Bienvenido Jon Nieve</span>
+          <span>Bienvenido {{ user?.nombre }}</span>
           <img src="assets/images/user.png" alt="Usuario">
         </div>
       </div>
@@ -37,7 +39,15 @@ import { SeriesService} from "./series.service";
 export class AppComponent {
   title = 'Polaflix';
 
-  constructor(private seriesService: SeriesService) {
+  //User var 
+  userId: number = 1; // This can be dynamic based on the logged-in user
+  user: Usuario | undefined;
+
+  constructor(private seriesService: SeriesService, private usuarioService: UsuarioService) {
+    this.usuarioService.getUsuarioById(this.userId).then(user => {
+      this.user = user;
+      console.log(this.user);
+    });
     this.seriesService.getUserSeriesPendientes().then(console.log);
     this.seriesService.getUserSeriesEmpezadas().then(console.log);
     this.seriesService.getUserSeriesTerminadas().then(console.log);

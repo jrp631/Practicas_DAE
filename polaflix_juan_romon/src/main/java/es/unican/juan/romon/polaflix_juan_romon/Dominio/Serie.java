@@ -54,8 +54,7 @@ public class Serie { // TODO: vistas
      * EAGER: cada vez que se carga una serie, se cargan las temporadas
      */
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JsonView({Vistas.DescripcionSerie.class,
-                Vistas.AllSeries.class})
+    @JsonView({Vistas.DescripcionSerie.class,Vistas.TemporadaSerie.class})
     private List<Temporada> temporadasSerie;
 
     /**
@@ -171,7 +170,8 @@ public class Serie { // TODO: vistas
     public Capitulo getCapituloFromSerie(Integer idCapitulo) { 
         // check the argument is not null
         if (idCapitulo == null) {
-            throw new IllegalArgumentException("IdCapitulo no puede ser null");
+            // throw new IllegalArgumentException("IdCapitulo no puede ser null");
+            return null; // return null if the argument is null
         }
         for (Temporada temporada : temporadasSerie) {
             List<Capitulo> capitulosTemporada = temporada.getCapitulosTemporada();
@@ -188,11 +188,13 @@ public class Serie { // TODO: vistas
     public Capitulo getCapituloFromSerie(Integer temporada, Integer numeroCapitulo) {
         // check the arguments are not null
         if (temporada == null || numeroCapitulo == null) {
-            throw new IllegalArgumentException("Temporada o numeroCapitulo no pueden ser null");
+            // throw new IllegalArgumentException("Temporada o numeroCapitulo no pu eden ser null");    
+            return null; // return null if the arguments are null
         }
         // check if the temporada is valid
         if (temporada < 1 || temporada > getNumeroTemporadas()) {
-            throw new IllegalArgumentException("Temporada no existe en la serie");
+            // throw new IllegalArgumentException("Temporada no existe en la serie"); 
+            return null; // return null if the season does not exist
         }
 
         Capitulo cap = temporadasSerie.get(temporada - 1).getCapitulo(numeroCapitulo); // get the chapter from the season
@@ -206,11 +208,13 @@ public class Serie { // TODO: vistas
     public List<Capitulo> getCapitulosFromTemporada(Integer temporada) {
         // check the argument is not null
         if (temporada == null) {
-            throw new IllegalArgumentException("Temporada no puede ser null");
+            // throw new IllegalArgumentException("Temporada no puede ser null");
+            return null; // return null if the season is null
         }
         // check if the temporada is valid
         if (temporada < 1 || temporada > getNumeroTemporadas()) {
-            throw new IllegalArgumentException("Temporada no existe en la serie");
+            // throw new IllegalArgumentException("Temporada no existe en la serie");
+            return null; // return null if the season does not exist
         }
         // return the chapters of the specified season
         return temporadasSerie.get(temporada - 1).getCapitulosTemporada(); // return the chapters of the season
@@ -219,13 +223,19 @@ public class Serie { // TODO: vistas
     public Capitulo getCapituloFromTemporada(Integer temporada, Integer numeroCapitulo) {
         // check the arguments are not null
         if (temporada == null || numeroCapitulo == null) {
-            throw new IllegalArgumentException("Temporada o numeroCapitulo no pueden ser null");
+            // throw new IllegalArgumentException("Temporada o numeroCapitulo no pueden ser null");
+            return null;
         }
         // check if the temporada is valid
         if (temporada < 1 || temporada > getNumeroTemporadas()) {
-            throw new IllegalArgumentException("Temporada no existe en la serie");
+            // throw new IllegalArgumentException("Temporada no existe en la serie");
+            return null; // return null if the season does not exist
         }
         // return the chapter from the specified season
+        if (numeroCapitulo < 1 || numeroCapitulo > temporadasSerie.get(temporada - 1).getNumeroCapitulos()) {
+            // throw new IllegalArgumentException("Capitulo no existe en la temporada");
+            return null; // return null if the chapter does not exist in the season
+        } 
         return temporadasSerie.get(temporada - 1).getCapitulo(numeroCapitulo); // return the chapter from the season
     }
 

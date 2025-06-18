@@ -15,19 +15,19 @@ public class Temporada { // TODO vistas
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @JsonView({Vistas.DescripcionSerie.class,
-                Vistas.AllSeries.class})
+        Vistas.TemporadaSerie.class})
     private int idTemporada;
 
-    @JsonView({Vistas.DescripcionSerie.class,
-                Vistas.AllSeries.class})
+    @JsonView({Vistas.DescripcionSerie.class, 
+        Vistas.TemporadaSerie.class})
     private int numeroTemporada;
 
     /**
      * EAGER: cada vez que se carga una temporada, se cargan todos los capítulos
      */
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JsonView({Vistas.DescripcionSerie.class,
-                Vistas.AllSeries.class})
+    @JsonView({Vistas.DescripcionSerie.class, 
+        Vistas.TemporadaSerie.class})
     private List<Capitulo> capitulosTemporada;
 
     //Empty constructor

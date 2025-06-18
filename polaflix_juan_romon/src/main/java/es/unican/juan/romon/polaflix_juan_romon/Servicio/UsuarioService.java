@@ -51,13 +51,15 @@ public class UsuarioService {
     }
 
     @Transactional
-    public List<Serie> getSeriesEmpezadas(String userId) {
+    public List<Serie> getSeriesEmpezadas(String userId) throws UsuarioNoEncontradoException {
         Optional<Usuario> usuario = usuarioRepositorio.findById(Integer.parseInt(userId));
         List<Serie> seriesEmpezadas = null;
 
-        if (usuario.isPresent()) {
-            seriesEmpezadas = usuario.get().getSeriesEmpezadas();
+        if (!usuario.isPresent()) {
+            throw new UsuarioNoEncontradoException("Usuario no encontrado");
         }
+        seriesEmpezadas = usuario.get().getSeriesEmpezadas();
+
         return seriesEmpezadas;
     }
 
@@ -73,13 +75,14 @@ public class UsuarioService {
     }
 
     @Transactional
-    public List<Serie> getSeriesPendientes(String userId) {
+    public List<Serie> getSeriesPendientes(String userId) throws UsuarioNoEncontradoException {
         Optional<Usuario> usuario = usuarioRepositorio.findById(Integer.parseInt(userId)); 
         List<Serie> seriesPendientes = null;
 
-        if (usuario.isPresent()) {
-            seriesPendientes = usuario.get().getSeriesPendientes();
+        if (!usuario.isPresent()) {
+            throw new UsuarioNoEncontradoException("Usuario no encontrado");
         }
+        seriesPendientes = usuario.get().getSeriesPendientes();
         return seriesPendientes;
     }
 
@@ -180,7 +183,7 @@ public class UsuarioService {
     public Boolean getCapituloVisto(String userId, String serieId, String capituloId) throws UsuarioNoEncontradoException, SerieNoEncontradaException, CapituloNoEncontradoException  {
         Optional <Usuario> usuario = usuarioRepositorio.findById(Integer.parseInt(userId));
         Optional <Serie> serie = serieRepositorio.findById(Integer.parseInt(serieId));
-
+        Boolean visto = false;
         if(!usuario.isPresent()) {
             throw new UsuarioNoEncontradoException("Usuario no encontrado");
         } 
@@ -195,8 +198,9 @@ public class UsuarioService {
         if (capitulo == null) {
             throw new CapituloNoEncontradoException("Capitulo no encontrado");
         }
-        return user.capituloVisto(capitulo);
-
+        visto = user.capituloVisto(capitulo);
+        // System.out.println("(Service)getCapituloVisto: " + userId + " " + serieId + " " + capituloId + " visto: " + visto);
+        return visto;
     }
 
 }

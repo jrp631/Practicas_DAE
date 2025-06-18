@@ -35,7 +35,7 @@ export class SerieComponent {
         }
         // Convertir el nombre de la serie a minúsculas y cambiar espacios por guiones bajos
         let nombreSerie = serie.nombreSerie.toLowerCase().replace(/ /g, '_');
-        console.log(nombreSerie);
+        // console.log(nombreSerie);
         return nombreSerie;
     }
 

@@ -16,7 +16,7 @@ export class CapituloService {
     async putVerCapitulo(userId: String, serieId: String, capituloId: String): Promise<any> {
         // localhost:8080/usuarios/1/series-empezadas/1/1
         console.log(`Marking capitulo ${capituloId} of serie ${serieId} as seen for user ${userId}`);
-        const data = await fetch(`${this.url}/usuarios/${userId}/series-empezadas/${serieId}/${capituloId}`, {
+        const data = await fetch(`${this.url}/usuarios/${userId}/series-empezadas/${serieId}/capitulos/${capituloId}`, {
             method: 'PUT',
         });
         if (!data.ok) {
@@ -27,14 +27,11 @@ export class CapituloService {
 
     // metodo para ver si el capitulo ha sido visto o no
     async getVerCapitulo(userId: String, serieId: String, capituloId: String): Promise<Boolean> {
-        const data = await fetch(`${this.url}/usuarios/${userId}/series-empezadas/${serieId}/${capituloId}`);
-        if (!data.ok) {
-            throw new Error('Error al obtener el estado del capítulo');
-        }
-        const response = await data.json();
-        // Suponiendo que la respuesta tiene una propiedad 'visto' que es booleana
-        return !!response.visto;
-    }   
+        //Print the pettition URL
+        console.log(`localhost:8080/usuarios/${userId}/series-empezadas/${serieId}/capitulos/${capituloId}`);
+        const data = await fetch(`${this.url}/usuarios/${userId}/series-empezadas/${serieId}/capitulos/${capituloId}`);
+        return await data.json() as boolean;
+    }
 
 
 }

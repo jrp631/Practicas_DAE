@@ -40,8 +40,8 @@ export class SeriesService
     }
 
     async getCapitulosByTemporada(serieId: number, temporada: number): Promise<Capitulo[]> {
-        // /{idSerie}/capitulos/temporada/{idTemporada}
-        const data = await fetch(`${this.url}/series/${serieId}/capitulos/temporada/${temporada}`);
+        // /{idSerie}/temporada/{idTemporada}
+        const data = await fetch(`${this.url}/series/${serieId}/temporada/${temporada}`);
         return (await data.json()) ?? [];
 
     }

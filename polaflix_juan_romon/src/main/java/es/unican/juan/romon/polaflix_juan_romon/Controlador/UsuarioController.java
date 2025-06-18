@@ -61,14 +61,12 @@ public class UsuarioController {
     @JsonView(Vistas.SeriesEmpezadas.class)
     public ResponseEntity<List<Serie>> getSeriesEmpezadas(@PathVariable("id") String userId) {
         ResponseEntity<List<Serie>> result;
-        List<Serie> seriesEmpezadas = usuarioService.getSeriesEmpezadas(userId);
-
-        if (seriesEmpezadas.size() >= 0) {
+        try {
+            List<Serie> seriesEmpezadas = usuarioService.getSeriesEmpezadas(userId);
             result = ResponseEntity.ok(seriesEmpezadas);
-        } else {
+        } catch (UsuarioNoEncontradoException e) {
             result = ResponseEntity.notFound().build();
         }
-
         return result;
     }
 
@@ -91,18 +89,19 @@ public class UsuarioController {
     @JsonView(Vistas.SeriesPendientes.class)
     public ResponseEntity<List<Serie>> getSeriesPendientes(@PathVariable("id") String userId) {
         ResponseEntity<List<Serie>> result;
-        List<Serie> seriesPendientes = usuarioService.getSeriesPendientes(userId);
-
-        if (seriesPendientes.size() >= 0) {
+        try {
+            List<Serie> seriesPendientes = usuarioService.getSeriesPendientes(userId);
             result = ResponseEntity.ok(seriesPendientes);
-        } else {
-            result = ResponseEntity.notFound().build();
+        } catch (UsuarioNoEncontradoException e) {
+            result = ResponseEntity.notFound().build(); // 404 user not found
         }
+        
+
 
         return result;
     }
 
-    @GetMapping(value = "/{id}/cargos")//FIXME: no llamar a usuarioRepositorio y pasar directamente el id
+    @GetMapping(value = "/{id}/cargos")
     @JsonView(Vistas.CargosUsuario.class)
     public ResponseEntity<List<Cargo>> getAllCargos(@PathVariable ("id") String id, @RequestParam(required = false) LocalDate fecha_ini, @RequestParam(required = false) LocalDate fecha_fin) {
         ResponseEntity<List<Cargo>> result;
@@ -119,7 +118,7 @@ public class UsuarioController {
     }
     
     // FIXME 
-    @PutMapping(value = "/{id}/series-empezadas/{serieId}/{capituloId}") // TODO: check implementation
+    @PutMapping(value = "/{id}/series-empezadas/{serieId}/capitulos/{capituloId}") // TODO: check implementation
     public ResponseEntity<String> putVerCapitulo(@PathVariable("id") String userId,@PathVariable("serieId") String idSerie ,@PathVariable ("capituloId") String idCapitulo) {
         ResponseEntity<String> result;
         System.out.println("putVerCapitulo: " + userId + " " + idSerie + " " + idCapitulo);
@@ -127,11 +126,11 @@ public class UsuarioController {
             usuarioService.putVerCapitulo(userId, idSerie, idCapitulo);
             result = ResponseEntity.ok("Capitulo visto");
         } catch (UsuarioNoEncontradoException e) {
-            result = ResponseEntity.notFound().build(); // 404 user not found
+            result = ResponseEntity.badRequest().build(); // 404 user not found
         } catch(SerieNoEncontradaException e) { 
-            result = ResponseEntity.notFound().build(); // 404 serie not found
+            result = ResponseEntity.badRequest().build(); // 404 serie not found
         } catch(CapituloNoEncontradoException e) { 
-            result = ResponseEntity.notFound().build(); // 404 capitulo not found
+            result = ResponseEntity.badRequest().build(); // 404 capitulo not found
         }
 
         return result;
@@ -145,9 +144,9 @@ public class UsuarioController {
             usuarioService.putSeriePendiente(userId, serieId);
             result = ResponseEntity.ok("Serie añadida a pendientes");
         } catch (UsuarioNoEncontradoException e1) {
-            result = ResponseEntity.notFound().build(); // 404 user not found
+            result = ResponseEntity.badRequest().build(); // 404 user not found
         } catch (SerieNoEncontradaException e) { // 404 serie not found
-            result = ResponseEntity.notFound().build();
+            result = ResponseEntity.badRequest().build();
         }
 
         return result;
@@ -162,9 +161,9 @@ public class UsuarioController {
             usuarioService.deleteSeriePendiente(userId, serieId);
             result = ResponseEntity.ok("Serie eliminada de pendientes");
         } catch (UsuarioNoEncontradoException e1) {
-            result = ResponseEntity.notFound().build(); // 404 user not found
+            result = ResponseEntity.badRequest().build(); // 404 user not found
         } catch (SerieNoEncontradaException e) { // 404 serie not found
-            result = ResponseEntity.notFound().build();
+            result = ResponseEntity.badRequest().build();
         }
 
         return result;
@@ -193,7 +192,7 @@ public class UsuarioController {
             System.out.println("Capitulo visto: " + capituloVisto);
         } else {
             result = ResponseEntity.ok(false);
-            System.out.println("Capitulo no visto: " + capituloVisto);
+            // System.out.println("Capitulo no visto: " + capituloVisto);
         }
 
         return result;

@@ -27,8 +27,6 @@ class PolaflixJuanRomonApplicationTests {
 	// 	assertEquals(serie.getCapitulosSerieList().get(0), capitulo1);
 	// 	assertEquals(serie.getCapitulosSerieList().get(1), capitulo2);
 
-	// 	// TODO: check order of the caps
-
 	// }
 
 	// @Test

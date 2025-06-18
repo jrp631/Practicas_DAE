@@ -9,6 +9,19 @@
   align-items: center;
 }
 
+.capitulo-descripcion {
+  display: none;
+}
+
+.episodio:hover + .capitulo-descripcion {
+  display: block;
+    background-color: #525151;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  /* color: red; */
+}
+
 .verCapitulo{
   background-color: #2196f3;
   color: white;
@@ -20,4 +33,49 @@
   cursor: pointer;
   margin-left: auto;
   margin-right: 30px;
+}
+
+.visto {
+  /*class of <P> visto*/
+  font-weight: bold;
+  margin-right: 35px;
+}
+
+.pendiente {
+  /*class of <P> pendiente*/
+  color: #dddada;
+  font-weight: bold;
+  font-style: italic;
+}
+
+.capitulo-video-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0,0,0,0.7);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.capitulo-video {
+  width: 100%;
+  max-height: 400px;
+  display: block;
+  margin: 20px auto;
+}
+
+.capitulo-video-close {
+  display: block;
+  margin: 10px auto;
+  padding: 8px 16px;
+  background: #d32f2f;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
 }
