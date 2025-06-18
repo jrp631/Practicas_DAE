@@ -43,29 +43,29 @@ export class CapituloComponent {
 
     verCapitulo() {
 
-        const videoPath = 'assets/videos/videoplayback.mp4';
-        const videoElement = document.createElement('video');
-        videoElement.src = videoPath;
-        videoElement.controls = true;
-        videoElement.autoplay = true;
-        videoElement.className = 'capitulo-video';
+        // const videoPath = 'assets/videos/videoplayback.mp4';
+        // const videoElement = document.createElement('video');
+        // videoElement.src = videoPath;
+        // videoElement.controls = true;
+        // videoElement.autoplay = true;
+        // videoElement.className = 'capitulo-video';
 
-        // Create a close button
-        const closeButton = document.createElement('button');
-        closeButton.textContent = 'Cerrar';
-        closeButton.className = 'capitulo-video-close';
+        // // Create a close button
+        // const closeButton = document.createElement('button');
+        // closeButton.textContent = 'Cerrar';
+        // closeButton.className = 'capitulo-video-close';
 
-        // Container for video and button
-        const container = document.createElement('div');
-        container.className = 'capitulo-video-container';
+        // // Container for video and button
+        // const container = document.createElement('div');
+        // container.className = 'capitulo-video-container';
 
-        closeButton.onclick = () => {
-            container.remove();
-        };
+        // closeButton.onclick = () => {
+        //     container.remove();
+        // };
 
-        container.appendChild(videoElement);
-        container.appendChild(closeButton);
-        document.body.appendChild(container);
+        // container.appendChild(videoElement);
+        // container.appendChild(closeButton);
+        // document.body.appendChild(container);
         this.capituloService.putVerCapitulo("1",this.serieId, this.capitulo.idCapitulo);
         this.checkCapituloVisto();
     }

@@ -1,8 +1,5 @@
 import { Component } from '@angular/core';
-import { HomeComponent } from './home/home.component';
 import { RouterModule } from '@angular/router';
-import { SeriesUsuarioComponent } from "./series-usuario/series-usuario.component";
-import { InicioComponent } from "./inicio/inicio.component";
 import { SeriesService} from "./series.service";
 import { UsuarioService } from './usuario.service';
 import { Usuario } from './usuario';
@@ -10,7 +7,7 @@ import { Usuario } from './usuario';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [HomeComponent, RouterModule, SeriesUsuarioComponent, InicioComponent],
+  imports: [RouterModule],
   template: `
     <header>
       <div class="barra-superior">
@@ -27,7 +24,7 @@ import { Usuario } from './usuario';
       <nav class="menu">
         <a [routerLink]="['/']">Inicio</a>
         <a [routerLink]="['/']">Agregar Serie</a>
-        <a href="#">Ver Carros</a>
+        <a href="#">Ver Cargos</a>
       </nav>
     </header>
     <router-outlet></router-outlet>
