@@ -35,6 +35,26 @@
   margin-right: 30px;
 }
 
+.verDescripcion{
+  /* background-color: #21f379; */
+  color: white;
+  padding: 6px 14px;
+  border-radius: 6px;
+  font-size: 0.95em;
+  display: inline-block;
+  border: none;
+  cursor: pointer;
+  /* margin-right: 0; */
+  margin-left: 0,5em;
+}
+
+.centrar-descripcion {
+  display: flex;
+  justify-content: center; /* centra horizontalmente */
+  align-items: center;     /* centra verticalmente */
+  margin: 0 auto;
+}
+
 .visto {
   /*class of <P> visto*/
   font-weight: bold;

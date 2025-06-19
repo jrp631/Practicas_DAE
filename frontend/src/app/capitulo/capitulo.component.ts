@@ -12,15 +12,23 @@ import { CommonModule } from '@angular/common';
     selector: 'app-capitulo',
     imports: [RouterModule, DescripcionCapituloComponent, CommonModule],
     template: `
-        <div class="episodio" (click)="toggleDescripcion()">
+        <!-- <div class="episodio" (click)="toggleDescripcion()"> -->
+        <div class="episodio">
+
             <strong>Ep.{{capitulo.numeroCapitulo}} {{ capitulo.titulo }}</strong>
             <!-- <p>{{ capitulo.descripcion }}</p> -->
+            
+            <a class="verDescripcion" (click)="toggleDescripcion()"> 
+                ℹ️
+            </a>
+
             <a class="verCapitulo" (click)="verCapitulo()"> 
                 Ver
             </a>
             <p [class.visto]="capituloVisto" [class.pendiente]="!capituloVisto">
                 {{ capituloVisto ? 'Visto' : 'Pendiente' }}
             </p>
+            
             <br />
         </div>
         <app-descripcion-capitulo 

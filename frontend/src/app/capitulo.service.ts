@@ -30,6 +30,9 @@ export class CapituloService {
         //Print the pettition URL
         console.log(`localhost:8080/usuarios/${userId}/series-empezadas/${serieId}/capitulos/${capituloId}`);
         const data = await fetch(`${this.url}/usuarios/${userId}/series-empezadas/${serieId}/capitulos/${capituloId}`);
+        if (!data.ok) {
+            throw new Error('Error al obtener el estado del capítulo');
+        }
         return await data.json() as boolean;
     }
 

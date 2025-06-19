@@ -1,0 +1,36 @@
+.barra-superior {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #222;
+  padding: 10px;
+}
+
+.logo img {
+  height: 40px;
+}
+
+.usuario {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: white;
+}
+
+.usuario img {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+}
+
+.menu {
+  background-color: #111;
+  padding: 10px;
+  text-align: center;
+}
+
+.menu a {
+  margin: 0 15px;
+  color: cyan;
+  text-decoration: none;
+}

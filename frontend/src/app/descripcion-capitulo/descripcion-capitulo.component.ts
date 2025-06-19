@@ -8,7 +8,7 @@ import { CommonModule } from "@angular/common";
     template: `
         <div class="descripcion-capitulo" [class.hidden]="!visible" *ngIf="visible">
             <p>{{ descripcion }}</p>
-            <button (click)="toggleVisibility()">🔼</button>
+            <!-- <button (click)="toggleVisibility()">🔼</button> -->
         </div>  
     `,
     styleUrls: ['./descripcion-capitulo.component.css'],
