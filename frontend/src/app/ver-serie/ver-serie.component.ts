@@ -26,14 +26,14 @@ import { Capitulo } from '../capitulo';
 
     <div class="temporadas">
         <button
-            *ngFor="let temporada of [].constructor(serie?.numeroTemporadas || 0); let i = index"
+            *ngFor="let temporada of temporadas; let i = index"
             [ngClass]="{
                 'temporada-btn': true,
-                'temporada-btn-selected': temporadaActual === i + 1
+                'temporada-btn-selected': temporadaActual === temporada
             }"
-            (click)="temporadaActual = i + 1"
+            (click)="temporadaActual = temporada"
         >
-            Temporada {{ i + 1 }}
+            Temporada {{ temporada }}
         </button>
     </div>
 
@@ -51,41 +51,59 @@ export class VerSerieComponent {
     route: ActivatedRoute = inject(ActivatedRoute);
     seriesService: SeriesService = inject(SeriesService);
     temporadaActual: number = 1; // Temporada actual, se puede cambiar según la lógica de la aplicación
-    temporadas: number = 1; // Número total de temporadas, se puede cambiar según la lógica de la aplicación
+    temporadas: number[] = []; // Lista de temporadas para el ngFor
     serie: Serie | undefined;
-    //@Input() serie!: Serie; // Use ! to assert that serie will be defined after the async call
-   
-   
+    serieId: number | undefined;
+
     capitulos: Capitulo[] | undefined;
     capitulosPorTemporada: Capitulo[][] = [];
 
     constructor() {
+        console.log("VerSerieComponent initialized");
         let serieId = this.route.snapshot.params['id'];
         console.log("Route params:", this.route.params);
-        this.seriesService.getSerieById(serieId).then((serie: Serie) => {
-            this.serie = serie;
-            console.log('Serie obtenida:', this.serie);
-            this.temporadas = parseInt(serie.numeroTemporadas, 10);
+        (async () => {
+            try {
+                const serie = await this.seriesService.getSerieById(serieId);
+                this.serie = serie;
+                const numTemporadas = parseInt(serie.numeroTemporadas, 10);
+                this.temporadas = Array.from({ length: numTemporadas }, (_, i) => i + 1);
 
-            //  get the capitulos of the serie
-            this.seriesService.getCapitulosBySerieId(serieId).then((capitulos: Capitulo[]) => {
-                this.capitulos = capitulos;
+                this.capitulos = await this.seriesService.getCapitulosBySerieId(serieId);
                 console.log('Capítulos obtenidos:', this.capitulos);
-            });
 
-            // get the capitulos of the temporada
-            for (let i = 1; i <= this.temporadas; i++) {
-                this.seriesService.getCapitulosByTemporada(parseInt(serieId, 10), i).then((capitulos: Capitulo[]) => {
-                    this.capitulosPorTemporada[i - 1] = capitulos;
-                    console.log(`Capítulos de la temporada ${i}:`, capitulos);
-                });
+                for (let i = 1; i <= numTemporadas; i++) {
+                    try {
+                        const capitulosTemporada = await this.seriesService.getCapitulosByTemporada(parseInt(serieId, 10), i);
+                        this.capitulosPorTemporada[i - 1] = capitulosTemporada;
+                        console.log(`Capítulos de la temporada ${i}:`, capitulosTemporada);
+                    } catch (error) {
+                        console.error(`Error al obtener capítulos de la temporada ${i}:`, error);
+                    }
+                }
+            } catch (error) {
+                console.error('Error al obtener la serie o capítulos:', error);
             }
-        });
+        })();
+    }
 
+    ngOnInit() {
+        //TODO
 
+        // get the serie by id from the route params
     }
 
     // get number of seasons 
 
     // get chapters of a season
+    async getCapitulosOfSelectedTemporada() {
+        if (!this.serieId || !this.temporadaActual) return;
+        console.log(`Obteniendo capítulos de la temporada ${this.temporadaActual} de la serie ${this.serieId}`);
+        try {
+            const capitulos = await this.seriesService.getCapitulosByTemporada(this.serieId, this.temporadaActual);
+            this.capitulosPorTemporada[this.temporadaActual - 1] = capitulos;
+        } catch (error) {
+            console.error('Error al obtener capítulos de la temporada seleccionada:', error);
+        }
+    }
 }

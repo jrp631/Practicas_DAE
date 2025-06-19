@@ -14,8 +14,6 @@ import { MenuNavegacionComponent } from "./menu-navegacion/menu-navegacion.compo
      <app-menu-navegacion></app-menu-navegacion>
 
     <router-outlet></router-outlet>
-    <!-- <app-serie-usuario></app-serie-usuario> -->
-    <!-- <app-inicio></app-inicio> -->
   `,
   styleUrls: ['./app.component.css'],
 })

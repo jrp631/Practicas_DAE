@@ -2,6 +2,8 @@ import { Component, Input } from "@angular/core";
 import { RouterModule } from "@angular/router";
 import { Usuario } from "../usuario";
 import { UsuarioService } from "../usuario.service";
+import { userData } from "../environments/environments";
+
 
 @Component({
     selector: "app-menu-navegacion",
@@ -22,7 +24,7 @@ import { UsuarioService } from "../usuario.service";
                 <nav class="menu">
                     <a [routerLink]="['/']">Inicio</a>
                     <a [routerLink]="['/']">Agregar Serie</a>
-                    <a href="#">Ver Cargos</a>
+                    <a [routerLink]="['/ver-cargos', userId]">Ver Cargos</a>
                 </nav>
                 </header>   
     `,
@@ -31,11 +33,16 @@ import { UsuarioService } from "../usuario.service";
 export class MenuNavegacionComponent {
     // @Input() user?: Usuario;
     user: Usuario | undefined;
-    userId: number = 1; // This can be dynamic based on the logged-in user
-    constructor(private usuarioService: UsuarioService) {
-        this.usuarioService.getUsuarioById(this.userId).then(user => {
-            this.user = user;
-        });
+    userId: number = userData.userId; // This can be dynamic based on the logged-in user
+    constructor(private usuarioService: UsuarioService) {}
+
+    async ngOnInit() {
+        try {
+            this.user = await this.usuarioService.getUsuarioById(userData.userId);
+        } catch (error) {
+            // Aquí puedes manejar el error, por ejemplo mostrar un mensaje
+            console.error('Error al obtener el usuario', error);
+        }
     }
 
 }

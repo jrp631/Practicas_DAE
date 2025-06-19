@@ -13,24 +13,24 @@ export class SeriesService
 
     constructor() { }
 
-    async getUserSeriesPendientes(): Promise<Serie[]> {
-        const data = await fetch(`${this.url}/usuarios/${USER_ID}/series-pendientes`);
+    async getUserSeriesPendientes(userId: number): Promise<Serie[]> {
+        const data = await fetch(`${this.url}/usuarios/${userId}/series-pendientes`);
         if (!data.ok) {
             throw new Error('Error al obtener las series pendientes');
         }
         return (await data.json()) ?? [];
     }
 
-    async getUserSeriesEmpezadas(): Promise<Serie[]> {
-        const data = await fetch(`${this.url}/usuarios/${USER_ID}/series-empezadas`);
+    async getUserSeriesEmpezadas(userId: number): Promise<Serie[]> {
+        const data = await fetch(`${this.url}/usuarios/${userId}/series-empezadas`);
         if (!data.ok) {
             throw new Error('Error al obtener las series empezadas');
         }
         return (await data.json()) ?? [];
     }
 
-    async getUserSeriesTerminadas(): Promise<Serie[]> {
-        const data = await fetch(`${this.url}/usuarios/${USER_ID}/series-terminadas`);
+    async getUserSeriesTerminadas(userId: number): Promise<Serie[]> {
+        const data = await fetch(`${this.url}/usuarios/${userId}/series-terminadas`);
         if (!data.ok) {
             throw new Error('Error al obtener las series terminadas');
         }

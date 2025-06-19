@@ -7,6 +7,7 @@ import { c } from '@angular/core/event_dispatcher.d-pVP0-wST';
 import { Usuario } from '../usuario';
 import { DescripcionCapituloComponent } from '../descripcion-capitulo/descripcion-capitulo.component';
 import { CommonModule } from '@angular/common';
+import { userData } from '../environments/environments';
 
 @Component({
     selector: 'app-capitulo',
@@ -54,10 +55,15 @@ export class CapituloComponent {
         }
     }
 
-    verCapitulo() {
-        // event.stopPropagation();
-        this.capituloService.putVerCapitulo("1",this.serieId, this.capitulo.idCapitulo);
-        this.checkCapituloVisto();
+    async verCapitulo() {
+        try {
+            await this.capituloService.putVerCapitulo(userData.userId.toString(),this.serieId, this.capitulo.idCapitulo);
+            this.checkCapituloVisto();
+        } catch (error) {
+            console.error('Error al marcar capítulo como visto:', error);
+        }
+        
+        // this.checkCapituloVisto();
     }
 
     toggleDescripcion() {
@@ -67,7 +73,7 @@ export class CapituloComponent {
 
     async checkCapituloVisto() {
         try {
-            this.capituloVisto = await this.capituloService.getVerCapitulo("1", this.serieId, this.capitulo.idCapitulo);
+            this.capituloVisto = await this.capituloService.getVerCapitulo(userData.userId.toString(), this.serieId, this.capitulo.idCapitulo);
             console.log(`Capítulo ${this.capitulo.idCapitulo} visto: ${this.capituloVisto}`);
         } catch (error) {
             console.error('Error checking chapter status:', error);

@@ -4,6 +4,7 @@ import { SerieComponent } from '../serie/serie.component';
 import { SeriesService } from '../series.service';
 import { Serie } from '../serie';
 import { CommonModule } from '@angular/common';
+import { userData } from '../environments/environments';
 
 @Component({
     selector: 'app-serie-usuario',
@@ -54,22 +55,17 @@ export class SeriesUsuarioComponent {
     seriesService : SeriesService = inject(SeriesService);
 
     seriesPendientesFiltered: Serie[] = []; // Array de series pendientes filtradas inicializado por el constructor
-    constructor() {
+    constructor() {}
 
-        // async call to the service to get the list of seriesPendientes
-        this.seriesService.getUserSeriesPendientes().then((seriesPendientes: Serie[]) => {
-            this.seriesPendientes = seriesPendientes;
-
-        });
-
-        this.seriesService.getUserSeriesTerminadas().then((seriesTerminadas: Serie[]) => {
-            this.seriesTerminadas = seriesTerminadas;
-        });
-
-        this.seriesService.getUserSeriesEmpezadas().then((seriesEmpezadas: Serie[]) => {
-            this.seriesEmpezadas = seriesEmpezadas;
-        });
-        
+    async ngOnInit() {
+        try {
+            this.seriesPendientes = await this.seriesService.getUserSeriesPendientes(userData.userId);
+            this.seriesEmpezadas = await this.seriesService.getUserSeriesEmpezadas(userData.userId);
+            this.seriesTerminadas = await this.seriesService.getUserSeriesTerminadas(userData.userId);
+            
+        } catch (error) {
+            console.error('Error al obtener las series del usuario', error);
+        }
     }
 
 }

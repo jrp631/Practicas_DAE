@@ -8,15 +8,6 @@ import { SeriesService } from '../series.service';
     standalone: true,
     imports: [RouterModule],
     template: `
-        <!-- <img src="assets/images/series/house_of_cards.jpg" alt="House of Cards">
-        <img src="assets/images/series/modern_family.jpg" alt="Modern Family">
-        <img src="assets/images/series/it_crowd.jpg" alt="IT Crowd">
-        <img src="assets/images/series/game_of_thrones.jpg" alt="Game of Thrones">
-        <img src="assets/images/series/el_secreto_de_puente_viejo.jpg" alt="El Secreto de Puente Viejo">
-        <img src="assets/images/series/cars.jpg" alt="Cars">
-        <img src="assets/images/series/cars2.jpg" alt="Cars 2">
-        <img src="assets/images/series/cars3.jpg" alt="Cars 3">
-        <img src="assets/images/series/rey_leon.jpg" alt="El Rey León"> -->
         <a [routerLink]="['/ver-serie', serie.idSerie]">
         <img [src]="'assets/images/series/' + lowerCaseName(serie) + '.jpg'" >
         </a>
